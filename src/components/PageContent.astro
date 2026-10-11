@@ -36,6 +36,7 @@ import { getPagePath, pageLabels, pages, servicePageIds, resourceNavigation, typ
 import { serviceDetails, type ServicePageId } from '../data/service-details';
 import { resourceEnglishPages } from '../data/resource-english';
 import { getBreadcrumbs } from '../data/seo';
+import { getPageHeroAlt, homeHeroAlt } from '../data/image-alt';
 
 interface Props {
 	locale: Locale;
@@ -155,7 +156,7 @@ if (isLicensingLearningPage) {
 			<>
 				<section class="relative isolate min-h-168 overflow-hidden border-b border-white/10 bg-night sm:min-h-176 lg:min-h-160">
 					<div class="absolute inset-0 lg:inset-y-0 lg:left-[34%] lg:right-0">
-						<Image class="size-full object-cover object-[68%_center]" src={homeHeroImage} widths={[480, 768, 1024, 1280, 1440, 1721]} sizes="(min-width: 64rem) 66vw, 100vw" format="webp" quality={82} alt={locale === 'ka' ? 'კონდიციონერის ხელოსანი კედლის კონდიციონერს ამოწმებს' : 'Air conditioner technician inspecting a wall-mounted unit'} priority />
+						<Image class="size-full object-cover object-[68%_center]" src={homeHeroImage} widths={[480, 768, 1024, 1280, 1440, 1721]} sizes="(min-width: 64rem) 66vw, 100vw" format="webp" quality={82} alt={homeHeroAlt[locale]} priority />
 						<div class="absolute inset-0 bg-night/75 backdrop-blur-[2px] lg:bg-linear-to-r lg:from-night lg:via-night/85 lg:to-night/10 lg:backdrop-blur-0"></div>
 					</div>
 					<div class="relative mx-auto flex min-h-168 max-w-shell items-center px-5 py-8 sm:min-h-176 sm:px-8 sm:py-12 lg:min-h-160 lg:px-10 lg:py-16">
@@ -263,7 +264,7 @@ if (isLicensingLearningPage) {
 				<section class="relative isolate overflow-hidden border-b border-white/10 bg-[linear-gradient(110deg,#1e2428_0%,#15191c_65%,#20262a_100%)]">
 					{hasPhotoHero && (
 						<div class="absolute inset-0 -z-10" aria-hidden="true">
-							<Image class="size-full object-cover object-[68%_center]" src={pageHeroImage} widths={[480, 768, 1024, 1280, 1440, 1672]} sizes="100vw" format="webp" quality={82} alt="" priority />
+							<Image class="size-full object-cover object-[68%_center]" src={pageHeroImage} widths={[480, 768, 1024, 1280, 1440, 1672]} sizes="100vw" format="webp" quality={82} alt={getPageHeroAlt(locale, pageId)} priority />
 							<div class="absolute inset-0 bg-night/75 backdrop-blur-[2px] lg:bg-linear-to-r lg:from-night/85 lg:via-night/75 lg:to-night/55 lg:backdrop-blur-0"></div>
 						</div>
 					)}

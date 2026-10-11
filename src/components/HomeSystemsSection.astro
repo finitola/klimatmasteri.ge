@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import systemsPhoto from '../assets/images/kondicirebis-sistemebis-galerea.png';
 import { getPagePath, type Locale } from '../data/site';
+import { homeSystemsAlt } from '../data/image-alt';
 
 interface Props {
 	locale: Locale;
@@ -42,7 +43,7 @@ const content = locale === 'ka'
 			sizes="100vw"
 			format="webp"
 			quality={78}
-			alt=""
+			alt={homeSystemsAlt[locale]}
 			loading="lazy"
 			data-parallax-image
 		/>
