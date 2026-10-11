@@ -44,4 +44,4 @@ These routes summarize business and service information for tools that read them
 
 - **Data edits**: To update search-result titles and descriptions, modify `src/data/seo-copy.ts`. Page headings, card summaries, and URLs live in `src/data/site.ts`; service details live in `src/data/service-details.ts`. The HTML and JSON-LD metadata update automatically.
 - When updating public business profiles, confirm the business name and phone number against `src/data/business.ts`.
-- The sitemap index is available at `https://klimatmasteri.ge/sitemap-index.xml` for submission to Google Search Console.
+- The generated sitemap is available at `https://klimatmasteri.ge/sitemap-0.xml` for submission to Google Search Console.

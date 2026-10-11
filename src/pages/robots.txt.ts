@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 
 export const GET: APIRoute = ({ site }) => {
 	if (!site) throw new Error('Set the production site URL in astro.config.ts.');
-	const sitemapURL = new URL('sitemap.xml', site);
+	const sitemapURL = new URL('sitemap-0.xml', site);
 	const content = [
 		'User-agent: *',
 		'Allow: /',
