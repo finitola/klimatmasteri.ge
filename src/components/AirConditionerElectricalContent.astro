@@ -1,0 +1,332 @@
+---
+import ContentAccordion from './ContentAccordion.astro';
+---
+
+<div class="mx-auto max-w-shell px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
+	<div class="mb-8 overflow-hidden rounded-xl bg-surface-alt border-l-4 border-danger p-6 shadow-md">
+		<h4 class="georgian-caps text-lg font-bold text-danger flex items-center gap-2">
+			უსაფრთხოება
+		</h4>
+		<p class="mt-3 text-base leading-7 text-white/90">
+			ნებისმიერ კომპონენტთან შეხებამდე, <strong class="text-white">ყოველთვის გამორთეთ ელექტროენერგია</strong> და განმუხტეთ კონდენსატორები! სიცოცხლე უპირველეს ყოვლისა.
+		</p>
+	</div>
+
+	<div class="grid gap-4 sm:gap-6">
+		<ContentAccordion index={1} title="მაგნიტური კონტაქტორი (Magnetic Contactor)" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="space-y-4">
+				<p class="text-base leading-7 text-white/80">
+					ეს არის მაღალი სიმძლავრის ელექტრომექანიკური გადამრთველი (Switch). ჩათვალეთ, რომ ეს არის ხიდი მართვის სისტემასა (თერმოსტატი/პლატა) და მაღალი ენერგიის მომხმარებლებს (კომპრესორი/ძრავები) შორის.
+				</p>
+				<p class="text-base leading-7 text-white/80">
+					როდესაც თერმოსტატი ითხოვს გაგრილებას, ის აგზავნის დაბალ ძაბვას (ჩვეულებრივ 24V) კონტაქტორის "კოჭაზე" (Coil). კოჭა მაგნიტდება და "ჩაითრევს" კონტაქტებს, რითაც 220V (ან 380V) მიეწოდება კომპრესორს და გარე ვენტილატორს.
+				</p>
+				
+				<h5 class="text-lg font-bold text-accent mt-6">სპეციფიკაციები:</h5>
+				<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+					<li><strong>Coil Voltage:</strong> 24V (ყველაზე ხშირი), 120V, 230V.</li>
+					<li><strong>Poles (პოლუსები):</strong> 1, 1.5, 2 ან 3 პოლუსიანი.</li>
+					<li><strong>FLA (Full Load Amps):</strong> დენის ძალა მუშაობისას (მაგ. 30A, 40A).</li>
+				</ul>
+
+				<h5 class="text-lg font-bold text-accent mt-6">როგორ შევამოწმოთ:</h5>
+				<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+					<li>პირველ რიგში ვამოწმებთ ვიზუალურად: მოხსენით ხუფები და შეამოწმეთ კონტაქტები "დამწვარი" ან გაშავებული ხომ არ არის.</li>
+					<li><strong>მულტიმეტრით (ძაბვა):</strong> ჩართულ მდგომარეობაში, შემავალ (L1, L2) და გამომავალ (T1, T2) ტერმინალებს შორის ძაბვის ვარდნა უნდა იყოს 0.</li>
+					<li><strong>კოჭა (Resistance):</strong> გამორთულზე, გაზომეთ წინაღობა კოჭის ტერმინალებზე. უსასრულობა (OL) ნიშნავს, რომ კოჭა გაწყვეტილია (უნდა გვიჩვენოს წინაღობა მაგალითად 0.675 კილო/ომი).</li>
+					<li><strong>ხშირი პრობლემები - Pitted Contacts:</strong> ნაპერწკლების გამო კონტაქტები ოქსიდირდება და დენს კარგად აღარ ატარებს.</li>
+				</ul>
+			</div>
+		</ContentAccordion>
+
+		<ContentAccordion index={2} title="მუშა და სტარტ კონდენსატორი (Run & Start Capacitor)" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="space-y-4">
+				<p class="text-base leading-7 text-white/80">
+					ეს არის ელექტრული ენერგიის რეზერვუარი. ის აგროვებს ელექტრონებს და საჭიროების შემთხვევაში სწრაფად გასცემს მათ. იზომება მიკროფარადებში (MFD).
+				</p>
+				<p class="text-base leading-7 text-white/80">
+					<strong>ფუნქცია სისტემაში:</strong> ერთფაზიანი ძრავები (კომპრესორები, ფენები) ვერ იქმნიან ბრუნვის მომენტს დამოუკიდებლად. კონდენსატორი ქმნის "მეორე ფაზას" (Phase Shift), რაც ძრავს ეხმარება დაძვრაში (Start) და შემდგომ მუშაობაში (Run).
+				</p>
+				
+				<h5 class="text-lg font-bold text-accent mt-6">ტიპები:</h5>
+				<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+					<li><strong>Dual Run Capacitor:</strong> ყველაზე გავრცელებული, აქვს 3 ტერმინალი: C (Common), HERM (კომპრესორისთვის), FAN (ვენტილატორისთვის).</li>
+					<li><strong>Start Capacitor:</strong> შავი, პლასტმასის კორპუსი. მუშაობს მხოლოდ 1-2 წამი დაქოქვისას.</li>
+				</ul>
+
+				<h5 class="text-lg font-bold text-accent mt-6">როგორ შევამოწმოთ:</h5>
+				<p class="text-base leading-7 text-white/80">
+					დააყენეთ მულტიმეტრი MFD/Capacitance რეჟიმზე. გაზომეთ C და HERM შორის, შემდეგ C და FAN შორის. შედეგი უნდა იყოს მარკირების ფარგლებში რომელიც ზედ აწერია ყველა კონდესატორს, თუ 10%-ით ან მეტით ნაკლებია, შესაცვლელია, არ უყვარს სიცხე და არის რესურსიანი დეტალი.
+				</p>
+			</div>
+		</ContentAccordion>
+
+		<ContentAccordion index={3} title="მართვის ტრანსფორმატორი (Control Transformer)" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="space-y-4">
+				<p class="text-base leading-7 text-white/80">
+					ეს არის მოწყობილობა, რომელიც მაღალ ძაბვას გარდაქმნის დაბალ, უსაფრთხო ძაბვად ინდუქციის პრინციპით.
+				</p>
+				<p class="text-base leading-7 text-white/80">
+					ის კვებავს მთელ "ტვინს": თერმოსტატს, მართვის დაფებს და სენსორებს. ჩვეულებრივ, შემავალი ძაბვაა 220V (ან 120V ამერიკულ სტანდარტში), ხოლო გამომავალი - 24V AC.
+				</p>
+				
+				<h5 class="text-lg font-bold text-accent mt-6">როგორ შევამოწმოთ:</h5>
+				<p class="text-base leading-7 text-white/80">
+					<strong>Primary (შემავალი):</strong> გაზომეთ შემავალი ძაბვა (უნდა იყოს 220V).<br>
+					<strong>Secondary (გამომავალი):</strong> გაზომეთ გამომავალი ძაბვა (უნდა იყოს 24V - 28V).<br>
+					თუ შემავალი არის და გამომავალი არა – ტრანსფორმატორი დამწვარია.
+				</p>
+
+				<p class="text-base leading-7 text-white/80">
+					<strong>ხშირი პრობლემა:</strong> ხშირად ზიანდება, როდესაც 24V წრედში სადმე "მოკლეა" (Short circuit), ტრანსფორმატორი ხურდება და იწვება. დაცვისთვის ხშირად მეორად მხარეს უყენებენ 3A ან 5A მცველს (Fuse).
+				</p>
+			</div>
+		</ContentAccordion>
+
+		<ContentAccordion index={4} title="რელე (Fan Relay / General Purpose Relay)" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="space-y-4">
+				<p class="text-base leading-7 text-white/80">
+					ეს არის კონტაქტორის "პატარა ვერსია". გამოიყენება ნაკლები დენის მქონე დატვირთვების სამართავად.
+				</p>
+				<p class="text-base leading-7 text-white/80">
+					<strong>ფუნქცია სისტემაში:</strong> შიდა ბლოკის ვენტილატორის (Blower) სიჩქარეების გადართვა, ელექტრო გამათბობლების (Heat strips) ჩართვა, PCB დაფაზე ლოგიკური ოპერაციების შესრულება.
+				</p>
+				
+				<h5 class="text-lg font-bold text-accent mt-6">როგორ შევამოწმოთ:</h5>
+				<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+					<li><strong>კოჭა (Coil):</strong> შეამოწმეთ წინაღობა. თუ 0 ომია - მოკლე ჩართვაა, თუ OL - გაწყვეტილია.</li>
+					<li><strong>კონტაქტები (NC/NO):</strong><br>
+					- <strong>NO (Normally Open):</strong> უნდა იყოს გათიშული (OL), როცა რელე გამორთულია.<br>
+					- <strong>NC (Normally Closed):</strong> უნდა ატარებდეს (0 Ohm), როცა რელე გამორთულია.
+					</li>
+				</ul>
+
+				<p class="text-base leading-7 text-white/80">
+					<strong>ხშირი პრობლემები:</strong> კონტაქტი დარჩა მიკრულ მდგომარეობაში (Stuck Closed) - მუდმივად მუშაობს, კოჭის დაწვა - დენს არ ატარებს.
+				</p>
+			</div>
+		</ContentAccordion>
+
+		<ContentAccordion index={5} title="ნახევარგამტარები და ინვერტორული ტექნოლოგია" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="space-y-4">
+				<p class="text-base leading-7 text-white/80">
+					აქ განვიხილავთ "Inverter" ტექნოლოგიას, სადაც 220V გარდაიქმნება DC-დ და შემდეგ ისევ AC-დ.
+				</p>
+				
+				<h5 class="text-lg font-bold text-accent mt-6">დიოდური ხიდი (Diode Bridge Rectifier)</h5>
+				<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+					<li>ეს კომპონენტი 4 ფეხით, ცვლად დენს (AC) გარდაქმნის მუდმივ დენად (DC).</li>
+					<li>ინვერტორული სქემის პირველი ეტაპი არის ქსელიდან შემოსულ 220V-ს გარდაქმნა დაახლოებით 310V DC-ად (ან 380V სისტემებში 540V DC-ად).</li>
+				</ul>
+
+				<h5 class="text-lg font-bold text-accent mt-6">როგორ შევამოწმოთ:</h5>
+				<p class="text-base leading-7 text-white/80">
+					მულტიმეტრის "Diode" რეჟიმზე გადავიყვანოთ, AC ტერმინალიდან (+)-კენ და (-)-დან AC-კენ უნდა ატარებდეს მხოლოდ ცალმხრივად (დაახლოებით 0.4V - 0.6V ვარდნა). თუ ორივე მხარეს ატარებს ან 0-ს აჩვენებს, ხიდი "გარღვეულია".
+				</p>
+			</div>
+		</ContentAccordion>
+
+		<ContentAccordion index={6} title="IPM მოდული (Intelligent Power Module) / IGBT" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="space-y-4">
+				<p class="text-base leading-7 text-white/80">
+					IPM არის ინვერტორული სისტემის "გული", ეს არის მძლავრი ტრანზისტორების (IGBT) ნაკრები ერთ კორპუსში.
+				</p>
+				<p class="text-base leading-7 text-white/80">
+					ის იღებს მუდმივ დენს (DC) და გარდაქმნის მას სამფაზიან იმპულსურ დენად (Simulated AC) კომპრესორისთვის. ეს საშუალებას აძლევს კომპრესორს, იმუშაოს ცვალებადი სიჩქარით (მაგ: 10%-დან 120%-მდე).
+				</p>
+
+				<h5 class="text-lg font-bold text-accent mt-6">როგორ შევამოწმოთ (მნიშვნელოვანია!):</h5>
+				<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+					<li>გამორთეთ დენი და დაელოდეთ კონდენსატორების განმუხტვას!</li>
+					<li>გადაიყვანეთ მულტიმეტრი დიოდის რეჟიმზე.</li>
+					<li>წითელი შუპი დაადეთ მოდულის P (+) ტერმინალს, შავი კი სათითაოდ U, V, W ტერმინალებს (გამომავალი კომპრესორზე). უნდა აჩვენოს უსასრულობა (OL).</li>
+					<li>შეცვალეთ პოლარობა (შავი P-ზე, წითელი U,V,W-ზე). უნდა აჩვენოს დიოდის ვარდნა (0.4V-0.7V).</li>
+					<li>იგივე გაიმეორეთ N (-) ტერმინალზეც.</li>
+				</ul>
+
+				<p class="text-base leading-7 text-white/80">
+					<strong>როგორ ზიანდება:</strong> IPM მოდული ძალიან ცხელდება, თუ თერმოპასტა (Heat Paste) გამშრალია რადიატორსა და მოდულს შორის, ის დაიწვება.
+				</p>
+			</div>
+		</ContentAccordion>
+
+		<ContentAccordion index={7} title="რეაქტორი (Reactor / Choke)" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="space-y-4">
+				<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+					<li>დიდი სპილენძის კოჭა, რომელიც ტრანსფორმატორს ჰგავს, მაგრამ მხოლოდ 2 გამომავალი სადენი აქვს.</li>
+					<li>ის ასწორებს დენის პულსაციებს და აუმჯობესებს სიმძლავრის კოეფიციენტს (Power Factor). იცავს IPM მოდულს ძაბვის მკვეთრი ნახტომებისგან.</li>
+					<li><strong>შესამოწმებლად</strong> ვზომავთ წინაღობას, უნდა ჰქონდეს ძალიან დაბალი წინაღობა (ომის მეათედები). თუ OL-ია, ე.ი. გაწყვეტილია.</li>
+				</ul>
+			</div>
+		</ContentAccordion>
+
+		<ContentAccordion index={8} title="ელექტრო კომპონენტების ტიპები" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="space-y-8">
+				<div>
+					<h5 class="text-lg font-bold text-accent">ძალოვანი და ელექტრომექანიკური (Power & Electromechanical)</h5>
+					<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+						<li><strong>Contactor (კონტაქტორი)</strong> – 1, 2, 3 პოლუსიანი.</li>
+						<li><strong>Control Transformer (მართვის ტრანსფორმატორი)</strong> – Step-down (220V -&gt; 24V).</li>
+						<li><strong>Run Capacitor (მუშა კონდენსატორი)</strong> – ზეთოვანი, მეტალის კორპუსით.</li>
+						<li><strong>Start Capacitor (სტარტ კონდენსატორი)</strong> – მშრალი, პლასტმასის კორპუსით.</li>
+						<li><strong>Relay (რელე)</strong> – SPDT, SPST, DPDT ტიპის (კუბური ან ღია).</li>
+						<li><strong>Potential Relay (პოტენციური რელე)</strong> – კომპრესორის დასაქოქად.</li>
+						<li><strong>Sequencer (სეკვენსერი)</strong> – თერმული დაყოვნების რელე.</li>
+						<li><strong>Solenoid Coil (სოლენოიდის კოჭა)</strong> – მაგნიტური სარქველებისთვის.</li>
+						<li><strong>Reversing Valve Coil (ოთხგზა სარქველის კოჭა)</strong> – ზამთარი/ზაფხულის გადასართავად.</li>
+						<li><strong>Actuator Motor (დამპერის ძრავი/აქტუატორი)</strong> – ჰაერის ფარდებისთვის.</li>
+					</ul>
+				</div>
+
+				<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+				<div>
+					<h5 class="text-lg font-bold text-accent">დაცვა და უსაფრთხოება (Protection & Safety)</h5>
+					<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+						<li><strong>Fuse (დნობადი მცველი)</strong> – მინის ან კერამიკული (PCB დაფაზე და კაბელზე).</li>
+						<li><strong>Circuit Breaker (ავტომატური ამომრთველი)</strong> – მაგნიტურ-თერმული.</li>
+						<li><strong>Thermal Overload (თერმული დაცვა)</strong> – კომპრესორის ან ძრავის შიდა/გარე დაცვა.</li>
+						<li><strong>MOV / Varistor (ვარისტორი)</strong> – ძაბვის ვარდნისგან დაცვა.</li>
+						<li><strong>Phase Monitor (ფაზების დამცავი რელე)</strong> – ფაზის დაკარგვის/ასიმეტრიის კონტროლი.</li>
+						<li><strong>High Pressure Switch (მაღალი წნევის რელე)</strong> – ავარიული გამომრთველი.</li>
+						<li><strong>Low Pressure Switch (დაბალი წნევის რელე)</strong> – ავარიული გამომრთველი.</li>
+						<li><strong>Crankcase Heater (კარტერის გამათბობელი)</strong> – კომპრესორის ზეთის გათბობა.</li>
+						<li><strong>Discharge Temp Switch</strong> (ჭირხნის ტემპერატურის რელე).</li>
+					</ul>
+				</div>
+
+				<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+				<div>
+					<h5 class="text-lg font-bold text-accent">სენსორები და სიგნალები (Sensors & Inputs)</h5>
+					<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+						<li><strong>Thermistor NTC</strong> – ტემპერატურის სენსორი (წინაღობა იკლებს).</li>
+						<li><strong>Thermistor PTC</strong> – ტემპერატურის სენსორი (წინაღობა იზრდება).</li>
+						<li><strong>Pressure Transducer (წნევის ტრანსდიუსერი)</strong> – 3 სადენიანი (0-5V გამომავალი).</li>
+						<li><strong>Humidity Sensor</strong> (ტენიანობის სენსორი).</li>
+						<li><strong>Float Switch (ტივტივა / დონის რელე)</strong> – კონდენსატის ტუმბოებში.</li>
+						<li><strong>Flow Switch (ნაკადის რელე)</strong> – ჩილერებში (წყლის ნაკადის კონტროლი).</li>
+						<li><strong>Hall Effect Sensor (ჰოლის სენსორი)</strong> – BLDC ძრავის ბრუნთა რიცხვისთვის.</li>
+					</ul>
+				</div>
+
+				<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+				<div>
+					<h5 class="text-lg font-bold text-accent">PCB კომპონენტები და ნახევარგამტარები (PCB & Semiconductors)</h5>
+					<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+						<li><strong>Diode Bridge / Rectifier (დიოდური ხიდი)</strong> – AC-ს DC-დ გარდაქმნა.</li>
+						<li><strong>IPM Module / IGBT (ინვერტორული მოდული)</strong> – კომპრესორის სიხშირული მართვა.</li>
+						<li><strong>Mosfet (მოსფეტი)</strong> – მძლავრი ტრანზისტორი PCB-ზე.</li>
+						<li><strong>Optocoupler (ოპტოწყვილი)</strong> – სიგნალის იზოლაცია.</li>
+						<li><strong>Voltage Regulator (ძაბვის სტაბილიზატორი)</strong> – მაგ: 7805, 7812 (IC).</li>
+						<li><strong>Microcontroller / MCU (მიკროკონტროლერი)</strong> – დაფის "ტვინი".</li>
+						<li><strong>EEPROM Chip (მეხსიერების ჩიპი)</strong> – პარამეტრების შესანახად.</li>
+						<li><strong>Resistor (რეზისტორი)</strong> – დენის შეზღუდვა (SMD ან ფეხებიანი).</li>
+						<li><strong>Zener Diode (სტაბილიტრონი)</strong> – ძაბვის სტაბილიზაცია.</li>
+						<li><strong>Electrolytic Capacitor (ელექტროლიტური კონდენსატორი)</strong> – DC ფილტრაცია (PCB-ზე).</li>
+						<li><strong>Reactor / Choke (რეაქტორი / დროსელი)</strong> – DC დენის პულსაციის გასწორება.</li>
+						<li><strong>Dip Switch (დიპ სვიჩი)</strong> – დაფაზე პარამეტრების მექანიკური გადართვა.</li>
+						<li><strong>Terminal Block (ტერმინალების ბლოკი)</strong> – სადენების შესაერთებელი.</li>
+						<li><strong>LED (შუქდიოდი)</strong> – ინდიკაციისთვის და შეცდომების კოდებისთვის.</li>
+					</ul>
+				</div>
+			</div>
+		</ContentAccordion>
+
+		<ContentAccordion index={9} title="HVAC/R სისტემებში გამოყენებული PCB დაფები და მათი ფუნქცია" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<ul class="mt-2 grid gap-6 sm:gap-8 border-l-2 border-fire pl-5">
+				<li>
+					<h5 class="text-lg font-bold text-accent">Main Control Board (ლოგიკური მართვის დაფა)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						<strong>რას აკეთებს:</strong> სისტემის ცენტრალური ლოგიკა. იღებს მონაცემებს სენსორებიდან, იღებს გადაწყვეტილებებს და აძლევს ბრძანებებს სხვა დაფებს.<br>
+						<strong>მართავს:</strong> რეჟიმებს, დეფროსტს, კომპრესორის ჩართვის ლოგიკას, ვენტილატორებს, შეცდომებს (Error codes).<br>
+						<strong>ON/OFF სისტემაში:</strong> გვხვდება.<br>
+						<strong>INVERTER სისტემაში:</strong> გვხვდება (არ მართავს ძრავს პირდაპირ).
+					</p>
+				</li>
+
+				<li>
+					<h5 class="text-lg font-bold text-accent">Inverter / Power Board (ძალოვანი ინვერტორული დაფა)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						<strong>რას აკეთებს:</strong> ქსელის AC ძაბვას გარდაქმნის DC-დ და შემდეგ ისევ AC-დ, ცვლადი სიხშირით, რათა შეიცვალოს კომპრესორის სიჩქარე.<br>
+						<strong>შეიცავს:</strong> დიოდურ ხიდს, DC Bus-ს, IGBT/MOSFET ტრანზისტორებს, დენისა და ტემპერატურის დაცვებს.<br>
+						<strong>ON/OFF სისტემაში:</strong> არ გვხვდება.<br>
+						<strong>INVERTER სისტემაში:</strong> გვხვდება (აუცილებელი).
+					</p>
+				</li>
+
+				<li>
+					<h5 class="text-lg font-bold text-accent">DC Bus (შუალედური მუდმივი ძაბვის ნაწილი)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						<strong>რას ნიშნავს:</strong> DC Bus არის მაღალი ძაბვის მუდმივი დენის ნაწილი, რომელიც იქმნება AC ძაბვის გამართვის შემდეგ.<br>
+						<strong>რაში გამოიყენება:</strong> ენერგიის დაგროვება და სტაბილური მიწოდება ინვერტორის ძალოვანი ტრანზისტორებისთვის.<br>
+						<strong>ტიპური მნიშვნელობები:</strong> ~310V DC (1 ფაზა), ~560V DC (3 ფაზა).<br>
+						<strong>ON/OFF სისტემაში:</strong> არ გვხვდება.<br>
+						<strong>INVERTER სისტემაში:</strong> გვხვდება.
+					</p>
+				</li>
+
+				<li>
+					<h5 class="text-lg font-bold text-accent">PFC Board (Power Factor Correction)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						<strong>რას აკეთებს:</strong> აუმჯობესებს ქსელიდან დენის აღებას და ამცირებს ძაბვის ჩავარდნებს DC Bus-ზე.<br>
+						<strong>რატომ გამოიყენება:</strong> მაღალი სიმძლავრის სისტემებში ქსელის სტაბილურობისთვის.<br>
+						<strong>ON/OFF სისტემაში:</strong> არ გვხვდება.<br>
+						<strong>INVERTER სისტემაში:</strong> ზოგჯერ გვხვდება (VRF, ჩილერი).
+					</p>
+				</li>
+
+				<li>
+					<h5 class="text-lg font-bold text-accent">IPM / Compressor Driver Board</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						<strong>რას აკეთებს:</strong> მართავს IGBT/MOSFET ტრანზისტორების Gate-ს და აკონტროლებს ძალოვან დაცვებს.<br>
+						<strong>რატომ არის ცალკე:</strong> ზოგ მწარმოებელთან უსაფრთხოების და მოდულურობის გამო.<br>
+						<strong>ON/OFF სისტემაში:</strong> არ გვხვდება.<br>
+						<strong>INVERTER სისტემაში:</strong> ზოგჯერ გვხვდება.
+					</p>
+				</li>
+
+				<li>
+					<h5 class="text-lg font-bold text-accent">Fan Inverter Board (ვენტილატორის მართვის დაფა)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						<strong>რას აკეთებს:</strong> ვენტილატორის სიჩქარის რეგულაცია ცვლადი სიხშირით.<br>
+						<strong>რისთვის გამოიყენება:</strong> ხმაურის შემცირება და ჰაერის ნაკადის ზუსტი კონტროლი.<br>
+						<strong>ON/OFF სისტემაში:</strong> არ გვხვდება.<br>
+						<strong>INVERTER სისტემაში:</strong> ზოგჯერ გვხვდება (BLDC/EC fan).
+					</p>
+				</li>
+
+				<li>
+					<h5 class="text-lg font-bold text-accent">Communication Board (კომუნიკაციის დაფა)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						<strong>რას აკეთებს:</strong> უზრუნველყოფს მონაცემების გაცვლას მოდულებს შორის და შენობის მართვის სისტემასთან (BMS).<br>
+						<strong>ტიპური პროტოკოლები:</strong> CAN, RS-485, Modbus, BACnet.<br>
+						<strong>ON/OFF სისტემაში:</strong> ზოგჯერ გვხვდება.<br>
+						<strong>INVERTER სისტემაში:</strong> გვხვდება.
+					</p>
+				</li>
+
+				<li>
+					<h5 class="text-lg font-bold text-accent">Expansion / I/O Board</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						<strong>რას აკეთებს:</strong> ზრდის სისტემის შესაძლებლობებს დამატებითი შეყვანა/გამოსვლებით.<br>
+						<strong>აერთებს:</strong> სენსორებს, სოლენოიდებს, ვალვებს, დაცვებს.<br>
+						<strong>ON/OFF სისტემაში:</strong> ზოგჯერ გვხვდება.<br>
+						<strong>INVERTER სისტემაში:</strong> გვხვდება.
+					</p>
+				</li>
+
+				<li>
+					<h5 class="text-lg font-bold text-accent">Display / HMI Board</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						<strong>რას აკეთებს:</strong> მომხმარებლისა და სისტემის ურთიერთქმედება.<br>
+						<strong>აჩვენებს:</strong> ტემპერატურას, რეჟიმებს, შეცდომებს, პარამეტრებს.<br>
+						<strong>ON/OFF სისტემაში:</strong> გვხვდება.<br>
+						<strong>INVERTER სისტემაში:</strong> გვხვდება.
+					</p>
+				</li>
+			</ul>
+		</ContentAccordion>
+	</div>
+</div>

@@ -1,0 +1,296 @@
+---
+import ContentAccordion from './ContentAccordion.astro';
+---
+
+<div class="mx-auto max-w-shell px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
+	<div class="grid gap-4 sm:gap-6">
+		<ContentAccordion index={1} title="Residential (საცხოვრებელი - ბინა / სახლი)" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="space-y-8">
+				<div>
+					<h4 class="georgian-caps text-h4 font-bold text-accent">გამოიყენება:</h4>
+					<div class="mt-4 space-y-8">
+						<div>
+							<h5 class="text-lg font-bold text-white">Split - სპლიტ სისტემა (On/Off &amp; Inverter)</h5>
+							<p class="mt-2 text-base leading-7 text-white/80">
+								კონდიცირების ყველაზე გავრცელებული ტიპი, რომელიც შედგება ერთი შიდა და ერთი გარე ბლოკისგან.<br>
+								მუშაობის პრინციპი: მაცივარაგენტის ცირკულაციით ხდება ჰაერის გაგრილება ან გათბობა.
+							</p>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+								<li>შიდა ბლოკი (Indoor Unit)</li>
+								<li>გარე ბლოკი (Outdoor Unit)</li>
+								<li>მაკავშირებელი კაბელი + კვების წყარო</li>
+								<li>სპილენძის მილები</li>
+							</ul>
+						</div>
+
+						<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+						<div>
+							<h5 class="text-lg font-bold text-white">Multi Split - მულტი სპლიტ სისტემა</h5>
+							<p class="mt-2 text-base leading-7 text-white/80">
+								კონდიცირების სისტემა, სადაც ერთი გარე ბლოკი რამდენიმე შიდა ბლოკს ემსახურება.
+							</p>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+								<li>2-5 შიდა ბლოკი (Indoor Unit)</li>
+								<li>1 გარე ბლოკი (Outdoor Unit)</li>
+								<li>მაკავშირებელი კაბელი + კვების წყარო, მართვის სისტემა</li>
+								<li>
+									განშტოებული სპილენძის მილები (გარე ბლოკიდან თითოეულ შიდა ბლოკამდე მიდის ინდივიდუალური მილების წყვილი)
+								</li>
+							</ul>
+						</div>
+
+						<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+						<div>
+							<h5 class="text-lg font-bold text-white">Mini VRF - მინი VRF სისტემა</h5>
+							<p class="mt-2 text-base leading-7 text-white/80">ეს არის VRF / VRV სისტემის შემცირებული ვერსია.</p>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+								<li>4-8 შიდა ბლოკი (Indoor Unit)</li>
+								<li>1 ჭკვიანი გარე ბლოკი (Outdoor Unit)</li>
+								<li>ჭკვიანი მართვის სისტემა</li>
+								<li>
+									ცენტრალური მაგისტრალი და განშტოებები (Refnet / Y-Joint) - ეს ზოგავს მილების რაოდენობას დიდ მანძილებზე
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ContentAccordion>
+
+		<ContentAccordion index={2} title="Commercial (კომერციული შენობები - ოფისი / მაღაზია / სასტუმრო / მოლი)" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="space-y-8">
+				<div>
+					<h4 class="georgian-caps text-h4 font-bold text-fire">გამოიყენება:</h4>
+					<div class="mt-4 space-y-8">
+						<div>
+							<h5 class="text-lg font-bold text-white">VRF / VRV - ცვალებადი მაცივარაგენტის ნაკადის სისტემა</h5>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-accent/60">
+								<li><strong>VRF (Variable Refrigerant Flow)</strong> - ზოგადი ტექნოლოგიის სახელია</li>
+								<li><strong>VRV (Variable Refrigerant Volume)</strong> - იგივე ტექნოლოგია, Daikin-ის დაპატენტებული სავაჭრო ტერმინი</li>
+							</ul>
+							<p class="mt-3 text-base leading-7 text-white/80">
+								სისტემა საშუალებას აძლევს ერთ გარე ბლოკს ემსახუროს მრავალი შიდა ბლოკი. იდეალურია კომერციული შენობებისთვის ინდივიდუალური კონტროლისა და ენერგოეფექტურობისთვის.<br>
+								<em>"Heat Recovery" (სითბოს აღდგენის) ფუნქცია</em> - 3-მილიანი სისტემები, რომლებსაც შეუძლიათ ერთ ოთახი გააგრილოს, ხოლო მეორე გაათბოს ერთდროულად.
+							</p>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-accent/60">
+								<li>Outdoor Unit (გარე ბლოკი - ინვერტორული)</li>
+								<li>Indoor Units (შიდა ბლოკები: კედლის, კასეტური, არხული)</li>
+								<li>Copper Pipes (სპილენძის მილები) + Refnet Joints / Y-Joint (გამანაწილებლები)</li>
+								<li>Communication Cable (მართვის კაბელი)</li>
+								<li>Central Controller (ცენტრალური მართვის პულტი)</li>
+							</ul>
+						</div>
+
+						<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+						<div>
+							<h5 class="text-lg font-bold text-white">Rooftop Units - RTU (სახურავის მონობლოკი)</h5>
+							<p class="mt-2 text-base leading-7 text-white/80">
+								Packaged (ერთიანი) ტიპის დანადგარი, რომელიც მონტაჟდება სახურავზე. ჰაერს ამუშავებს და არხების (Ducts) საშუალებით აწვდის დიდ სივრცეებს.
+							</p>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-accent/60">
+								<li>Monoblock Casing (ერთიანი კორპუსი)</li>
+								<li>Compressor &amp; Coils (კომპრესორი და თბომცვლელები ერთად)</li>
+								<li>Supply &amp; Return Fans (მიმწოდებელი და შემწოვი ვენტილატორები)</li>
+								<li>Economizer (ეკონომაიზერი - გარე ჰაერის დამშლელი)</li>
+							</ul>
+						</div>
+
+						<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+						<div>
+							<h5 class="text-lg font-bold text-white">Packaged Units (კომპაქტური / პაკეტური აგრეგატები)</h5>
+							<p class="mt-2 text-base leading-7 text-white/80">
+								RTU-ს მსგავსი სისტემა, სადაც ყველა კომპონენტი ერთ „ყუთშია“. შეიძლება დამონტაჟდეს მიწაზეც. გამოიყენება მცირე კომერციულ ფართებში.
+							</p>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-accent/60">
+								<li>Self-contained Unit (ყველაფერი ერთ ბლოკში)</li>
+								<li>Thermostat (მართვის თერმოსტატი ოთახში)</li>
+								<li>Ductwork (ჰაერსადინრები)</li>
+							</ul>
+						</div>
+
+						<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+						<div>
+							<h5 class="text-lg font-bold text-white">Chiller + FCU (ჩილერი და ფანკოილი)</h5>
+							<p class="mt-2 text-base leading-7 text-white/80">
+								წყლის სისტემა (Hydronic System). Chiller აცივებს/აცხელებს წყალს, რომელიც მილებით მიეწოდება ოთახებში არსებულ ფანკოილებს (FCU). თანამედროვე ჩილერების უმეტესობა Heat Pump (შექცევადი) ტიპისაა (4-pipe system).
+							</p>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-accent/60">
+								<li>Chiller (წყლის გასაცივებელი დანადგარი)</li>
+								<li>Hydronic Module (ჰიდრავლიკური მოდული: ტუმბოები, ავზები)</li>
+								<li>Fan Coil Units - FCU (ფანკოილები: შიდა ბლოკები)</li>
+								<li>Piping System (წყლის მილები და იზოლაცია)</li>
+							</ul>
+						</div>
+
+						<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+						<div>
+							<h5 class="text-lg font-bold text-white">AHU + FCU (ჰაერის დამუშავების აგრეგატი და ფანკოილი)</h5>
+							<p class="mt-2 text-base leading-7 text-white/80">
+								კომბინირებული სისტემა. AHU აწვდის სუფთა ჰაერს ცენტრალურად, ხოლო FCU არეგულირებს ტემპერატურას ოთახში. ასევე გამოიყენება VAV სისტემა ზონალური რეგულირებისთვის.
+							</p>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-accent/60">
+								<li>Air Handling Unit - AHU (ჰაერის დამუშავების აგრეგატი)</li>
+								<li>Ducts &amp; Diffusers (არხები და ჰაერის გამანაწილებლები)</li>
+								<li>Fan Coils (ფანკოილები)</li>
+								<li>VAV Boxes (Variable Air Volume - ცვალებადი ჰაერის მოცულობის ყუთები)</li>
+								<li>Chiller / Boiler (ენერგიის წყარო)</li>
+							</ul>
+						</div>
+
+						<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+						<div>
+							<h5 class="text-lg font-bold text-white">DOAS (გარე ჰაერის დამუშავების სისტემა)</h5>
+							<p class="mt-2 text-base leading-7 text-white/80">
+								Dedicated Outdoor Air System. სისტემა, რომელიც 100% გარე ჰაერს იღებს, აშრობს (Dehumidification), აგრილებს და აწვდის შენობას.
+							</p>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-accent/60">
+								<li>DOAS Unit (სპეც. აგრეგატი ტენის მოცილებით)</li>
+								<li>Energy Recovery Wheel (ენერგიის აღდგენის თბომცვლელი / რეკუპერატორი)</li>
+								<li>Ventilation Ducts (ვენტილაციის არხები)</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ContentAccordion>
+
+		<ContentAccordion index={3} title="Industrial (ინდუსტრიული ობიექტები - ქარხანა / საწყობი / დატა ცენტრი)" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="space-y-8">
+				<div>
+					<h4 class="georgian-caps text-h4 font-bold text-accent">გამოიყენება:</h4>
+					<div class="mt-4 space-y-8">
+						<div>
+							<h5 class="text-lg font-bold text-white">Chillers - Air / Water Cooled (ჰაერით და წყლით გაგრილებადი)</h5>
+							<p class="mt-2 text-base leading-7 text-white/80">გამოიყენება დანადგარების გასაგრილებლად (Process Cooling).</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+								<li><strong>Air Cooled Chiller</strong> - კონდენსაცია ხდება გარემო ჰაერით.</li>
+								<li><strong>Water Cooled Chiller</strong> - კონდენსაცია ხდება წყლით (Cooling Tower).</li>
+								<li><strong>Free Cooling</strong> - დაბალი ტემპერატურისას ამცირებს კომპრესორის მუშაობას.</li>
+							</ul>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+								<li>Industrial Chiller (სამრეწველო ჩილერი)</li>
+								<li>Cooling Tower (გაგრილების კოშკურა - მხოლოდ Water Cooled-ისთვის)</li>
+								<li>Process Pumps (მაღალი წნევის ტუმბოები)</li>
+								<li>Buffer Tank (ბუფერული ავზი)</li>
+							</ul>
+						</div>
+
+						<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+						<div>
+							<h5 class="text-lg font-bold text-white">AHU - High Air Flow / Hygienic (დიდი წარმადობის და ჰიგიენური)</h5>
+							<p class="mt-2 text-base leading-7 text-white/80">
+								განსაკუთრებით მძლავრი აგრეგატები. ხშირად სჭირდებათ სპეციალური ფილტრაცია (HEPA Filters) სტერილური გარემოსთვის.
+							</p>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+								<li>Stainless Steel Casing (უჟანგავი კორპუსი)</li>
+								<li>High Pressure Fans (მაღალი წნევის ვენტილატორები)</li>
+								<li>HEPA / ULPA Filters (სპეც. ფილტრები)</li>
+								<li>EC Fans (ენერგოეფექტური ვენტილატორები)</li>
+								<li>Heat Recovery Section (თბოაღდგენა)</li>
+								<li>Humidification System (ტენიანობის კონტროლი)</li>
+							</ul>
+						</div>
+
+						<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+						<div>
+							<h5 class="text-lg font-bold text-white">Industrial Ventilation Systems (სამრეწველო ვენტილაცია)</h5>
+							<p class="mt-2 text-base leading-7 text-white/80">
+								ასპირაცია და გამწოვი სისტემები. მავნე ნივთიერებების, მტვრის ან ბოლის გაწოვა.
+							</p>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+								<li>Centrifugal Fans (რადიალური / "ლოკოკინა" ვენტილატორები)</li>
+								<li>Cyclones / Scrubbers (ჰაერის ფილტრაცია მინარევებისგან)</li>
+								<li>MAU - Make-up Air Unit (ჰაერის კომპენსაციის აგრეგატი)</li>
+								<li>Industrial Ducts (სამრეწველო არხები)</li>
+							</ul>
+						</div>
+
+						<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+						<div>
+							<h5 class="text-lg font-bold text-white">Precision Cooling - CRAC / CRAH (პრეცისიული კონდიცირება)</h5>
+							<p class="mt-2 text-base leading-7 text-white/80">
+								გამოიყენება დატა ცენტრებში (Data Centers), ტემპერატურისა და ტენიანობის ზუსტი კონტროლისთვის.
+							</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+								<li><strong>CRAC:</strong> მაცივარაგენტზე მომუშავე.</li>
+								<li><strong>CRAH:</strong> ჩილერის წყალზე მომუშავე.</li>
+								<li>Hot Aisle / Cold Aisle Containment (ჰაერის მენეჯმენტი).</li>
+								<li>Redundancy (N+1 / 2N კონფიგურაციები).</li>
+							</ul>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+								<li>Precision Unit (ზუსტი კონდიცირების კარადა)</li>
+								<li>Raised Floor (აწეული იატაკი)</li>
+								<li>Humidifier / Reheater (დამატენიანებელი / გამათბობელი)</li>
+							</ul>
+						</div>
+
+						<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+						<div>
+							<h5 class="text-lg font-bold text-white">Refrigeration Systems (სამაცივრე სისტემები)</h5>
+							<p class="mt-2 text-base leading-7 text-white/80">
+								დაბალტემპერატურული მაცივრები (Cold Storage). პროდუქციის შესანახად (-18°C, -25°C). გამოიყენება NH3 ან CO2 სისტემები.
+							</p>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+								<li>Refrigeration Rack (კომპრესორების სადგური)</li>
+								<li>Evaporators / Unit Coolers (შიდა ამაორთქლებლები)</li>
+								<li>Insulated Panels (სენდვიჩ პანელები)</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ContentAccordion>
+
+		<ContentAccordion index={4} title="BMS - შენობის მართვის სისტემა (Building Management System)" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="space-y-8">
+				<div>
+					<h4 class="georgian-caps text-h4 font-bold text-fire">გამოიყენება:</h4>
+					<div class="mt-4 space-y-8">
+						<div>
+							<ul class="list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-accent/60">
+								<li><strong>კომერციული:</strong> ოფისებში და სასტუმროებში კომფორტისა და ენერგიის სამართავად.</li>
+								<li><strong>ინდუსტრიული:</strong> საწარმოო პროცესებისთვის (ფარმაცევტული, დატა ცენტრები).</li>
+							</ul>
+							<p class="mt-4 text-base leading-7 text-white/80">
+								BMS არის „შენობის ტვინი“. ცენტრალიზებულად მართავს და აკონტროლებს HVAC, განათებას და სხვა სისტემებს.
+							</p>
+							<p class="mt-3 text-base font-bold text-white/90">შემადგენლობა:</p>
+							<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-accent/60">
+								<li>Management Server &amp; Software (ცენტრალური სერვერი)</li>
+								<li>DDC Controllers (ციფრული კონტროლერები - "პატარა ტვინები")</li>
+								<li>Sensors (სენსორები - ტემპერატურა, ტენიანობა, CO2, წნევა)</li>
+								<li>Actuators &amp; Valves (აღმსრულებელი მექანიზმები - სარქველები, დამპერები)</li>
+								<li>User Interface / HMI (ოპერატორის გრაფიკული ინტერფეისი)</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ContentAccordion>
+	</div>
+</div>

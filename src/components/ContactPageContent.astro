@@ -1,0 +1,57 @@
+---
+import type { Locale } from '../data/site';
+import GeorgiaContactMap from './GeorgiaContactMap.astro';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const isGeorgian = locale === 'ka';
+const contactServices = isGeorgian
+	? [
+		'კონდიციონერის მონტაჟი ან დემონტაჟი',
+		'კონდიციონერის დიაგნოსტიკა, შეკეთება ან დაზიანებული ნაწილის შეცვლა',
+		'კონდიციონერის ჟონვის პოვნა და შეკეთება',
+		'კონდიციონერიდან წყლის წვეთის პრობლემის მოგვარება',
+		'კონდიციონერის შიდა და გარე ბლოკების ღრმა წმენდა',
+		'კონდიციონერის ფილტრების გაწმენდა',
+		'მაცივარაგენტის (ფრეონის) დონის შემოწმება ან ფრეონის ჩასხმა',
+		'კონდიციონერის მილების დაგრძელება ან მილების წინასწარი მონტაჟი',
+		'კონდიციონერის სადრენაჟე სისტემის მოწყობა ან პომპის ინსტალაცია',
+		'კონდიციონერის პლატის შეკეთება ან შეცვლა',
+	]
+	: [
+		'Air conditioner installation or dismantling',
+		'Air conditioner diagnostics, repair, or replacement of damaged parts',
+		'Air conditioner leak detection and repair',
+		'Air conditioner water leak repair',
+		'Deep cleaning of indoor and outdoor air-conditioner units',
+		'Air conditioner filter cleaning',
+		'Refrigerant level check or refill',
+		'Air-conditioner pipe extension or pre-installation',
+		'Air conditioner drainage setup or condensate pump installation',
+		'Air conditioner control board repair or replacement',
+	];
+---
+
+	<section class="mx-auto grid w-full max-w-shell gap-10 px-5 py-10 sm:px-8 sm:py-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14 lg:px-10 lg:py-16" aria-labelledby="contact-page-title">
+		<div>
+			<p class="text-small font-extrabold uppercase tracking-[0.18em] text-accent">{isGeorgian ? 'როდის უნდა დაგვიკავშირდეთ?' : 'When should you contact us?'}</p>
+			<h2 id="contact-page-title" class="georgian-caps mt-3 max-w-2xl text-h2 font-extrabold text-white">{isGeorgian ? 'გამოიძახე კონდიციონერის ხელოსანი' : 'Call an air-conditioning technician'}</h2>
+			<p class="mt-4 max-w-2xl text-base leading-7 text-white/70 sm:text-lg sm:leading-8">{isGeorgian ? 'თუ გჭირდებათ:' : 'Contact us if you need:'}</p>
+			<ul class="mt-4 grid gap-3 border-l-2 border-fire pl-5 text-base leading-7 text-white/80">
+				{contactServices.map((service) => (
+					<li class="flex items-start gap-3">
+					<svg class="mt-1 size-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+						<span>{service}</span>
+					</li>
+				))}
+			</ul>
+		</div>
+		<div>
+			<GeorgiaContactMap locale={locale} />
+			<p class="georgian-caps mt-5 text-center text-base font-extrabold text-white sm:text-lg">{isGeorgian ? 'მისამართი: თბილისი, საბურთალო' : 'Location: Tbilisi, Saburtalo'}</p>
+			<p class="georgian-caps mt-5 text-center text-base font-extrabold text-accent sm:text-lg">{isGeorgian ? 'მომსახურება: თბილისი და მისი შემოგარენი' : 'Service area: Tbilisi and the surrounding area'}</p>
+		</div>
+	</section>

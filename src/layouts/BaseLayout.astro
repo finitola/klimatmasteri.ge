@@ -1,0 +1,109 @@
+---
+import { getImage } from 'astro:assets';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import ContactActions from '../components/ContactActions.astro';
+import homeHeroImage from '../assets/images/kondicioneris-xelosani.webp';
+import { businessInfo } from '../data/business';
+import { getHreflangAlternates, getMetaDescription, getMetaTitle, getStructuredData } from '../data/seo';
+import { getPageUrl, isIndexablePage, type Locale, type PageId } from '../data/site';
+import '../styles/global.css';
+
+interface Props {
+	locale: Locale;
+	pageId: PageId;
+	isNotFound?: boolean;
+}
+
+const { locale, pageId, isNotFound = false } = Astro.props;
+const pageTitle = isNotFound
+	? (locale === 'ka' ? 'გვერდი ვერ მოიძებნა | KlimatMasteri' : 'Page Not Found | KlimatMasteri')
+	: getMetaTitle(locale, pageId);
+const pageDescription = isNotFound ? undefined : getMetaDescription(locale, pageId);
+const htmlLocale = locale === 'ka' ? 'ka' : 'en';
+const ogLocale = locale === 'ka' ? 'ka_GE' : 'en_US';
+const isIndexable = !isNotFound && isIndexablePage(locale, pageId);
+const hreflangAlternates = isNotFound ? [] : getHreflangAlternates(pageId);
+const socialImage = await getImage({ src: homeHeroImage, width: 1200, height: 630, format: 'webp', fit: 'cover', position: 'center' });
+const socialImageUrl = new URL(socialImage.src, businessInfo.website).href;
+const structuredData = isNotFound ? undefined : getStructuredData(locale, pageId);
+---
+
+<!doctype html>
+<html lang={htmlLocale}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="robots" content={isIndexable ? 'index,follow,max-image-preview:large' : 'noindex,follow'} />
+		<link rel="sitemap" href="/sitemap-index.xml" />
+		<title>{pageTitle}</title>
+		{pageDescription && <meta name="description" content={pageDescription} />}
+		{!isNotFound && <link rel="canonical" href={getPageUrl(locale, pageId)} />}
+		{hreflangAlternates.map(({ locale: alternate, url }) => <link rel="alternate" hreflang={alternate} href={url} />)}
+		{isIndexable && <link rel="alternate" hreflang="x-default" href={getPageUrl('ka', pageId)} />}
+		<meta property="og:title" content={pageTitle} />
+		{pageDescription && <meta property="og:description" content={pageDescription} />}
+		{!isNotFound && <meta property="og:url" content={getPageUrl(locale, pageId)} />}
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={businessInfo.name} />
+		<meta property="og:locale" content={ogLocale} />
+		<meta property="og:locale:alternate" content={locale === 'ka' ? 'en_US' : 'ka_GE'} />
+		<meta property="og:image" content={socialImageUrl} />
+		<meta property="og:image:alt" content={locale === 'ka' ? 'KlimatMasteri — კონდიციონერის პროფესიონალური მომსახურება' : 'KlimatMasteri — professional air-conditioning services'} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={pageTitle} />
+		{pageDescription && <meta name="twitter:description" content={pageDescription} />}
+		<meta name="twitter:image" content={socialImageUrl} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<meta name="theme-color" content="#15191c" />
+		{structuredData && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
+	</head>
+	<body id="top" class:list={[
+		'mobile-page-bottom-space flex min-h-screen flex-col font-sans antialiased overflow-x-hidden',
+		'bg-night text-white',
+	]}>
+		<a class="skip-link" href="#main-content">{locale === 'ka' ? 'ძირითად შინაარსზე გადასვლა' : 'Skip to main content'}</a>
+		<SiteHeader locale={locale} pageId={pageId} isNotFound={isNotFound} />
+		<slot />
+		<SiteFooter locale={locale} />
+		<div class="fixed right-4 bottom-40 z-50 flex flex-col items-center sm:right-8 md:bottom-8">
+			<button
+				type="button"
+				class="scroll-top-action flex size-12 items-center justify-center rounded-full bg-fire text-ink shadow-button focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink sm:size-14"
+				aria-label={locale === 'ka' ? 'გვერდის თავში დაბრუნება' : 'Back to top'}
+				title={locale === 'ka' ? 'გვერდის თავში დაბრუნება' : 'Back to top'}
+				aria-hidden="true"
+				tabindex="-1"
+				data-scroll-top
+				data-visible="false"
+			>
+				<svg class="size-5 sm:size-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<path d="m6 14 6-6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+			</button>
+		</div>
+		
+		
+		<div class="fixed left-1/2 top-1/2 z-[60] hidden w-[min(18rem,calc(100vw-3rem))] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-4 rounded-2xl border border-white/10 bg-night/80 p-6 text-center shadow-2xl backdrop-blur-md md:bottom-6 md:right-6 md:left-auto md:top-auto md:translate-x-0 md:translate-y-0" data-pwa-install-wrap>
+			<p class="text-2xl font-bold tracking-tight text-accent">KlimatMasteri<span class="text-fire">.</span></p>
+			<button type="button" class="w-full min-h-11 rounded-lg border border-accent/70 bg-accent/10 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-accent/20 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-pwa-install>
+				{locale === 'ka' ? 'აპლიკაციის დაყენება' : 'Install App'}
+			</button>
+			<button type="button" class="w-full min-h-8 text-xs font-medium text-white/60 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-pwa-dismiss>
+				{locale === 'ka' ? 'შემოთავაზების დახურვა' : 'Close Offer'}
+			</button>
+		</div>
+		<ContactActions locale={locale} variant="sticky" />
+		<script>
+			import '../scripts/scroll-to-top.ts';
+			import '../scripts/pwa-install.ts';
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,26 @@
+---
+import { getPagePath, type Locale, type PageId } from '../data/site';
+
+interface Props {
+	locale: Locale;
+	pageId: PageId;
+}
+
+const { locale, pageId } = Astro.props;
+const targetLocale: Locale = locale === 'ka' ? 'en' : 'ka';
+const currentLabel = locale === 'ka' ? 'KA' : 'EN';
+const targetLabel = targetLocale === 'ka' ? 'KA' : 'EN';
+---
+
+<div class="inline-flex min-h-10 items-center px-1 font-brand text-xs font-bold tracking-[0.12em]" role="group" aria-label={locale === 'ka' ? 'ენა' : 'Language'}>
+	<span class="px-2 text-accent" aria-current="true">{currentLabel}</span>
+	<span class="h-4 w-px bg-white/25" aria-hidden="true"></span>
+	<a
+		class="inline-flex min-h-9 min-w-10 items-center justify-center px-2 text-white/75 transition-colors hover:bg-white/5 hover:text-fire focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fire"
+		href={getPagePath(targetLocale, pageId)}
+		lang={targetLocale}
+		aria-label={locale === 'ka' ? 'ენის შეცვლა ინგლისურზე' : 'Switch to Georgian'}
+	>
+		{targetLabel}
+	</a>
+</div>

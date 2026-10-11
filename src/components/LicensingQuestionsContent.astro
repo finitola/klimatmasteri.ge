@@ -1,0 +1,61 @@
+---
+import type { Locale } from '../data/site';
+import licensingQuestions from '../data/licensing-questions.json';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+if (locale !== 'ka') {
+	return null; // English content not provided yet
+}
+---
+
+<div class="mx-auto w-full max-w-shell px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
+	<!-- Hero / Intro Card -->
+	<div class="mb-12 rounded-2xl border border-white/10 bg-blue-900/10 p-6 shadow-lg md:p-8">
+		<h3 class="mb-3 text-xl font-bold text-accent md:text-2xl">მაცივარაგენტზე (ფრეონზე) მომუშავე სისტემების მომსახურების სერთიფიკატი</h3>
+		<p class="text-base leading-relaxed text-white/80 sm:text-lg">
+			ეს არის სასწავლო გარემო რათა შეძლოთ გამოცდის ჩაბარება. 
+			საქართველოს კანონმდებლობის მიხედვით, მაცივარაგენტის შეძენისათვის, რეალიზაციისათვის და მოხმარებისათვის საჭიროა სპეციალური ლიცენზია. 
+			აქ მოცემულია სასწავლო ბაზა, სადაც სწორი პასუხები წინასწარ არის მონიშნული.
+		</p>
+	</div>
+
+	<div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+		{licensingQuestions.map((q) => (
+			<div class="rounded-2xl border border-white/10 bg-blue-900/10 p-5 shadow-lg sm:p-6 lg:p-8" id={`question-${q.id}`}>
+				<h4 class="mb-6 text-lg font-bold text-white sm:text-xl">
+					<span class="mr-2 text-accent">{q.id}.</span>
+					{q.question}
+				</h4>
+				<div class="grid gap-3 sm:gap-4">
+					{q.options.map((opt) => (
+						<div class:list={[
+							'flex items-center gap-3 sm:gap-4 rounded-xl border p-4 transition-colors',
+							opt.isCorrect 
+								? 'border-green-500/30 bg-green-500/10' 
+								: 'border-white/5 bg-night-panel'
+						]}>
+							<span class="flex shrink-0 items-center justify-center">
+								{opt.isCorrect ? (
+									<svg class="size-6 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+								) : (
+									<svg class="size-5 text-danger opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+								)}
+							</span>
+							<span class:list={[
+								'text-sm sm:text-base leading-relaxed',
+								opt.isCorrect ? 'font-bold text-white' : 'text-white/60'
+							]}>
+								{opt.text}
+							</span>
+						</div>
+					))}
+				</div>
+			</div>
+		))}
+	</div>
+</div>

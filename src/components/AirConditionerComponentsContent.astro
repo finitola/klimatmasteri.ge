@@ -1,0 +1,192 @@
+---
+import ContentAccordion from './ContentAccordion.astro';
+---
+
+<div class="mx-auto max-w-shell px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
+	<div class="grid gap-4 sm:gap-6">
+		<ContentAccordion index={1} title="გარე აგრეგატის შემადგენელი ნაწილები" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<ul class="mt-2 grid gap-6 sm:gap-8 border-l-2 border-fire pl-5">
+				<li>
+					<h5 class="text-lg font-bold text-accent">კომპრესორი (Compressor)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						ეს არის შავი, ჰერმეტული ძრავა (მაცივარმანქანის გული).<br>
+						მისი დანიშნულებაა ფრეონის სისტემაში მიმოქცევა და წნევის შექმნა.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">კონდენსატორი / რადიატორი (Condenser Coil)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						ალუმინის ფირფიტებისა და სპილენძის მილებისგან შემდგარი ბადე, რომელიც გარედან აკრავს აგრეგატს. აქ ცხელი ფრეონი გრილდება და თხევადდება.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">ვენტილატორი და ძრავა (Fan Motor &amp; Blade)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						დიდი ფრთა, რომელიც აგრილებს რადიატორს.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">ოთხსვლიანი სარქველი (4-Way Valve)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						თუ კონდიციონერს აქვს გათბობის რეჟიმიც, აუცილებლად შეხვდებით ამ დეტალს. მას აქვს სოლენოიდი (კოჭა), რომელიც რთავს ფრეონის მიმართულებას (ზამთარი/ზაფხული).
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">კაპილარული მილი ან TPV / EEV (Expansion Valve)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						წვრილი სპილენძის მილები ან ელექტრონული სარქველი, სადაც ფრეონის წნევა ეცემა და იწყება გაციება.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">ელექტრო ბლოკი</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						<strong class="text-white">On/Off მოდელებში:</strong> დიდი კონდენსატორი კომპრესორისთვის, პატარა კონდესატორი ვინტილატორის ძრავისთვის და კონტაქტორი.<br>
+						<strong class="text-white">ინვერტორულ მოდელებში:</strong> დიდი ელექტრონული დედადაფა რადიატორებით (IPM მოდულით), აქ ძირითადად ყველაფერი თავმოყრილია დედადაფაზე.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">ტემპერატურის სენსორები (NTC Thermistors)</h5>
+					<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+						<li><strong>Ambient Air Sensor:</strong> ზომავს გარემო ტემპერატურას.</li>
+						<li><strong>Coil Sensor:</strong> აკონტროლებს თბოცვლის პროცესს და დეფროსტს.</li>
+						<li><strong>Discharge Pipe Sensor:</strong> იცავს კომპრესორს გადახურებისგან.</li>
+						<li><strong>Suction Pipe Sensor:</strong> ეხმარება EEV-ს მართვაში.</li>
+						<li><strong>Heatsink Sensor:</strong> იცავს IPM მოდულს გადახურებისგან.</li>
+					</ul>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">წნევის სენსორები და რელეები</h5>
+					<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-7 text-white/80 marker:text-fire/60">
+						<li><strong>High Pressure Sensor:</strong> ზომავს მაღალ წნევას (ბარებში).</li>
+						<li><strong>High Pressure Switch:</strong> ავარიულად თიშავს სისტემას მაღალი წნევისას.</li>
+						<li><strong>Low Pressure Sensor:</strong> თიშავს სისტემას ფრეონის გაჟონვისას.</li>
+					</ul>
+				</li>
+			</ul>
+		</ContentAccordion>
+
+		<ContentAccordion index={2} title="სხვადასხვა ტიპის გარე ბლოკები (VRF და დიდი სისტემები)" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<ul class="mt-2 grid gap-6 sm:gap-8 border-l-2 border-fire pl-5">
+				<li>
+					<h5 class="text-lg font-bold text-accent">სითხის აკუმულატორი (Suction Accumulator)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						დიდი რეზერვუარი კომპრესორის წინ (დაბალი წნევის მხარეს). იჭერს თხევად ფრეონს, რათა კომპრესორში არ მოხდეს "ჰიდროდარტყმა".
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">ზეთის სეპარატორი (Oil Separator)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						დგას კომპრესორის შემდეგ (მაღალი წნევის მხარეს). აცალკევებს ზეთს ფრეონისგან და აბრუნებს კომპრესორის კარტერში.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">სითხის რესივერი (Liquid Receiver)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						დგას კონდენსატორის შემდეგ. წარმოადგენს ფრეონის "საწყობს" დატვირთვის ცვალებადობის დროს.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">ფილტრ-მშრობელი (Filter Drier)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						იჭერს სისტემაში მოხვედრილ ტენს (წყალს) და მყარ ნაწილაკებს. იცავს კომპრესორის გრაგნილს მჟავისგან.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">VRF სისტემის დამატებითი კომპონენტები</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						ინვერტორული პლატების სისტემა და მრავალი ელექტრონული გამფართოებელი სარქველი (EEV).
+					</p>
+				</li>
+			</ul>
+		</ContentAccordion>
+
+		<ContentAccordion index={3} title="შიდა აგრეგატის შემადგენელი ნაწილები" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<ul class="mt-2 grid gap-6 sm:gap-8 border-l-2 border-fire pl-5">
+				<li>
+					<h5 class="text-lg font-bold text-accent">ფილტრები (Filters)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						მტვრისგან დამცავი ბადეები, იცავს რადიატორს და საჭიროებს ხშირ გაწმენდას.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">ამაორთქლებელი (Evaporator Coil)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						შიდა ბლოკის რადიატორი, რომელიც ცივდება ან თბება.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">დოლურა / ტურბინა (Cross-flow Fan)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						გრძელი ცილინდრული ვენტილატორი, რომელიც ჰაერს უბერავს რადიატორის გავლით.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">დრენაჟის აბაზანა (Drain Pan)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						აგროვებს კონდენსატს (წყალს) და მილის საშუალებით უშვებს გარეთ.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">მართვის დედადაფა (PCB)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						შიდა ბლოკის "ტვინი", სადაც ერთდება ყველა სადენი და სენსორი.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">სენსორები</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						ოთახის ჰაერის და რადიატორის მილის ტემპერატურის სენსორები.
+					</p>
+				</li>
+			</ul>
+		</ContentAccordion>
+
+		<ContentAccordion index={4} title="სხვადასხვა ტიპის შიდა ბლოკები" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<ul class="mt-2 grid gap-6 sm:gap-8 border-l-2 border-fire pl-5">
+				<li>
+					<h5 class="text-lg font-bold text-accent">კასეტური ტიპი (Cassette Type)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						მონტაჟდება ჭერში. აქვს <strong class="text-white">დრენაჟის პომპა</strong> (წყლის ამოსატუმბად) და <strong class="text-white">ტივტივა</strong> (ავარიული გათიშვისთვის). იყენებს ცენტრიფუგალურ (პროპელერის მსგავს) ვენტილატორს.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">არხული ტიპი (Ducted Type)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						იმალება ჭერში, ჰაერს ანაწილებს მილებით. იყენებს მძლავრ "ლოკოკინა" ვენტილატორებს მაღალი წნევისთვის.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">ჭერ-იატაკის ტიპი (Floor-Ceiling)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						აქვს ორმაგი დრენაჟის აბაზანა, რათა იმუშაოს როგორც ჰორიზონტალურ (ჭერზე), ისე ვერტიკალურ (კედელზე) მდგომარეობაში.
+					</p>
+				</li>
+				
+				<li>
+					<h5 class="text-lg font-bold text-accent">კოლონიური / დასადგამი (Floor Standing)</h5>
+					<p class="mt-2 text-base leading-7 text-white/80">
+						დიდი ჰოლებისთვის. ხშირად აქვს დამატებითი ელექტრო გამათბობელი (TENA) ზამთრისთვის.
+					</p>
+				</li>
+			</ul>
+		</ContentAccordion>
+	</div>
+</div>

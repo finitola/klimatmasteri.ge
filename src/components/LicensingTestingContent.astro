@@ -1,0 +1,602 @@
+---
+import type { Locale } from '../data/site';
+import questionsDb from '../data/licensing-questions.json';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+if (locale !== 'ka') {
+	return null; // English content not provided yet
+}
+
+// Ensure we only pass needed data to client side
+const serializedQuestions = JSON.stringify(questionsDb);
+---
+
+<div class="mx-auto w-full max-w-shell px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14" id="exam-app">
+	
+	<!-- STATE 1: START SCREEN -->
+	<div id="start-screen" class="flex flex-col items-center text-center">
+		<div class="mb-8 w-full max-w-4xl rounded-2xl border border-white/10 bg-blue-900/10 p-8 shadow-lg md:p-12">
+			<svg class="mx-auto mb-6 size-16 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg>
+			<h3 class="mb-4 text-2xl font-bold text-white md:text-3xl lg:text-4xl">სიმულაციური გამოცდა</h3>
+			<p class="mb-8 text-base leading-relaxed text-white/80 md:text-lg lg:text-xl max-w-2xl mx-auto">
+				ტესტირება შედგება <strong>30 კითხვისგან</strong>, რომლებიც შემთხვევითობის პრინციპით აირჩევა 206 კითხვიანი ბაზიდან. 
+				გამოცდის ჩასაბარებლად საჭიროა მინიმუმ <strong>27 სწორი პასუხი</strong>.
+			</p>
+			
+			<div class="mb-10 flex flex-wrap justify-center gap-4 text-sm sm:text-base">
+				<div class="flex items-center gap-2 rounded-lg bg-night-panel px-5 py-2.5 text-white/90 shadow-sm border border-white/10">
+					<svg class="size-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+					30 წუთი
+				</div>
+				<div class="flex items-center gap-2 rounded-lg bg-night-panel px-5 py-2.5 text-white/90 shadow-sm border border-white/10">
+					<svg class="size-5 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+					27 ბარიერი
+				</div>
+			</div>
+
+			<button id="btn-start" class="inline-flex items-center justify-center rounded-xl bg-accent px-8 py-3.5 text-base font-bold text-white shadow-lg transition-all hover:bg-accent/90 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
+				დაწყება
+			</button>
+		</div>
+	</div>
+
+	<!-- STATE 2: TEST SCREEN -->
+	<div id="test-screen" class="hidden">
+		<!-- Header / Timer & Stats -->
+		<div class="mb-6 flex flex-col items-center justify-between gap-4 rounded-xl border border-white/10 bg-night-panel p-4 sm:flex-row lg:mb-8 lg:p-6">
+			<div class="flex items-center gap-3">
+				<div class="flex size-10 items-center justify-center rounded-lg bg-blue-900/30 text-accent">
+					<svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+				</div>
+				<div>
+					<div class="text-xs text-white/60">დარჩენილი დრო</div>
+					<div id="timer-display" class="text-xl font-bold tracking-wider text-white">30:00</div>
+				</div>
+			</div>
+			
+			<div class="flex flex-wrap items-center justify-center gap-4 text-sm sm:gap-6">
+				<div class="flex items-center gap-2">
+					<span class="size-2.5 rounded-full bg-accent shadow-[0_0_8px_rgba(59,130,246,0.5)]"></span>
+					<span class="text-white/60">გაცემული: <strong id="stat-answered" class="text-white">0</strong></span>
+				</div>
+				<div class="flex items-center gap-2">
+					<span class="size-2.5 rounded-full bg-white/20"></span>
+					<span class="text-white/60">დარჩენილი: <strong id="stat-unanswered" class="text-white">30</strong></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+			<!-- Main Question Area -->
+			<div class="lg:col-span-2 h-full">
+				<div class="flex h-full flex-col rounded-2xl border border-white/10 bg-blue-900/10 p-4 shadow-lg sm:p-6 lg:p-8">
+					<div class="flex-grow">
+						<div class="mb-5 flex items-center justify-between gap-2 border-b border-white/10 pb-4 sm:gap-4">
+							<div class="text-xs font-bold text-accent uppercase tracking-wider sm:text-sm whitespace-nowrap">კითხვა <span id="current-q-num">1</span> / 30</div>
+							<div class="flex shrink-0 items-center gap-1.5 sm:gap-2">
+								<button id="btn-prev" title="წინა კითხვაზე დაბრუნება" class="group flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white transition-colors hover:bg-white/10 cursor-pointer disabled:cursor-not-allowed sm:size-10">
+									<svg class="size-4 transition-transform group-hover:-translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+								</button>
+								<button id="btn-next" class="group flex items-center gap-1 rounded-lg bg-accent px-3 py-2 text-xs font-bold text-white shadow-lg transition-all hover:bg-accent/90 hover:shadow-accent/20 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed sm:gap-2 sm:px-5 sm:text-sm">
+									<span id="btn-next-text">შემდეგი</span>
+									<svg class="size-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+								</button>
+							</div>
+						</div>
+						
+						<h4 id="question-text" class="mb-6 text-lg font-bold text-white sm:text-xl leading-relaxed">
+							იტვირთება...
+						</h4>
+						<div id="options-container" class="grid gap-3 sm:gap-4">
+							<!-- Options injected here -->
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Right Sidebar: Nav Grid -->
+			<div class="lg:col-span-1 h-full">
+				<div class="flex h-full flex-col rounded-2xl border border-white/10 bg-night-panel p-5 shadow-lg">
+					<h5 class="mb-5 text-center text-sm font-bold text-white/80 uppercase tracking-wider">ნავიგაცია</h5>
+					<div id="nav-grid" class="mb-6 grid grid-cols-5 gap-2 sm:gap-3">
+						<!-- Grid items injected here -->
+					</div>
+					
+					<button id="btn-finish" class="mt-auto w-full rounded-xl bg-fire px-4 py-4 text-sm font-bold text-white shadow-lg transition-transform hover:-translate-y-0.5 hover:bg-fire/90 cursor-pointer">
+						დასრულება
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- STATE 3: RESULTS SCREEN -->
+	<div id="results-screen" class="hidden">
+		<div class="mb-8 rounded-2xl border border-white/10 bg-night-panel p-8 text-center shadow-lg">
+			<div id="result-icon" class="mx-auto mb-4 flex size-20 items-center justify-center rounded-full bg-blue-900/30">
+				<!-- Injected by JS -->
+			</div>
+			<h3 id="result-title" class="mb-2 text-2xl font-bold text-white md:text-3xl">შედეგი</h3>
+			<p id="result-score" class="mb-6 text-xl text-white/80">თქვენი ქულა: <strong>0 / 30</strong></p>
+			<button id="btn-restart" class="group inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-8 py-3.5 text-base font-bold text-white shadow-lg transition-all hover:bg-accent/90 hover:-translate-y-0.5 hover:shadow-accent/20">
+				<svg class="size-5 transition-transform group-hover:-rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+				თავიდან დაწყება
+			</button>
+		</div>
+		
+		<h4 class="mb-6 text-xl font-bold text-white">პასუხების დეტალური განხილვა</h4>
+		<div id="review-container" class="space-y-6">
+			<!-- Review items injected here -->
+		</div>
+	</div>
+	<!-- Custom Modal -->
+	<div id="custom-modal" class="fixed inset-0 z-50 hidden flex-col items-center justify-center bg-black/80 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-300">
+		<div class="w-full max-w-md rounded-2xl border border-white/10 bg-night-panel p-6 shadow-2xl transform scale-95 transition-transform duration-300">
+			<div class="mb-4 flex items-center gap-3">
+				<div id="modal-icon" class="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
+					<svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+				</div>
+				<h4 id="modal-title" class="text-lg font-bold text-white">ყურადღება</h4>
+			</div>
+			<p id="modal-message" class="mb-8 text-base text-white/80 leading-relaxed whitespace-pre-wrap"></p>
+			<div id="modal-actions" class="flex flex-wrap items-center justify-end gap-3">
+				<!-- Buttons injected here -->
+			</div>
+		</div>
+	</div>
+
+</div>
+<script define:vars={{ serializedQuestions }}>
+	// Encapsulate everything to avoid global scope pollution
+	(function() {
+		const allQuestions = JSON.parse(serializedQuestions);
+		
+		let questions = [];
+		let userAnswers = {}; // key: index (0-29), value: optionIndex
+		let currentQ = 0;
+		let timeLeft = 30 * 60; 
+		let timerInterval = null;
+		let isFinished = false;
+
+		// Elements
+		const screens = {
+			start: document.getElementById('start-screen'),
+			test: document.getElementById('test-screen'),
+			results: document.getElementById('results-screen')
+		};
+		
+		const elTimer = document.getElementById('timer-display');
+		const elStatAnswered = document.getElementById('stat-answered');
+		const elStatUnanswered = document.getElementById('stat-unanswered');
+		const elQNum = document.getElementById('current-q-num');
+		const elQText = document.getElementById('question-text');
+		const elOptions = document.getElementById('options-container');
+		const elNavGrid = document.getElementById('nav-grid');
+		const elReview = document.getElementById('review-container');
+		
+		const btnStart = document.getElementById('btn-start');
+		const btnFinish = document.getElementById('btn-finish');
+		const btnRestart = document.getElementById('btn-restart');
+		const btnPrev = document.getElementById('btn-prev');
+		const btnNext = document.getElementById('btn-next');
+		const btnNextText = document.getElementById('btn-next-text');
+
+		// Modal System
+		const customModal = document.getElementById('custom-modal');
+		const modalContent = customModal.querySelector('div');
+		const modalTitle = document.getElementById('modal-title');
+		const modalMessage = document.getElementById('modal-message');
+		const modalActions = document.getElementById('modal-actions');
+
+		function showModal(title, message, buttons) {
+			modalTitle.textContent = title;
+			modalMessage.innerHTML = message;
+			modalActions.innerHTML = '';
+			
+			buttons.forEach(btn => {
+				const button = document.createElement('button');
+				button.className = btn.className;
+				button.textContent = btn.text;
+				button.onclick = () => {
+					hideModal();
+					if (btn.onClick) btn.onClick();
+				};
+				modalActions.appendChild(button);
+			});
+
+			customModal.classList.remove('hidden');
+			customModal.classList.add('flex');
+			// small delay for transition
+			setTimeout(() => {
+				customModal.classList.remove('opacity-0');
+				modalContent.classList.remove('scale-95');
+			}, 10);
+		}
+
+		function hideModal() {
+			customModal.classList.add('opacity-0');
+			modalContent.classList.add('scale-95');
+			setTimeout(() => {
+				customModal.classList.add('hidden');
+				customModal.classList.remove('flex');
+			}, 300); // matches transition duration
+		}
+
+		// Helpers
+		function shuffleArray(array) {
+			const arr = [...array];
+			for (let i = arr.length - 1; i > 0; i--) {
+				const j = Math.floor(Math.random() * (i + 1));
+				[arr[i], arr[j]] = [arr[j], arr[i]];
+			}
+			return arr;
+		}
+
+		function formatTime(seconds) {
+			const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+			const s = (seconds % 60).toString().padStart(2, '0');
+			return `${m}:${s}`;
+		}
+
+		// Core Logic
+		function startTest() {
+			if (!allQuestions || allQuestions.length === 0) return;
+			
+			// Shuffle 206 questions and pick 30
+			const shuffled = shuffleArray(allQuestions);
+			questions = shuffled.slice(0, 30).map(q => {
+				return {
+					...q,
+					// Shuffle options for each question to prevent memorization
+					options: shuffleArray(q.options)
+				};
+			});
+			
+			// Reset state
+			userAnswers = {};
+			currentQ = 0;
+			timeLeft = 30 * 60;
+			isFinished = false;
+
+			// UI
+			screens.start.classList.add('hidden');
+			screens.test.classList.remove('hidden');
+			
+			buildNavGrid();
+			renderQuestion(currentQ);
+			updateStats();
+			
+			// Timer
+			clearInterval(timerInterval);
+			elTimer.classList.remove('text-danger', 'animate-pulse');
+			elTimer.textContent = formatTime(timeLeft);
+			timerInterval = setInterval(() => {
+				timeLeft--;
+				if (timeLeft < 0) timeLeft = 0;
+				elTimer.textContent = formatTime(timeLeft);
+				if (timeLeft <= 60 && timeLeft > 0) {
+					elTimer.classList.add('text-danger', 'animate-pulse');
+				}
+				if (timeLeft <= 0) {
+					finishTest(true);
+				}
+			}, 1000);
+
+			// Prevent accidental reload
+			window.onbeforeunload = function() {
+				if (!isFinished) return "ნამდვილად გსურთ ტესტის შეწყვეტა?";
+			};
+		}
+
+		function buildNavGrid() {
+			elNavGrid.innerHTML = '';
+			for (let i = 0; i < 30; i++) {
+				const btn = document.createElement('button');
+				btn.className = `flex size-10 items-center justify-center rounded-lg text-sm font-bold transition-all border border-white/10 bg-white/5 text-white/60 hover:bg-white/10`;
+				btn.textContent = i + 1;
+				btn.onclick = () => renderQuestion(i);
+				elNavGrid.appendChild(btn);
+			}
+			updateNavGridState();
+		}
+
+		function updateNavGridState() {
+			const btns = elNavGrid.children;
+			for (let i = 0; i < 30; i++) {
+				const btn = btns[i];
+				// Base reset
+				btn.className = `flex w-full aspect-square items-center justify-center rounded-lg text-base font-bold transition-all border cursor-pointer`;
+				
+				if (userAnswers[i] !== undefined) {
+					// Answered
+					btn.classList.add('bg-accent', 'border-accent', 'text-white');
+				} else {
+					// Unanswered
+					btn.classList.add('bg-white/5', 'border-white/10', 'text-white/60', 'hover:bg-white/10');
+				}
+
+				if (i === currentQ) {
+					btn.classList.add('ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-night');
+				}
+			}
+		}
+
+		function renderQuestion(index) {
+			if (isFinished) return;
+			currentQ = index;
+			const q = questions[currentQ];
+			
+			elQNum.textContent = currentQ + 1;
+			elQText.textContent = q.question;
+			
+			elOptions.innerHTML = '';
+			
+			const hasAnswered = userAnswers[currentQ] !== undefined;
+
+			q.options.forEach((opt, optIdx) => {
+				const div = document.createElement('div');
+				
+				const isSelected = hasAnswered && userAnswers[currentQ] === optIdx;
+				
+				// Styling based on selection status (all clickable until finished)
+				div.className = `flex items-center gap-3 sm:gap-4 rounded-xl border p-4 transition-colors cursor-pointer select-none`;
+				
+				if (isSelected) {
+					div.classList.add('border-accent', 'bg-accent/20', 'text-white');
+				} else {
+					div.classList.add('border-white/10', 'bg-white/5', 'text-white/80', 'hover:bg-white/10', 'hover:border-white/20');
+				}
+				
+				div.onclick = () => selectOption(optIdx);
+
+				// Radio dot visual
+				const radioContainer = document.createElement('div');
+				radioContainer.className = `flex size-5 shrink-0 items-center justify-center rounded-full border border-white/30 transition-colors`;
+				if (isSelected) {
+					radioContainer.classList.add('border-accent', 'bg-accent');
+					const dot = document.createElement('div');
+					dot.className = 'size-2 rounded-full bg-white';
+					radioContainer.appendChild(dot);
+				}
+				
+				const textSpan = document.createElement('span');
+				textSpan.className = 'text-sm sm:text-base leading-relaxed';
+				textSpan.textContent = opt.text;
+
+				div.appendChild(radioContainer);
+				div.appendChild(textSpan);
+				elOptions.appendChild(div);
+			});
+
+			updateNavGridState();
+			updateControls();
+		}
+
+		function updateControls() {
+			if (currentQ === 0) {
+				btnPrev.style.display = 'none';
+			} else {
+				btnPrev.style.display = 'flex';
+			}
+
+			if (currentQ === 29) {
+				btnNext.style.display = 'none';
+			} else {
+				btnNext.style.display = 'flex';
+			}
+			
+			const hasAnswered = userAnswers[currentQ] !== undefined;
+			if (hasAnswered) {
+				btnNextText.textContent = "შემდეგი";
+			} else {
+				btnNextText.textContent = "გამოტოვება";
+			}
+		}
+
+		function updateStats() {
+			const answered = Object.keys(userAnswers).length;
+			const unanswered = 30 - answered;
+			elStatAnswered.textContent = answered;
+			elStatUnanswered.textContent = unanswered;
+		}
+
+		function selectOption(optIdx) {
+			if (isFinished) return;
+
+			userAnswers[currentQ] = optIdx;
+			updateStats();
+			
+			// Re-render just this question to reflect the new selection
+			renderQuestion(currentQ);
+		}
+
+		function finishTest(isTimeUp = false) {
+			if (isFinished) return;
+			isFinished = true;
+			clearInterval(timerInterval);
+			window.onbeforeunload = null;
+
+			// Calculate score
+			let score = 0;
+			questions.forEach((q, idx) => {
+				const ansIdx = userAnswers[idx];
+				if (ansIdx !== undefined && q.options[ansIdx].isCorrect) {
+					score++;
+				}
+			});
+
+			// Show Results
+			screens.test.classList.add('hidden');
+			screens.results.classList.remove('hidden');
+			screens.results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+			renderResultsScreen(score, isTimeUp);
+		}
+
+		function renderResultsScreen(score, isTimeUp) {
+			const passed = score >= 27;
+			
+			const iconContainer = document.getElementById('result-icon');
+			const title = document.getElementById('result-title');
+			const scoreText = document.getElementById('result-score');
+
+			if (isTimeUp) {
+				title.textContent = 'დრო ამოიწურა! ტესტი დასრულებულია.';
+				title.classList.add('text-fire');
+				iconContainer.className = 'mx-auto mb-4 flex size-20 items-center justify-center rounded-full bg-fire/20 text-fire';
+				iconContainer.innerHTML = `<svg class="size-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
+			} else if (passed) {
+				iconContainer.className = 'mx-auto mb-4 flex size-20 items-center justify-center rounded-full bg-green-500/20 text-green-400';
+				iconContainer.innerHTML = `<svg class="size-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>`;
+				title.textContent = 'გილოცავთ, თქვენ ჩააბარეთ!';
+				title.classList.add('text-green-400');
+			} else {
+				iconContainer.className = 'mx-auto mb-4 flex size-20 items-center justify-center rounded-full bg-danger/20 text-danger';
+				iconContainer.innerHTML = `<svg class="size-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>`;
+				title.textContent = 'სამწუხაროდ, ვერ გადალახეთ ბარიერი.';
+				title.classList.add('text-danger');
+			}
+			
+			scoreText.innerHTML = `თქვენი ქულა: <strong>${score} / 30</strong>`;
+
+			// Render detailed review
+			elReview.innerHTML = '';
+			questions.forEach((q, idx) => {
+				const ansIdx = userAnswers[idx];
+				const isCorrect = ansIdx !== undefined && q.options[ansIdx].isCorrect;
+				const isUnanswered = ansIdx === undefined;
+
+				const wrap = document.createElement('div');
+				wrap.className = 'rounded-xl border border-white/5 bg-white/5 p-5 text-left';
+				
+				const header = document.createElement('div');
+				header.className = 'mb-3 flex items-start justify-between gap-4';
+				
+				const qTitle = document.createElement('div');
+				qTitle.className = 'font-bold text-white';
+				qTitle.textContent = `${idx + 1}. ${q.question}`;
+				
+				const badge = document.createElement('div');
+				if (isCorrect) {
+					badge.className = 'shrink-0 rounded bg-green-500/20 px-2.5 py-1 text-xs font-bold text-green-400';
+					badge.textContent = '+1 ქულა (სწორი)';
+				} else if (isUnanswered) {
+					badge.className = 'shrink-0 rounded bg-fire/20 px-2.5 py-1 text-xs font-bold text-fire';
+					badge.textContent = '0 ქულა (გამოტოვებული)';
+				} else {
+					badge.className = 'shrink-0 rounded bg-danger/20 px-2.5 py-1 text-xs font-bold text-danger';
+					badge.textContent = '0 ქულა (არასწორი)';
+				}
+
+				header.appendChild(qTitle);
+				header.appendChild(badge);
+				wrap.appendChild(header);
+
+				const optionsList = document.createElement('div');
+				optionsList.className = 'grid gap-2 mt-4';
+				
+				q.options.forEach((opt, optIdx) => {
+					const optDiv = document.createElement('div');
+					optDiv.className = 'flex items-center gap-3 rounded-lg border px-3 py-2 text-sm';
+					
+					if (opt.isCorrect) {
+						optDiv.classList.add('border-green-500/30', 'bg-green-500/10', 'text-green-400');
+						optDiv.innerHTML = `<svg class="size-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"></path></svg> <span>${opt.text}</span>`;
+					} else if (ansIdx === optIdx) {
+						optDiv.classList.add('border-danger/30', 'bg-danger/10', 'text-danger');
+						optDiv.innerHTML = `<svg class="size-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"></path></svg> <span>${opt.text}</span>`;
+					} else {
+						optDiv.classList.add('border-white/5', 'text-white/50');
+						optDiv.innerHTML = `<div class="size-4 shrink-0"></div> <span>${opt.text}</span>`;
+					}
+
+					optionsList.appendChild(optDiv);
+				});
+
+				wrap.appendChild(optionsList);
+				
+				if (isUnanswered) {
+					const unMsg = document.createElement('div');
+					unMsg.className = 'mt-4 flex items-center gap-2 text-sm font-bold text-fire';
+					unMsg.innerHTML = `<svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg> შეკითხვაზე პასუხი არ გაეცა`;
+					wrap.appendChild(unMsg);
+				}
+
+				elReview.appendChild(wrap);
+			});
+		}
+
+		// Bind events
+		btnStart.addEventListener('click', startTest);
+		btnFinish.addEventListener('click', () => {
+			const unansweredList = [];
+			for(let i = 0; i < 30; i++) {
+				if(userAnswers[i] === undefined) unansweredList.push(i);
+			}
+			
+			if (unansweredList.length > 0) {
+				showModal(
+					'გამოტოვებული კითხვები',
+					`თქვენ გაქვთ <strong>${unansweredList.length}</strong> გამოტოვებული კითხვა.\n\nტესტის დასასრულებლად აუცილებელია ყველა მათგანზე პასუხის გაცემა.`,
+					[{
+						text: 'კითხვებზე დაბრუნება',
+						className: 'rounded-xl bg-accent px-5 py-2.5 text-sm font-bold text-white shadow-lg transition-all hover:bg-accent/90 hover:shadow-accent/20 cursor-pointer',
+						onClick: () => {
+							renderQuestion(unansweredList[0]);
+							document.getElementById('test-screen').scrollIntoView({ behavior: 'smooth', block: 'start' });
+						}
+					}]
+				);
+				return;
+			}
+
+			showModal(
+				'ტესტის დასრულება',
+				'დარწმუნებული ხართ, რომ გსურთ ტესტის დასრულება და შედეგების ნახვა?',
+				[
+					{
+						text: 'გაუქმება',
+						className: 'rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-white/10 cursor-pointer',
+						onClick: () => {}
+					},
+					{
+						text: 'დასრულება',
+						className: 'rounded-xl bg-fire px-5 py-2.5 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-fire/90 hover:shadow-fire/20 cursor-pointer',
+						onClick: () => {
+							finishTest(false);
+						}
+					}
+				]
+			);
+		});
+		btnRestart.addEventListener('click', () => {
+			window.location.reload();
+		});
+		btnPrev.addEventListener('click', () => {
+			if (currentQ > 0) renderQuestion(currentQ - 1);
+		});
+		btnNext.addEventListener('click', () => {
+			if (currentQ >= 29) return;
+			let nextIndex = currentQ + 1;
+			
+			let foundUnanswered = -1;
+			for (let i = nextIndex; i <= 29; i++) {
+				if (userAnswers[i] === undefined) {
+					foundUnanswered = i;
+					break;
+				}
+			}
+			
+			if (foundUnanswered !== -1) {
+				renderQuestion(foundUnanswered);
+			} else {
+				renderQuestion(nextIndex);
+			}
+		});
+	})();
+</script>

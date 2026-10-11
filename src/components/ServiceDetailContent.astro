@@ -1,0 +1,37 @@
+---
+import { serviceDetails, type ServicePageId } from '../data/service-details';
+import type { Locale } from '../data/site';
+
+interface Props {
+	locale: Locale;
+	serviceId: ServicePageId;
+}
+
+const { locale, serviceId } = Astro.props;
+const detail = serviceDetails[serviceId];
+---
+
+<article class="mx-auto w-full max-w-shell border-t border-white/10 px-5 py-10 sm:px-8 sm:py-14 lg:px-10 lg:py-16" aria-labelledby="service-detail-title">
+	<div class="grid gap-6 lg:grid-cols-[minmax(15rem,0.7fr)_minmax(0,1.3fr)] lg:gap-16">
+		<div class="border-l-2 border-fire pl-5 sm:pl-7">
+			<p class="text-small font-extrabold uppercase tracking-[0.16em] text-accent">{locale === 'ka' ? 'სერვისის მიმოხილვა' : 'Service overview'}</p>
+			<h2 id="service-detail-title" class="georgian-caps mt-3 text-h2 font-extrabold text-white">{locale === 'ka' ? 'რას მოიცავს ეს სერვისი?' : 'What does this service include?'}</h2>
+		</div>
+		<div>
+			<p class="text-base font-medium leading-7 text-white/80 sm:text-lg sm:leading-8">{detail.description[locale]}</p>
+			<h3 class="georgian-caps mt-8 text-h4 font-extrabold text-fire">{detail.scopeTitle[locale]}</h3>
+			<ol class="mt-4 border-t border-white/10">
+				{detail.scope.map((item, index) => (
+					<li class="grid min-h-14 grid-cols-[2.5rem_minmax(0,1fr)] items-center gap-3 border-b border-white/10 py-3 sm:grid-cols-[3rem_minmax(0,1fr)] sm:gap-5">
+						<span class:list={['font-brand text-small font-extrabold tabular-nums tracking-wider', index % 2 === 0 ? 'text-accent' : 'text-fire']}>{String(index + 1).padStart(2, '0')}</span>
+						<span class="text-sm font-semibold leading-6 text-white/80 sm:text-base">{item[locale]}</span>
+					</li>
+				))}
+			</ol>
+			<aside class="mt-7 border-l-2 border-accent bg-night-panel px-5 py-4 sm:px-6 sm:py-5">
+				<h3 class="georgian-caps text-base font-extrabold text-white">{detail.noteTitle[locale]}</h3>
+				<p class="mt-2 text-sm leading-6 text-white/70 sm:text-base sm:leading-7">{detail.note[locale]}</p>
+			</aside>
+		</div>
+	</div>
+</article>

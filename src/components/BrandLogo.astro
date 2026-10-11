@@ -1,0 +1,17 @@
+---
+interface Props {
+	size?: 'small' | 'medium' | 'large';
+	className?: string;
+}
+
+const { size = 'medium', className = '' } = Astro.props;
+const sizeClass = {
+	small: 'text-lg sm:text-xl',
+	medium: 'text-xl sm:text-2xl',
+	large: 'text-2xl sm:text-3xl',
+}[size];
+---
+
+<span class:list={['inline-flex items-baseline font-brand font-extrabold leading-none tracking-tight text-accent', sizeClass, className]}>
+	KlimatMasteri<span class="text-fire" aria-hidden="true">.</span>
+</span>

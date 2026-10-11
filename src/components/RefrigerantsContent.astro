@@ -1,0 +1,546 @@
+---
+import ContentAccordion from './ContentAccordion.astro';
+---
+
+<div class="mx-auto max-w-shell px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
+	<div class="grid gap-4 sm:gap-6">
+		
+		{/* 1. ASHRAE 34 Classification */}
+		<ContentAccordion index={1} title="მაცივარაგენტების (იგივე ფრეონის) უსაფრთხოების კლასიფიკაცია (ASHRAE Standard 34)" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="space-y-8">
+				<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+					<div class="rounded-xl border-l-4 border-success bg-blue-900/20 p-5">
+						<span class="inline-block rounded bg-success px-2 py-1 text-sm font-bold text-white">A1</span>
+						<p class="mt-3 text-base font-bold text-white">არატოქსიკური, არადაალებადი</p>
+						<p class="text-sm text-white/70">(ყველაზე უსაფრთხო)</p>
+					</div>
+					<div class="rounded-xl border-l-4 border-orange-500 bg-blue-900/20 p-5">
+						<span class="inline-block rounded bg-orange-500 px-2 py-1 text-sm font-bold text-white">A2L</span>
+						<p class="mt-3 text-base font-bold text-white">არატოქსიკური, ძნელად აალებადი</p>
+						<p class="text-sm text-white/70">(დაბალი წვის სიჩქარე)</p>
+					</div>
+					<div class="rounded-xl border-l-4 border-danger bg-blue-900/20 p-5">
+						<span class="inline-block rounded bg-danger px-2 py-1 text-sm font-bold text-white">A3</span>
+						<p class="mt-3 text-base font-bold text-white">არატოქსიკური, მაღალი აალებადობა</p>
+						<p class="text-sm text-white/70">(ფეთქებადი, მაგ: R600a, R290)</p>
+					</div>
+					<div class="rounded-xl border-l-4 border-info bg-blue-900/20 p-5">
+						<span class="inline-block rounded bg-info px-2 py-1 text-sm font-bold text-white">B1/B2L</span>
+						<p class="mt-3 text-base font-bold text-white">ტოქსიკური</p>
+					</div>
+				</div>
+
+				<div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+
+				<div class="grid gap-8 sm:grid-cols-2">
+					<div>
+						<h5 class="text-lg font-bold text-white mb-4">ასოები (ტოქსიკურობა)</h5>
+						<ul class="space-y-3 text-base leading-7 text-white/80">
+							<li class="flex items-start gap-3">
+								<span class="inline-block rounded bg-success px-2 py-0.5 text-xs font-bold text-white shrink-0 mt-1">A</span>
+								<span><strong class="text-white">არატოქსიკური</strong> (უსაფრთხოა ადამიანისთვის).</span>
+							</li>
+							<li class="flex items-start gap-3">
+								<span class="inline-block rounded bg-info px-2 py-0.5 text-xs font-bold text-white shrink-0 mt-1">B</span>
+								<span><strong class="text-white">ტოქსიკური</strong> (საშიშია სუნთქვისას, მაგ: ამიაკი).</span>
+							</li>
+						</ul>
+					</div>
+					<div>
+						<h5 class="text-lg font-bold text-danger mb-4">ციფრები (აალებადობა)</h5>
+						<ul class="space-y-2 list-disc pl-5 text-base leading-7 text-white/80 marker:text-danger">
+							<li><strong class="text-white">1</strong> – არ იწვის (ყველაზე უსაფრთხო).</li>
+							<li><strong class="text-white">2L</strong> – ძნელად აალებადი (Low).</li>
+							<li><strong class="text-white">2</strong> – აალებადი.</li>
+							<li><strong class="text-white">3</strong> – ფეთქებადი (მაგ: პროპანი).</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</ContentAccordion>
+
+		{/* 2. Zeotropic vs Azeotropic */}
+		<ContentAccordion index={2} title="ნარევების ტიპები: აზეოტროპული და ზეოტროპული" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="grid gap-6 sm:grid-cols-2">
+				<div class="rounded-xl border border-white/20 bg-blue-900/20 p-6 flex flex-col">
+					<h5 class="text-xl font-bold text-accent mb-2">ზეოტროპული (Zeotropic)</h5>
+					<p class="text-sm text-white/70 mb-4 pb-4 border-b border-white/20 flex-shrink-0">ნარევის კომპონენტებს აქვთ დუღილის სხვადასხვა ტემპერატურა (სრიალი).</p>
+					<ul class="space-y-3 list-disc pl-5 text-base leading-7 text-white/80 marker:text-accent">
+						<li>ახასიათებს <strong class="text-white">"ტემპერატურული სრიალი" (Glide)</strong> - კომპონენტები არაერთდროულად დუღს.</li>
+						<li>სისტემაში უნდა ჩაიტვირთოს მხოლოდ <strong class="text-white">თხევადი (Liquid)</strong> სახით, რომ შემადგენლობა არ დაირღვეს.</li>
+						<li><strong class="text-white">მაგალითები:</strong> R-407C, R-404A.</li>
+						<li>სერია: <strong class="text-white">400</strong> (უმეტესობა).</li>
+					</ul>
+				</div>
+				<div class="rounded-xl border border-white/20 bg-blue-900/20 p-6 flex flex-col">
+					<h5 class="text-xl font-bold text-accent mb-2">აზეოტროპული (Azeotropic)</h5>
+					<p class="text-sm text-white/70 mb-4 pb-4 border-b border-white/20 flex-shrink-0">ნარევი იქცევა როგორც ერთი სუფთა ნივთიერება.</p>
+					<ul class="space-y-3 list-disc pl-5 text-base leading-7 text-white/80 marker:text-accent flex-1">
+						<li>დუღს მუდმივ ტემპერატურაზე (არ აქვს სრიალი/Glide).</li>
+						<li>შეიძლება ჩაიტვირთოს როგორც თხევადი, ისე აირადი სახით.</li>
+						<li><strong class="text-white">მაგალითები:</strong> R-410A (თითქმის აზეოტროპული).</li>
+					</ul>
+					<p class="mt-4 text-sm text-white/60 bg-blue-900/30 p-3 rounded-lg mt-auto">
+						შენიშვნა: R-410A-ს მიუხედავად იმისა რომ სრიალი არ აქვს, მაინც თხევადი სახით ვტენით, რომ 50/50 პროპორცია ზუსტად დავიცვათ.
+					</p>
+				</div>
+			</div>
+		</ContentAccordion>
+
+		{/* 3. Technical definitions */}
+		<ContentAccordion index={3} title="მნიშვნელოვანი ტექნიკური განმარტებები" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="grid gap-6 sm:grid-cols-2">
+				<div class="rounded-xl border-l-4 border-white/30 bg-blue-900/20 p-6 flex flex-col">
+					<h5 class="text-lg font-bold text-white mb-2">ტემპერატურული სრიალი (Glide)</h5>
+					<p class="text-sm text-white/80 mb-4">
+						ეს არის ტემპერატურული სხვაობა ნარევის დუღილის დაწყებასა (Bubble Point) და დასრულებას (Dew Point) შორის მუდმივი წნევის დროს.
+					</p>
+					<ul class="space-y-3 list-disc pl-5 text-base leading-7 text-white/80 marker:text-white/50">
+						<li><strong class="text-white">რას ნიშნავს პრაქტიკაში?</strong> თუ ფრეონს (მაგ: R-407C) აქვს დიდი სრიალი, ის აორთქლებას იწყებს ერთ ტემპერატურაზე და ამთავრებს უფრო მაღალ ტემპერატურაზე.</li>
+						<li><strong class="text-white">საფრთხე:</strong> თუ სისტემაში გაჟონვაა, "სრიალიანი" ფრეონის შემადგენლობა იცვლება (მსუბუქი კომპონენტები ორთქლდება), ამიტომ ხშირად საჭიროა ფრეონის სრული გამოცვლა და არა დამატება.</li>
+					</ul>
+				</div>
+				<div class="rounded-xl border-l-4 border-danger bg-blue-900/20 p-6 flex flex-col">
+					<h5 class="text-lg font-bold text-danger mb-2">კრიტიკული ტემპერატურა (Critical Temp)</h5>
+					<p class="text-sm text-white/80 mb-4">
+						ეს არის ტემპერატურის ზღვარი, რომლის ზემოთაც ფრეონი <strong class="text-white">ვეღარ გათხევადდება</strong>, რაც არ უნდა მაღალი წნევით დავჭირხნოთ იგი.
+					</p>
+					<ul class="space-y-3 list-disc pl-5 text-base leading-7 text-white/80 marker:text-danger/70">
+						<li><strong class="text-white">რას ნიშნავს პრაქტიკაში?</strong> თუ გარემო ტემპერატურა მიუახლოვდება კრიტიკულს (მაგ: R-410A-სთვის 71°C), სისტემის ეფექტურობა მკვეთრად ეცემა.</li>
+						<li>მაგალითად: <strong class="text-white">R-134a</strong>-ს აქვს მაღალი კრიტიკული ტემპერატურა (101°C), ამიტომ ის კარგად მუშაობს ძალიან ცხელ კლიმატში, ხოლო <strong class="text-white">CO2 (R-744)</strong>-ს აქვს დაბალი (31°C), რაც ართულებს მის გამოყენებას სიცხეში.</li>
+					</ul>
+				</div>
+			</div>
+		</ContentAccordion>
+
+		{/* 4. Chemical Groups */}
+		<ContentAccordion index={4} title="ქიმიური ჯგუფების განმარტება" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<p class="mb-6 text-base leading-7 text-white/80">ეს აბრევიატურები გვიჩვენებს ფრეონის შემადგენლობას, რაც განსაზღვრავს მის გავლენას ოზონსა და გლობალურ დათბობაზე.</p>
+			
+			<div class="grid gap-6 sm:grid-cols-2">
+				<div class="rounded-xl border border-white/20 bg-blue-900/20 p-5 flex flex-col">
+					<div class="flex items-center gap-3 mb-2">
+						<span class="inline-block rounded bg-white/20 px-2 py-0.5 text-xs font-bold text-white shrink-0">წქფნ(HCFC)</span>
+						<strong class="text-white">HydroChlorofluorocarbons</strong>
+					</div>
+					<p class="text-sm text-white/70">
+						(ჰიდროქლოროფტორნახშირბადები)<br>
+						შეიცავს <strong class="text-white">ქლორს</strong>. შლის ოზონის შრეს. ეტაპობრივად იკრძალება. (მაგ: R-22).
+					</p>
+				</div>
+
+				<div class="rounded-xl border border-white/20 bg-blue-900/20 p-5 flex flex-col">
+					<div class="flex items-center gap-3 mb-2">
+						<span class="inline-block rounded bg-white/20 px-2 py-0.5 text-xs font-bold text-white shrink-0">HFO</span>
+						<strong class="text-white">Hydrofluoroolefins</strong>
+					</div>
+					<p class="text-sm text-white/70">
+						(ჰიდროფტოროლეფინები)<br>
+						მე-4 თაობა. უსაფრთხოა ოზონისთვის და <strong class="text-white">არ იწვევს დათბობას</strong>. (მაგ: R-1234yf).
+					</p>
+				</div>
+
+				<div class="rounded-xl border border-white/20 bg-blue-900/20 p-5 flex flex-col">
+					<div class="flex items-center gap-3 mb-2">
+						<span class="inline-block rounded bg-white/20 px-2 py-0.5 text-xs font-bold text-white shrink-0">წფნ(HFC)</span>
+						<strong class="text-white">Hydrofluorocarbons</strong>
+					</div>
+					<p class="text-sm text-white/70">
+						(ჰიდროფტორნახშირბადები)<br>
+						არ შეიცავს ქლორს (ოზონუსაფრთხოა), მაგრამ იწვევს <strong class="text-white">გლობალურ დათბობას</strong>. (მაგ: R-410A, R-134a).
+					</p>
+				</div>
+
+				<div class="rounded-xl border border-white/20 bg-blue-900/20 p-5 flex flex-col">
+					<div class="flex items-center gap-3 mb-2">
+						<span class="inline-block rounded bg-white/20 px-2 py-0.5 text-xs font-bold text-white shrink-0">HC</span>
+						<strong class="text-white">Hydrocarbons</strong>
+					</div>
+					<p class="text-sm text-white/70">
+						(ნახშირწყალბადები)<br>
+						ბუნებრივი აირები. ძალიან ეფექტური და ეკოლოგიური, მაგრამ <strong class="text-white">ფეთქებადი</strong>. (მაგ: R-290).
+					</p>
+				</div>
+			</div>
+		</ContentAccordion>
+
+		{/* 5. Environmental Terms */}
+		<ContentAccordion index={5} title="გარემოსდაცვითი ტერმინები და რეგულაციები" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="grid gap-6 sm:grid-cols-3 mb-8">
+				<div class="rounded-xl border-l-4 border-info bg-blue-900/20 p-5">
+					<strong class="text-info text-xl block mb-1">ODP</strong>
+					<p class="font-bold text-white mb-3">Ozone Depletion Potential</p>
+					<p class="text-sm text-white/80">
+						ოზონის შრის დაშლის პოტენციალი.<br><br>
+						ზომავს რამდენად აზიანებს ფრეონი ოზონის შრეს. ათვლის წერტილია <strong class="text-white">R-11 (ODP = 1)</strong>.<br>
+						<span class="text-success font-bold mt-2 inline-block">მიზანი: ODP = 0</span>
+					</p>
+				</div>
+				<div class="rounded-xl border-l-4 border-danger bg-blue-900/20 p-5">
+					<strong class="text-danger text-xl block mb-1">GWP</strong>
+					<p class="font-bold text-white mb-3">Global Warming Potential</p>
+					<p class="text-sm text-white/80">
+						გლობალური დათბობის პოტენციალი.<br><br>
+						ზომავს რამდენად ათბობს ფრეონი დედამიწას <u class="underline-offset-2">CO2-თან შედარებით</u> (CO2 = 1).<br><br>
+						მაგ: R-410A-ს GWP არის 2088, რაც ნიშნავს, რომ 1 კგ ფრეონი ათბობს ისე, როგორც 2 ტონა CO2.
+					</p>
+				</div>
+				<div class="rounded-xl border-l-4 border-white/30 bg-blue-900/20 p-5">
+					<strong class="text-white text-xl block mb-1">TEWI</strong>
+					<p class="font-bold text-white mb-3">Total Equivalent Warming Impact</p>
+					<p class="text-sm text-white/80">
+						სრული ეკვივალენტური დათბობის ეფექტი.<br><br>
+						ითვალისწინებს ორ ფაქტორს:<br>
+						1. <strong class="text-white">პირდაპირი:</strong> ფრეონის გაჟონვა სისტემიდან.<br>
+						2. <strong class="text-white">არაპირდაპირი:</strong> ელ. ენერგიის ხარჯი სისტემის მუშაობისას.
+					</p>
+				</div>
+			</div>
+
+			<div class="rounded-xl border border-info bg-info/10 p-6">
+				<h4 class="text-lg font-bold text-info mb-3">კიგალის შესწორება (Kigali Amendment)</h4>
+				<p class="text-base leading-7 text-white/90">
+					ეს არის <strong class="text-white">მონრეალის ოქმის </strong>დამატება, რომელიც მიღებულია <strong class="text-white">2016</strong> წელს. თავად მონრეალის ოქმი <strong class="text-white">1987</strong> წელს მიიღეს და მისი მიზანი იყო ქლორის შემცველი მაცივარაგენტების - <strong class="text-white">ქფნ (CFC)</strong> და <strong class="text-white">წქფნ(HCFC)</strong> ტიპის ფრეონების - ეტაპობრივი ამოღება, რადგან ისინი აზიანებდნენ <strong class="text-white">ოზონის შრეს</strong>. დამატება ავალდებულებს ქვეყნებს ეტაპობრივად შეამცირონ მაღალი GWP-ს მქონე <strong class="text-white">წფნ(HFC)</strong> ფრეონების (მაგალითად R-134a, R-410A) გამოყენება და გადაინაცვლონ ეკოლოგიურ <strong class="text-white">HFO</strong> ან ბუნებრივ მაცივარაგენტებზე.
+				</p>
+			</div>
+		</ContentAccordion>
+
+		{/* 6. Technical Table */}
+		<ContentAccordion index={6} title="მაცივარაგენტების (ფრეონის) ტექნიკური ცხრილი" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="overflow-x-auto rounded-xl border border-white/20">
+				<table class="w-full min-w-[600px] text-left text-sm text-white/80">
+					<thead class="bg-blue-900/20 text-xs uppercase text-white">
+						<tr>
+							<th class="px-4 py-3">მაცივარაგენტი (ფრეონი)</th>
+							<th class="px-4 py-3">ჯგუფი</th>
+							<th class="px-4 py-3">შემადგენლობა</th>
+							<th class="px-4 py-3">სრიალი (Glide)</th>
+							<th class="px-4 py-3">ზეთი (Oil)</th>
+							<th class="px-4 py-3">უსაფრთხოება / GWP</th>
+							<th class="px-4 py-3">გამოყენება</th>
+							<th class="px-4 py-3">ბალონის ფერი</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-white/20">
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-22</td>
+							<td class="px-4 py-3"><span class="rounded bg-white/10 px-2 py-0.5 text-xs">HCFC</span></td>
+							<td class="px-4 py-3">ქლოროდიფტორმეთანი</td>
+							<td class="px-4 py-3">არა (0°C)</td>
+							<td class="px-4 py-3">MO, AB</td>
+							<td class="px-4 py-3"><strong class="text-success">A1</strong> / 1810</td>
+							<td class="px-4 py-3">ძველი სისტემები</td>
+							<td class="px-4 py-3 font-bold text-green-400">ღია მწვანე</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-134a</td>
+							<td class="px-4 py-3"><span class="rounded bg-white/10 px-2 py-0.5 text-xs">HFC</span></td>
+							<td class="px-4 py-3">ტეტრაფტორეთანი</td>
+							<td class="px-4 py-3">არა (0°C)</td>
+							<td class="px-4 py-3">POE, PAG</td>
+							<td class="px-4 py-3"><strong class="text-success">A1</strong> / 1430</td>
+							<td class="px-4 py-3">ავტომობილები, მაცივრები</td>
+							<td class="px-4 py-3 font-bold text-blue-400">ცისფერი</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-1234yf</td>
+							<td class="px-4 py-3"><span class="rounded bg-white/10 px-2 py-0.5 text-xs">HFO</span></td>
+							<td class="px-4 py-3">ტეტრაფტორპროპენი</td>
+							<td class="px-4 py-3">არა (0°C)</td>
+							<td class="px-4 py-3">POE, PAG</td>
+							<td class="px-4 py-3"><strong class="text-orange-500">A2L</strong> / 4</td>
+							<td class="px-4 py-3">ახალი ავტომობილები</td>
+							<td class="px-4 py-3 font-bold text-red-500">წითელი ზოლით</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-404A</td>
+							<td class="px-4 py-3"><span class="rounded bg-white/10 px-2 py-0.5 text-xs">HFC (ნარევი)</span></td>
+							<td class="px-4 py-3">R-125 + R-143a + R-134a</td>
+							<td class="px-4 py-3">მცირე (~0.8°C)</td>
+							<td class="px-4 py-3">POE</td>
+							<td class="px-4 py-3"><strong class="text-success">A1</strong> / 3922</td>
+							<td class="px-4 py-3">კომერციული გაყინვა</td>
+							<td class="px-4 py-3 font-bold text-orange-400">ნარინჯისფერი</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-407C</td>
+							<td class="px-4 py-3"><span class="rounded bg-white/10 px-2 py-0.5 text-xs">HFC (ნარევი)</span></td>
+							<td class="px-4 py-3">R-32 + R-125 + R-134a</td>
+							<td class="px-4 py-3"><strong class="text-danger">დიახ (~7°C)</strong></td>
+							<td class="px-4 py-3">POE</td>
+							<td class="px-4 py-3"><strong class="text-success">A1</strong> / 1774</td>
+							<td class="px-4 py-3">R-22-ის შემცვლელი</td>
+							<td class="px-4 py-3 font-bold text-amber-600">მოყავისფრო</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-410A</td>
+							<td class="px-4 py-3"><span class="rounded bg-white/10 px-2 py-0.5 text-xs">HFC (ნარევი)</span></td>
+							<td class="px-4 py-3">R-32 (50%) + R-125 (50%)</td>
+							<td class="px-4 py-3">თითქმის 0 (0.1°C)</td>
+							<td class="px-4 py-3">POE</td>
+							<td class="px-4 py-3"><strong class="text-success">A1</strong> / 2088</td>
+							<td class="px-4 py-3">თანამედროვე კონდიციონერები</td>
+							<td class="px-4 py-3 font-bold text-pink-400">ვარდისფერი</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-32</td>
+							<td class="px-4 py-3"><span class="rounded bg-white/10 px-2 py-0.5 text-xs">HFC</span></td>
+							<td class="px-4 py-3">დიფტორმეთანი</td>
+							<td class="px-4 py-3">არა (0°C)</td>
+							<td class="px-4 py-3">POE</td>
+							<td class="px-4 py-3"><strong class="text-orange-500">A2L</strong> / 675</td>
+							<td class="px-4 py-3">უახლესი კონდიციონერები</td>
+							<td class="px-4 py-3 font-bold text-red-500">წითელი ზოლით</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-290</td>
+							<td class="px-4 py-3"><span class="rounded bg-white/10 px-2 py-0.5 text-xs">HC</span></td>
+							<td class="px-4 py-3">პროპანი</td>
+							<td class="px-4 py-3">არა (0°C)</td>
+							<td class="px-4 py-3">MO, POE</td>
+							<td class="px-4 py-3"><strong class="text-danger">A3</strong> / 3</td>
+							<td class="px-4 py-3">მცირე კომერციული მაცივრები</td>
+							<td class="px-4 py-3">-</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-600a</td>
+							<td class="px-4 py-3"><span class="rounded bg-white/10 px-2 py-0.5 text-xs">HC</span></td>
+							<td class="px-4 py-3">იზობუტანი</td>
+							<td class="px-4 py-3">არა (0°C)</td>
+							<td class="px-4 py-3">MO</td>
+							<td class="px-4 py-3"><strong class="text-danger">A3</strong> / 3</td>
+							<td class="px-4 py-3">საყოფაცხოვრებო მაცივრები</td>
+							<td class="px-4 py-3">-</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-123</td>
+							<td class="px-4 py-3"><span class="rounded bg-white/10 px-2 py-0.5 text-xs">HCFC</span></td>
+							<td class="px-4 py-3">დიქლორტრიფტორეთანი</td>
+							<td class="px-4 py-3">არა (0°C)</td>
+							<td class="px-4 py-3">MO, AB</td>
+							<td class="px-4 py-3"><strong class="text-info">B1</strong> / 77</td>
+							<td class="px-4 py-3">ცენტრიდანული ჩილერები</td>
+							<td class="px-4 py-3 font-bold text-gray-400">ღია ნაცრისფერი</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-717</td>
+							<td class="px-4 py-3"><span class="rounded bg-white/10 px-2 py-0.5 text-xs">NH3</span></td>
+							<td class="px-4 py-3">ამიაკი</td>
+							<td class="px-4 py-3">არა (0°C)</td>
+							<td class="px-4 py-3">MO</td>
+							<td class="px-4 py-3"><strong class="text-info">B2L</strong> / 0</td>
+							<td class="px-4 py-3">ინდუსტრიული გაყინვა</td>
+							<td class="px-4 py-3 font-bold text-gray-300">ვერცხლისფერი</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</ContentAccordion>
+
+		{/* 7. Pressure Table */}
+		<ContentAccordion index={7} title="სამუშაო წნევები სეზონის მიხედვით" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="overflow-x-auto rounded-xl border border-white/20">
+				<table class="w-full min-w-[600px] text-left text-sm text-white/80">
+					<thead class="text-xs uppercase text-white">
+						<tr>
+							<th rowspan="2" class="px-4 py-3 border-r border-white/20 align-middle bg-blue-900/40">ფრეონი</th>
+							<th colspan="2" class="px-4 py-3 text-center border-r border-white/20 bg-fire/10 text-fire">
+								<span class="text-sm font-bold">ზაფხული / გაგრილება</span><br><span class="font-normal text-xs text-fire/70">(გარემო: +25°C ... +35°C)</span>
+							</th>
+							<th colspan="2" class="px-4 py-3 text-center bg-accent/10 text-accent">
+								<span class="text-sm font-bold">ზამთარი / გათბობა</span><br><span class="font-normal text-xs text-accent/70">(გარემო: 0°C ... +7°C)</span>
+							</th>
+						</tr>
+						<tr class="border-b border-white/20">
+							<th class="px-4 py-2 border-r border-white/20 bg-fire/5 text-info">დაბალი <span class="font-normal text-info/70">(Suction)</span></th>
+							<th class="px-4 py-2 border-r border-white/20 bg-fire/5 text-danger">მაღალი <span class="font-normal text-danger/70">(Discharge)</span></th>
+							<th class="px-4 py-2 border-r border-white/20 bg-accent/5 text-info">დაბალი <span class="font-normal text-info/70">(Outdoor Coil)</span></th>
+							<th class="px-4 py-2 bg-accent/5 text-danger">მაღალი <span class="font-normal text-danger/70">(Indoor Coil)</span></th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-white/20">
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-4 font-bold text-white border-r border-white/20 bg-blue-900/10">R-410A</td>
+							<td class="px-4 py-4 border-r border-white/20 bg-fire/5">
+								110 - 130 PSI
+								<div class="mt-1 text-xs font-bold text-info">7.5 - 9 Bar</div>
+							</td>
+							<td class="px-4 py-4 border-r border-white/20 bg-fire/5">
+								320 - 450 PSI
+								<div class="mt-1 text-xs font-bold text-danger">22 - 31 Bar</div>
+							</td>
+							<td class="px-4 py-4 border-r border-white/20 bg-accent/5">
+								75 - 100 PSI
+								<div class="mt-1 text-xs font-bold text-info">5 - 7 Bar</div>
+							</td>
+							<td class="px-4 py-4 bg-accent/5">
+								350 - 500 PSI
+								<div class="mt-1 text-xs font-bold text-danger">24 - 34+ Bar</div>
+							</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-4 font-bold text-white border-r border-white/20 bg-blue-900/10">R-32</td>
+							<td class="px-4 py-4 border-r border-white/20 bg-fire/5">
+								115 - 135 PSI
+								<div class="mt-1 text-xs font-bold text-info">8 - 9.5 Bar</div>
+							</td>
+							<td class="px-4 py-4 border-r border-white/20 bg-fire/5">
+								360 - 480 PSI
+								<div class="mt-1 text-xs font-bold text-danger">25 - 33 Bar</div>
+							</td>
+							<td class="px-4 py-4 border-r border-white/20 bg-accent/5">
+								80 - 105 PSI
+								<div class="mt-1 text-xs font-bold text-info">5.5 - 7.2 Bar</div>
+							</td>
+							<td class="px-4 py-4 bg-accent/5">
+								380 - 520 PSI
+								<div class="mt-1 text-xs font-bold text-danger">26 - 36+ Bar</div>
+							</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-4 font-bold text-white border-r border-white/20 bg-blue-900/10">R-22</td>
+							<td class="px-4 py-4 border-r border-white/20 bg-fire/5">
+								60 - 75 PSI
+								<div class="mt-1 text-xs font-bold text-info">4 - 5 Bar</div>
+							</td>
+							<td class="px-4 py-4 border-r border-white/20 bg-fire/5">
+								250 - 280 PSI
+								<div class="mt-1 text-xs font-bold text-danger">17 - 19 Bar</div>
+							</td>
+							<td class="px-4 py-4 border-r border-white/20 bg-accent/5">
+								35 - 50 PSI
+								<div class="mt-1 text-xs font-bold text-info">2.5 - 3.5 Bar</div>
+							</td>
+							<td class="px-4 py-4 bg-accent/5">
+								250 - 320 PSI
+								<div class="mt-1 text-xs font-bold text-danger">17 - 22 Bar</div>
+							</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-4 border-r border-white/20 bg-blue-900/10">
+								<strong class="text-white block">R-134a</strong>
+								<span class="text-xs text-white/50">(ავტო / მაცივარი)</span>
+							</td>
+							<td class="px-4 py-4 border-r border-white/20 bg-fire/5">
+								<div class="mb-2"><span class="text-white">ავტო:</span> 25-35 PSI <span class="text-xs text-info">(1.7-2.4 Bar)</span></div>
+								<div><span class="text-white">მაცივარი:</span> 0-5 PSI <span class="text-xs text-info">(0-0.3 Bar)</span></div>
+							</td>
+							<td class="px-4 py-4 border-r border-white/20 bg-fire/5">
+								150 - 220 PSI
+								<div class="mt-1 text-xs font-bold text-danger">10 - 15 Bar</div>
+							</td>
+							<td colspan="2" class="px-4 py-4 text-center text-xs text-white/60 bg-accent/10">
+								<em>ზამთარში წნევა ეცემა გარემო ტემპერატურის შესაბამისად.<br>მაცივრები არ მუშაობენ რევერსზე.</em>
+							</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-4 border-r border-white/20 bg-blue-900/10">
+								<strong class="text-white block">R-600a</strong>
+								<span class="text-xs text-white/50">(იზობუტანი)</span>
+							</td>
+							<td class="px-4 py-4 border-r border-white/20 bg-fire/5">
+								-5 ... 0 PSI (ვაკუუმი)
+								<div class="mt-1 text-xs font-bold text-info">-0.3 - 0 Bar</div>
+							</td>
+							<td class="px-4 py-4 border-r border-white/20 bg-fire/5">
+								50 - 80 PSI
+								<div class="mt-1 text-xs font-bold text-danger">3.5 - 5.5 Bar</div>
+							</td>
+							<td colspan="2" class="px-4 py-4 text-center text-xs text-white/60 bg-accent/10">
+								<em>დაბალ ტემპერატურაზე წნევა კიდევ უფრო ეცემა ვაკუუმში.</em>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</ContentAccordion>
+
+		{/* 8. Retrofits */}
+		<ContentAccordion index={8} title="პოპულარული ჩამნაცვლებლები (Retrofit)" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<div class="overflow-x-auto rounded-xl border border-white/20">
+				<table class="w-full min-w-[600px] text-left text-sm text-white/80">
+					<thead class="bg-blue-900/20 text-xs uppercase text-white border-b border-white/20">
+						<tr>
+							<th class="px-4 py-3">ორიგინალი (ძველი)</th>
+							<th class="px-4 py-3">შემცვლელი (Retrofit)</th>
+							<th class="px-4 py-3">აუცილებელია თუ არა ზეთის შეცვლა?</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-white/20">
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-22</td>
+							<td class="px-4 py-3">R-407C, R-422D (MO29), R-417A</td>
+							<td class="px-4 py-3">R-407C (კი, POE-ზე), MO29 (არა, მუშაობს MO-ზეც)</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-12</td>
+							<td class="px-4 py-3">R-134a</td>
+							<td class="px-4 py-3">კი, აუცილებელია POE/PAG ზეთი.</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-134a</td>
+							<td class="px-4 py-3">R-1234yf (მანქანებში)</td>
+							<td class="px-4 py-3">არა, თავსებადია.</td>
+						</tr>
+						<tr class="hover:bg-blue-900/20 transition-colors">
+							<td class="px-4 py-3 font-bold text-white">R-11</td>
+							<td class="px-4 py-3">R-123</td>
+							<td class="px-4 py-3">უმეტესად კი.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</ContentAccordion>
+
+		{/* 9. Oils */}
+		<ContentAccordion index={9} title="ზეთების ტიპების განმარტება" expandLabel="ჩამოშალე" closeLabel="დახურე">
+			<p class="mb-6 text-base leading-7 text-white/80">მაცივარაგენტისა და ზეთის თავსებადობა კრიტიკულად მნიშვნელოვანია სისტემის მუშაობისთვის.</p>
+			
+			<div class="grid gap-6 sm:grid-cols-2">
+				<div class="rounded-xl border border-white/20 bg-blue-900/20 p-5 flex flex-col">
+					<div class="flex items-center gap-3 mb-2">
+						<span class="inline-block rounded bg-white/20 px-2 py-0.5 text-xs font-bold text-white shrink-0">MO</span>
+						<strong class="text-white">Mineral Oil (მინერალური ზეთი)</strong>
+					</div>
+					<p class="text-sm text-white/70">
+						გამოიყენება R-22-ზე, ამიაკზე (R-717) და ბუნებრივ აირებზე (R-290, R-600a).
+					</p>
+				</div>
+
+				<div class="rounded-xl border border-orange-500 bg-orange-500/10 p-5 flex flex-col">
+					<div class="flex items-center gap-3 mb-2">
+						<span class="inline-block rounded bg-orange-500 px-2 py-0.5 text-xs font-bold text-white shrink-0">PAG</span>
+						<strong class="text-white">Polyalkylene Glycol (პოლიალკილენ გლიკოლი)</strong>
+					</div>
+					<p class="text-sm text-white/70">
+						ავტომობილების კონდიცირება (R-134a, R-1234yf).
+					</p>
+				</div>
+
+				<div class="rounded-xl border border-info bg-info/10 p-5 flex flex-col">
+					<div class="flex items-center gap-3 mb-2">
+						<span class="inline-block rounded bg-info px-2 py-0.5 text-xs font-bold text-white shrink-0">POE</span>
+						<strong class="text-white">Polyolester (სინთეტიკური პოლიოლესტერი)</strong>
+					</div>
+					<p class="text-sm text-white/70 mb-3 flex-1">
+						გამოიყენება ყველა წფნ(HFC) / HFO ფრეონზე (R-410A, R-404A, R-134a, R-32). ძალიან ჰიგროსკოპიულია (ისრუტავს ნესტს).
+					</p>
+					<p class="text-sm text-danger bg-danger/10 p-3 rounded-lg border border-danger/20 mt-auto">
+						<strong>რისკები:</strong> ნესტთან რეაქციით წარმოქმნის მჟავას, რაც <strong>აზიანებს კომპრესორის გრაგნილებს</strong>, წარმოქმნის შლამს რაც <strong>ჭედავს ფილტრსა და კაპილარს</strong>, ასევე იწვევს სპილენძის მილების დაჟანგვას / კოროზიას.
+					</p>
+				</div>
+
+				<div class="rounded-xl border border-white/30 bg-white/10 p-5 flex flex-col">
+					<div class="flex items-center gap-3 mb-2">
+						<span class="inline-block rounded bg-white/30 px-2 py-0.5 text-xs font-bold text-white shrink-0">AB</span>
+						<strong class="text-white">Alkylbenzene (ალკილბენზოლი)</strong>
+					</div>
+					<p class="text-sm text-white/70">
+						გამოიყენება R-22-ზე და გარდამავალ წქფნ(HCFC) ფრეონებზე (R-123).
+					</p>
+				</div>
+			</div>
+		</ContentAccordion>
+
+	</div>
+</div>

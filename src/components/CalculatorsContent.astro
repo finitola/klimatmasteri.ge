@@ -1,0 +1,1051 @@
+---
+import type { Locale } from '../data/site';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const tr = (ka: string, en: string): string => locale === 'ka' ? ka : en;
+
+const text = locale === 'ka' 
+	? { title: 'HVAC/R კალკულატორები', desc: 'საინჟინრო ინსტრუმენტების სრული ნაკრები კლიმატური სისტემებისთვის.' }
+	: { title: 'HVAC/R Calculators', desc: 'Complete engineering toolset for climate systems.' };
+---
+
+<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+	<div class="mb-10 max-w-3xl">
+		<h2 class="georgian-caps text-3xl font-extrabold text-white sm:text-4xl">{text.title}</h2>
+		<p class="mt-4 text-base leading-7 text-white/70 sm:text-lg sm:leading-8">
+			{text.desc}
+		</p>
+	</div>
+
+	<!-- ============================================== -->
+	<!-- 1. SPACE CALCULATOR (ROOM BTU)                 -->
+	<!-- ============================================== -->
+	<div class="mb-20">
+		<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+			
+			<!-- Left Side: Inputs -->
+			<div class="lg:col-span-8 space-y-6">
+				
+
+
+				<!-- ROOM PARAMETERS -->
+				<div class="bg-night-panel p-6 sm:p-8 rounded-3xl border border-white/5 shadow-panel transition-all duration-300">
+					<div class="mb-8">
+						<h3 class="text-2xl font-extrabold text-white mb-2 georgian-caps">{tr('თქვენი სივრცე', 'Your space')}</h3>
+						<p class="text-sm text-white/50">{tr('ფართობი და სითბური დანაკარგები', 'Area and heat load')}</p>
+					</div>
+
+					<div class="space-y-8">
+						<!-- Area Slider -->
+						<div>
+							<div class="flex justify-between items-end mb-4">
+								<label class="text-sm font-bold text-white/80">{tr('ოთახის ფართობი', 'Room area')}</label>
+								<div class="flex items-center gap-1 border-b border-white/20 pb-1">
+									<input type="number" id="u-area-n" value="30" class="w-16 bg-transparent text-right font-bold text-white focus:outline-none u-trigger appearance-none" min="5" max="200">
+									<span class="text-white/50 text-sm font-bold">{locale === 'ka' ? 'მ²' : 'm²'}</span>
+								</div>
+							</div>
+							<input type="range" id="u-area-r" min="5" max="200" value="30" class="w-full accent-accent h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer u-trigger">
+						</div>
+
+						<!-- Height Slider -->
+						<div>
+							<div class="flex justify-between items-end mb-4">
+								<label class="text-sm font-bold text-white/80">{tr('ჭერის სიმაღლე', 'Ceiling height')}</label>
+								<div class="flex items-center gap-1 border-b border-white/20 pb-1">
+									<input type="number" id="u-height-n" value="3.0" step="0.1" class="w-16 bg-transparent text-right font-bold text-white focus:outline-none u-trigger appearance-none" min="2" max="6">
+									<span class="text-white/50 text-sm font-bold">{locale === 'ka' ? 'მ' : 'm'}</span>
+								</div>
+							</div>
+							<input type="range" id="u-height-r" min="2" max="6" step="0.1" value="3.0" class="w-full accent-accent h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer u-trigger">
+						</div>
+
+						<!-- Sun Exposure (Radios) -->
+						<div>
+							<label class="block text-sm font-bold text-white/80 mb-3">{tr('მზის ზემოქმედება (გაგრილებისას)', 'Sun exposure (cooling)')}</label>
+							<div class="grid grid-cols-3 gap-3">
+								<label class="cursor-pointer">
+									<input type="radio" name="u-sun" value="shade" class="peer sr-only u-trigger">
+									<div class="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-white/5 text-white/50 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent transition-all text-center">
+										<span class="text-xs sm:text-sm font-bold">{tr('ჩრდილში', 'Shaded')}</span>
+									</div>
+								</label>
+								<label class="cursor-pointer">
+									<input type="radio" name="u-sun" value="normal" checked class="peer sr-only u-trigger">
+									<div class="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-white/5 text-white/50 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent transition-all text-center">
+										<span class="text-xs sm:text-sm font-bold">{tr('საშუალო', 'Average')}</span>
+									</div>
+								</label>
+								<label class="cursor-pointer">
+									<input type="radio" name="u-sun" value="sun" class="peer sr-only u-trigger">
+									<div class="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-white/5 text-white/50 peer-checked:bg-fire peer-checked:text-white peer-checked:border-fire transition-all text-center">
+										<span class="text-xs sm:text-sm font-bold">{tr('მზიანი', 'Sunny')}</span>
+									</div>
+								</label>
+							</div>
+						</div>
+
+						<!-- Insulation (Radios) -->
+						<div>
+							<label class="block text-sm font-bold text-white/80 mb-3">{tr('თბოიზოლაცია', 'Insulation')}</label>
+							<div class="grid grid-cols-3 gap-3">
+								<label class="cursor-pointer">
+									<input type="radio" name="u-insul" value="good" class="peer sr-only u-trigger">
+									<div class="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-white/5 text-white/50 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent transition-all text-center">
+										<span class="text-xs sm:text-sm font-bold">{tr('კარგი', 'Good')}</span>
+									</div>
+								</label>
+								<label class="cursor-pointer">
+									<input type="radio" name="u-insul" value="normal" checked class="peer sr-only u-trigger">
+									<div class="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-white/5 text-white/50 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent transition-all text-center">
+										<span class="text-xs sm:text-sm font-bold">{tr('საშუალო', 'Average')}</span>
+									</div>
+								</label>
+								<label class="cursor-pointer">
+									<input type="radio" name="u-insul" value="poor" class="peer sr-only u-trigger">
+									<div class="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-white/5 text-white/50 peer-checked:bg-danger peer-checked:text-white peer-checked:border-danger transition-all text-center">
+										<span class="text-xs sm:text-sm font-bold">{tr('სუსტი', 'Poor')}</span>
+									</div>
+								</label>
+							</div>
+						</div>
+
+						<!-- People & Tech -->
+						<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+							<div class="flex items-center justify-between bg-white/5 border border-white/10 p-3 rounded-xl">
+								<div class="text-sm font-bold text-white/80">{tr('ადამიანები', 'People')}<br/><span class="text-xs text-white/40 font-normal">{tr('ოთახში', 'in the room')}</span></div>
+								<div class="flex items-center gap-4">
+									<button type="button" class="counter-btn text-white/50 hover:text-white cursor-pointer" data-target="u-people" data-step="-1"><svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14"/></svg></button>
+									<input type="number" id="u-people" value="2" class="w-6 bg-transparent text-center font-bold text-white focus:outline-none u-trigger appearance-none" readonly>
+									<button type="button" class="counter-btn text-white/50 hover:text-white cursor-pointer" data-target="u-people" data-step="1"><svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5v14"/></svg></button>
+								</div>
+							</div>
+							<div class="flex items-center justify-between bg-white/5 border border-white/10 p-3 rounded-xl">
+								<div class="text-sm font-bold text-white/80">{tr('ტექნიკა', 'Appliances')}<br/><span class="text-xs text-white/40 font-normal">PC, TV, etc.</span></div>
+								<div class="flex items-center gap-4">
+									<button type="button" class="counter-btn text-white/50 hover:text-white cursor-pointer" data-target="u-tech" data-step="-1"><svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14"/></svg></button>
+									<input type="number" id="u-tech" value="1" class="w-6 bg-transparent text-center font-bold text-white focus:outline-none u-trigger appearance-none" readonly>
+									<button type="button" class="counter-btn text-white/50 hover:text-white cursor-pointer" data-target="u-tech" data-step="1"><svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5v14"/></svg></button>
+								</div>
+							</div>
+						</div>
+						
+						<!-- Vitrage Toggle -->
+						<div class="flex items-center justify-between border-t border-white/10 pt-5">
+							<div>
+								<div class="text-sm font-bold text-white">{tr('ვიტრაჟები / დიდი ფანჯრები', 'Glazing / large windows')}</div>
+								<div class="text-xs text-white/50">{tr('ამატებს მზის სითბურ დატვირთვას.', 'Adds solar heat gain.')}</div>
+							</div>
+							<label class="relative inline-flex items-center cursor-pointer">
+								<input type="checkbox" id="u-vitrage" class="sr-only peer u-trigger">
+								<div class="w-11 h-6 shrink-0 bg-black/50 rounded-full peer peer-checked:bg-accent relative after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+							</label>
+						</div>
+						<!-- Top Floor Toggle -->
+						<div class="flex items-center justify-between border-t border-white/10 pt-5 mt-5">
+							<div>
+								<div class="text-sm font-bold text-white">{tr('ბოლო სართული / სახურავქვეშ', 'Top floor / below the roof')}</div>
+								<div class="text-xs text-white/50">{tr('ამატებს სახურავის სითბურ დანაკარგებს.', 'Adds heat loss through the roof.')}</div>
+							</div>
+							<label class="relative inline-flex items-center cursor-pointer">
+								<input type="checkbox" id="u-roof" class="sr-only peer u-trigger">
+								<div class="w-11 h-6 shrink-0 bg-black/50 rounded-full peer peer-checked:bg-accent relative after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+							</label>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+			<!-- Right Side: Sticky Results Card -->
+			<div class="lg:col-span-4 relative">
+				<div class="bg-gradient-to-br from-[#1a2b4c] to-[#0d172e] p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl sticky top-24 transition-all" id="res-panel">
+					
+					<div id="res-title" class="text-white/70 text-sm font-bold flex items-center gap-2 mb-2 georgian-caps">
+						<svg class="size-4 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+						{tr('საჭირო სიმძლავრე (მაქს.)', 'Required capacity (max.)')}
+					</div>
+					
+					<div class="flex items-baseline gap-2 text-white overflow-hidden">
+						<span id="res-btu" class="text-4xl sm:text-5xl font-extrabold tracking-tight">0</span>
+					</div>
+					<div id="res-kw" class="text-accent text-sm font-bold mt-1 mb-6"></div>
+
+					<div class="bg-white/10 rounded-2xl p-5 border border-white/10 mb-6 backdrop-blur-md shadow-inner relative overflow-hidden">
+						<div id="res-rec-label" class="text-white/70 text-xs font-bold mb-1">{tr('რეკომენდებული კონდიციონერი', 'Recommended air conditioner')}</div>
+						<div id="res-rec" class="text-white text-xl sm:text-2xl font-bold">0</div>
+					</div>
+					
+					<div class="text-[11px] text-white/50 leading-relaxed flex items-start gap-2">
+						<svg class="size-4 shrink-0 mt-0.5 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+						{tr('ეს არის საორიენტაციო სტანდარტული სიმძლავრე არჩეული კლიმატური ზონის გათვალისწინებით.', 'This is an estimated standard capacity based on the selected climate zone.')}
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- ============================================== -->
+	<!-- 2. DIAGNOSTICS & STANDALONE TOOLS              -->
+	<!-- ============================================== -->
+	<div class="border-t border-white/10 pt-16">
+		<h3 class="mb-10 text-2xl font-extrabold text-white georgian-caps">{tr('საინჟინრო ინსტრუმენტები', 'Engineering tools')}</h3>
+		
+		<!-- CATEGORY 1: INSTALLATION -->
+		<div class="mb-14">
+			<h4 class="text-accent text-lg font-bold mb-6 flex items-center gap-2 georgian-caps">
+				<svg class="size-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+				{tr('სამონტაჟო გამოთვლები', 'Installation calculations')}
+			</h4>
+			<div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3 items-start">
+				
+				<!-- TOOL: Condensate Pump -->
+				<div class="flex flex-col min-h-[400px] rounded-2xl border border-white/10 bg-night-panel p-6 shadow-panel hover:bg-white/5 transition-colors">
+					<div class="mb-6 flex items-center gap-3">
+						<div class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/20 text-blue-400">
+							<svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22a5 5 0 0 0 5-5c0-2-2.5-7-5-12-2.5 5-5 10-5 12a5 5 0 0 0 5 5z"/></svg>
+						</div>
+						<h4 class="text-md font-bold text-white leading-tight">{tr('კონდენსატის ტუმბო', 'Condensate pump')}</h4>
+					</div>
+					<div class="space-y-4 text-sm">
+						<div>
+							<label class="mb-1.5 block font-semibold text-white/70">{tr('კონდიციონერის სიმძლავრე', 'Air-conditioner capacity')}</label>
+							<select id="tl-cond-cap" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none [&>option]:bg-night">
+								<option value="9000">9 000 BTU</option>
+								<option value="12000">12 000 BTU</option>
+								<option value="18000" selected>18 000 BTU</option>
+								<option value="24000">24 000 BTU</option>
+								<option value="36000">36 000 BTU</option>
+								<option value="48000">48 000 BTU</option>
+								<option value="60000">60 000 BTU</option>
+							</select>
+						</div>
+						<div class="relative">
+							<label class="mb-1.5 block font-semibold text-white/70">{tr('კლიმატი / ტენიანობა', 'Climate / humidity')}</label>
+							<select id="tl-cond-hum" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none [&>option]:bg-night">
+								<option value="0.5">{tr('მშრალი (0.5)', 'Dry (0.5)')}</option>
+								<option value="0.8" selected>{tr('საშუალო (0.8)', 'Average (0.8)')}</option>
+								<option value="1.2">{tr('ტენიანი (1.2)', 'Humid (1.2)')}</option>
+								<option value="custom">{tr('ხელით შეყვანა', 'Enter manually')}</option>
+							</select>
+							<input type="number" id="tl-cond-custom" class="hidden mt-2 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" placeholder={tr('ტენიანობა % (მაგ: 60)', 'Humidity % (e.g. 60)')} step="1">
+						</div>
+					</div>
+					<div class="mt-auto pt-6">
+						<button id="btn-tl-cond" class="w-full rounded-xl bg-accent py-2 text-sm font-bold text-white transition-all hover:bg-accent/90 active:scale-[0.98]">{tr('გამოთვლა', 'Calculate')}</button>
+						<div id="res-tl-cond" class="hidden mt-3 rounded-xl border border-white/10 bg-black/20 p-3">
+							<div id="text-tl-cond" class="text-xs leading-relaxed text-white"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- TOOL: Pipe Insulation -->
+				<div class="flex flex-col min-h-[400px] rounded-2xl border border-white/10 bg-night-panel p-6 shadow-panel hover:bg-white/5 transition-colors">
+					<div class="mb-6 flex items-center gap-3">
+						<div class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-400">
+							<svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+						</div>
+						<h4 class="text-md font-bold text-white leading-tight">{tr('მილის თბოიზოლაცია', 'Pipe insulation')}<br/><span class="text-[10px] text-white/50 font-normal">{tr('(ნამის წერტილით დაცვა)', '(dew-point protection)')}</span></h4>
+					</div>
+					<div class="space-y-4 text-sm">
+						<div>
+							<label class="mb-1.5 block font-semibold text-white/70">{tr('გარემოს ტემპერატურა (°C)', 'Ambient temperature (°C)')}</label>
+							<input type="number" id="tl-insul-t" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" value="35">
+						</div>
+						<div>
+							<label class="mb-1.5 block font-semibold text-white/70">{tr('ფარდობითი ტენიანობა (%)', 'Relative humidity (%)')}</label>
+							<input type="number" id="tl-insul-rh" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" value="60">
+						</div>
+					</div>
+					<div class="mt-auto pt-6">
+						<button id="btn-tl-insul" class="w-full rounded-xl bg-accent py-2 text-sm font-bold text-white transition-all hover:bg-accent/90 active:scale-[0.98]">{tr('გამოთვლა', 'Calculate')}</button>
+						<div id="res-tl-insul" class="hidden mt-3 rounded-xl border border-white/10 bg-black/20 p-3">
+							<div id="text-tl-insul" class="text-xs leading-relaxed text-white"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- TOOL: Electrical General -->
+				<div class="flex flex-col min-h-[400px] rounded-2xl border border-white/10 bg-night-panel p-6 shadow-panel hover:bg-white/5 transition-colors">
+					<div class="mb-6 flex items-center gap-3">
+						<div class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-purple-500/20 text-purple-400">
+							<svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+						</div>
+						<h4 class="text-md font-bold text-white leading-tight">{tr('ელ. კაბელი და ძაბვა', 'Electrical cable and voltage')}<br/><span class="text-[10px] text-white/50 font-normal">{tr('(უნივერსალური გამოთვლა)', '(universal calculation)')}</span></h4>
+					</div>
+					<div class="space-y-4 text-sm">
+						<div class="grid grid-cols-2 gap-3">
+							<div>
+								<label class="mb-1.5 block font-semibold text-white/70 text-[11px]">{tr('ძაბვა (Volt)', 'Voltage (V)')}</label>
+								<input type="number" id="tl-elec-v" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" value="220">
+							</div>
+							<div>
+								<label class="mb-1.5 block font-semibold text-white/70 text-[11px]">{tr('დენი (Amps)', 'Current (A)')}</label>
+								<input type="number" id="tl-elec-a" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" placeholder={tr('მაგ. 10', 'e.g. 10')}>
+							</div>
+						</div>
+						<div class="grid grid-cols-2 gap-3">
+							<div>
+								<label class="mb-1.5 block font-semibold text-white/70 text-[11px]">{tr('მანძილი (მ)', 'Distance (m)')}</label>
+								<input type="number" id="tl-elec-dist" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" placeholder={tr('სიგრძე', 'Length')}>
+							</div>
+							<div>
+								<label class="mb-1.5 block font-semibold text-white/70 text-[11px]">{tr('მასალა', 'Material')}</label>
+								<select id="tl-elec-mat" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none [&>option]:bg-night">
+									<option value="cu">Cu ({tr('სპილენძი', 'copper')})</option>
+									<option value="al">Al ({tr('ალუმინი', 'aluminum')})</option>
+								</select>
+							</div>
+						</div>
+						<div>
+							<label class="mb-1.5 block font-semibold text-white/70 text-[11px]">{tr('სადენის კვეთი (mm²)', 'Wire cross-section (mm²)')}</label>
+							<select id="tl-elec-mm" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none [&>option]:bg-night">
+								<option value="auto">{tr('ავტომატური შერჩევა', 'Automatic selection')}</option>
+								<option value="1.5">1.5 mm²</option>
+								<option value="2.5">2.5 mm²</option>
+								<option value="4.0">4.0 mm²</option>
+								<option value="6.0">6.0 mm²</option>
+								<option value="10.0">10.0 mm²</option>
+								<option value="16.0">16.0 mm²</option>
+							</select>
+						</div>
+					</div>
+					<div class="mt-auto pt-6">
+						<button id="btn-tl-elec" class="w-full rounded-xl bg-accent py-2 text-sm font-bold text-white transition-all hover:bg-accent/90 active:scale-[0.98]">{tr('გამოთვლა', 'Calculate')}</button>
+						<div id="res-tl-elec" class="hidden mt-3 rounded-xl border border-white/10 bg-black/20 p-3">
+							<div id="text-tl-elec" class="text-xs leading-relaxed text-white"></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- CATEGORY 2: DIAGNOSTICS -->
+		<div class="mb-14">
+			<h4 class="text-orange-400 text-lg font-bold mb-6 flex items-center gap-2 georgian-caps">
+				<svg class="size-5 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 10 4 4-4 4"/><path d="m6 10-4 4 4 4"/><path d="M12 22V2"/></svg>
+				{tr('დიაგნოსტიკა და სერვისი', 'Diagnostics and service')}
+			</h4>
+			<div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3 items-start">
+				
+				<!-- TOOL: P-T Calculator -->
+				<div class="flex flex-col min-h-[400px] rounded-2xl border border-white/10 bg-night-panel p-6 shadow-panel hover:bg-white/5 transition-colors">
+					<div class="mb-6 flex items-center gap-3">
+						<div class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-fire/20 text-fire">
+							<svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+						</div>
+						<h4 class="text-md font-bold text-white leading-tight">{tr('P-T წნევა-ტემპ.', 'P-T pressure-temperature')}<br/><span class="text-[10px] text-white/50 font-normal">(Danfoss API)</span></h4>
+					</div>
+					<div class="space-y-4 text-sm">
+						<div>
+							<label class="mb-1.5 block font-semibold text-white/70">{tr('ფრეონი', 'Refrigerant')}</label>
+							<select id="pt-ref" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none [&>option]:bg-night">
+								<option value="R410A">R410A</option>
+								<option value="R32">R32</option>
+								<option value="R22">R22</option>
+							</select>
+						</div>
+						<div id="pt-phase-wrap" class="hidden">
+							<label class="mb-1.5 block font-semibold text-white/70">{tr('ფაზა (R410A)', 'Phase (R410A)')}</label>
+							<select id="pt-phase" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none [&>option]:bg-night">
+								<option value="dew" selected>{tr('Dew (გაზი)', 'Dew (vapor)')}</option>
+								<option value="bubble">{tr('Bubble (სითხე)', 'Bubble (liquid)')}</option>
+							</select>
+						</div>
+						<div class="flex gap-2">
+							<div class="flex-grow">
+								<label class="mb-1.5 block font-semibold text-white/70">{tr('წნევა', 'Pressure')}</label>
+								<input type="number" id="pt-press" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" placeholder="0">
+							</div>
+							<div class="w-1/3">
+								<label class="mb-1.5 block font-semibold text-white/70">Unit</label>
+								<select id="pt-unit" class="w-full rounded-lg border border-white/10 bg-white/5 px-2 py-2 text-white focus:border-accent focus:outline-none [&>option]:bg-night">
+									<option value="bar">Bar</option>
+									<option value="psi">PSI</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="mt-6 flex items-center justify-between rounded-xl border border-white/10 bg-black/20 p-3">
+						<span class="text-xs text-white/70">{tr('სატურაცია:', 'Saturation:')}</span>
+						<strong id="pt-display" class="text-md text-accent">--- °C</strong>
+					</div>
+				</div>
+
+				<!-- TOOL: Superheat / Subcooling -->
+				<div class="flex flex-col min-h-[400px] rounded-2xl border border-white/10 bg-night-panel p-6 shadow-panel hover:bg-white/5 transition-colors">
+					<div class="mb-6 flex items-center gap-3">
+						<div class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-orange-500/20 text-orange-400">
+							<svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9a4 4 0 0 0-2 7.5"/><path d="M12 3v2"/><path d="m6.6 18.4-1.4 1.4"/><path d="M20 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg>
+						</div>
+						<h4 class="text-md font-bold text-white leading-tight">Superheat / Subcooling</h4>
+					</div>
+					<div class="space-y-4 text-sm">
+						<div class="flex gap-4 border-b border-white/10 pb-3">
+							<label class="flex items-center gap-1.5 text-white/80 cursor-pointer">
+								<input type="radio" name="diag-mode" value="sh" checked class="accent-accent">
+								<span>SH</span>
+							</label>
+							<label class="flex items-center gap-1.5 text-white/80 cursor-pointer">
+								<input type="radio" name="diag-mode" value="sc" class="accent-accent">
+								<span>SC</span>
+							</label>
+						</div>
+						<div>
+							<label class="mb-1.5 block font-semibold text-white/70">{tr('ფრეონი', 'Refrigerant')}</label>
+							<select id="diag-ref" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none [&>option]:bg-night">
+								<option value="R410A">R410A</option>
+								<option value="R32">R32</option>
+								<option value="R22">R22</option>
+							</select>
+						</div>
+						<div class="grid grid-cols-2 gap-3">
+							<div>
+								<label class="mb-1.5 block font-semibold text-white/70 text-xs">{tr('წნევა (Bar)', 'Pressure (bar)')}</label>
+								<input type="number" id="diag-press" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" placeholder="P">
+							</div>
+							<div>
+								<label class="mb-1.5 block font-semibold text-white/70 text-xs">{tr('მილის t(°C)', 'Pipe temperature (°C)')}</label>
+								<input type="number" id="diag-line" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" placeholder="T">
+							</div>
+						</div>
+					</div>
+					<div class="mt-auto pt-6">
+						<button id="btn-calc-diag" class="w-full rounded-xl bg-accent py-2 text-sm font-bold text-white transition-all hover:bg-accent/90 active:scale-[0.98]">{tr('გამოთვლა', 'Calculate')}</button>
+						<div id="diag-result" class="hidden mt-3 rounded-xl border border-white/10 bg-black/20 p-3">
+							<div id="diag-result-text" class="text-xs leading-relaxed text-white"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- TOOL: Airflow -->
+				<div class="flex flex-col min-h-[400px] rounded-2xl border border-white/10 bg-night-panel p-6 shadow-panel hover:bg-white/5 transition-colors">
+					<div class="mb-6 flex items-center gap-3">
+						<div class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-teal-500/20 text-teal-400">
+							<svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9z"/><path d="M12 3a9 9 0 0 0-9 9h18a9 9 0 0 0-9-9z"/><path d="M12 3v18"/><path d="M3 12h18"/></svg>
+						</div>
+						<h4 class="text-md font-bold text-white leading-tight">{tr('ჰაერის ნაკადი', 'Airflow')}<br/><span class="text-[10px] text-white/50 font-normal">(Delta T / m³)</span></h4>
+					</div>
+					<div class="space-y-4 text-sm">
+						<div>
+							<label class="mb-1.5 block font-semibold text-white/70">{tr('სიმძლავრე (BTU)', 'Capacity (BTU)')}</label>
+							<input type="number" id="air-btu" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" value="12000">
+						</div>
+						<div class="grid grid-cols-2 gap-3">
+							<div>
+								<label class="mb-1.5 block font-semibold text-white/70 text-[11px]">{tr('შემავალი t(°C)', 'Return air temp. (°C)')}</label>
+								<input type="number" id="air-return" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" placeholder={tr('ოთახის', 'Room')}>
+							</div>
+							<div>
+								<label class="mb-1.5 block font-semibold text-white/70 text-[11px]">{tr('გამომავალი t(°C)', 'Supply air temp. (°C)')}</label>
+								<input type="number" id="air-supply" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" placeholder={tr('ფენიდან', 'Supply')}>
+							</div>
+						</div>
+					</div>
+					<div class="mt-auto pt-6">
+						<button id="btn-calc-air" class="w-full rounded-xl bg-accent py-2 text-sm font-bold text-white transition-all hover:bg-accent/90 active:scale-[0.98]">{tr('გამოთვლა', 'Calculate')}</button>
+						<div id="air-result" class="hidden mt-3 rounded-xl border border-white/10 bg-black/20 p-3">
+							<div id="air-result-text" class="text-xs leading-relaxed text-white"></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- CATEGORY 3: FINANCIAL & GENERAL -->
+		<div>
+			<h4 class="text-green-400 text-lg font-bold mb-6 flex items-center gap-2 georgian-caps">
+				<svg class="size-5 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M17 12h.01"/><path d="M7 12h.01"/></svg>
+				{tr('ფინანსური და ზოგადი', 'Financial and general')}
+			</h4>
+			<div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3 items-start">
+				
+								<!-- TOOL: ROI / Energy Efficiency -->
+				<div class="flex flex-col min-h-[400px] rounded-2xl border border-white/10 bg-night-panel p-6 shadow-panel hover:bg-white/5 transition-colors">
+					<div class="mb-6 text-center">
+						<h4 class="text-xl font-bold text-green-500 leading-tight georgian-caps">{tr('ROI / ენერგოეფექტურობა', 'ROI / Energy efficiency')}</h4>
+						<p class="text-xs text-white/60 mt-1">{tr('On/Off vs Inverter (შედარება)', 'On/Off vs. inverter comparison')}</p>
+					</div>
+					<div class="space-y-4 text-sm">
+						<div>
+							<label class="mb-1.5 block font-semibold text-white/70">{tr('სიმძლავრე (BTU)', 'Capacity (BTU)')}</label>
+							<input type="number" id="tl-roi-cap" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" value="12000">
+						</div>
+						<div>
+							<label class="mb-1.5 block font-semibold text-white/70">{tr('დღიური მუშაობა (საათი)', 'Daily operating time (hours)')}</label>
+							<input type="number" id="tl-roi-hrs" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" value="8">
+						</div>
+						<div>
+							<label class="mb-1.5 block font-semibold text-white/70">{tr('ტარიფი (GEL/kWh)', 'Electricity rate (GEL/kWh)')}</label>
+							<input type="number" id="tl-roi-trf" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" value="0.22" step="0.01">
+						</div>
+					</div>
+					<div class="mt-auto pt-6">
+						<button id="btn-tl-roi" class="w-full rounded-xl bg-green-500 py-3 text-sm font-bold text-white transition-all hover:bg-green-600 active:scale-[0.98]">{tr('გამოთვლა', 'Calculate')}</button>
+						<div id="res-tl-roi" class="hidden mt-5 rounded-xl border border-white/10 bg-black/20 p-5 border-l-4 border-l-fire shadow-inner">
+							<div id="text-tl-roi" class="text-sm leading-relaxed text-white"></div>
+						</div>
+					</div>
+				</div>
+
+<!-- TOOL: Unit Converter -->
+				<div class="flex flex-col min-h-[400px] rounded-2xl border border-white/10 bg-night-panel p-6 shadow-panel hover:bg-white/5 transition-colors">
+					<div class="mb-6 flex items-center gap-3">
+						<div class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-zinc-500/20 text-zinc-300">
+							<svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="M16 21l4-4-4-4"/><path d="M20 17H4"/></svg>
+						</div>
+						<h4 class="text-md font-bold text-white leading-tight">{tr('კონვერტაცია', 'Conversion')}<br/><span class="text-[10px] text-white/50 font-normal">{tr('(ერთეულები)', '(units)')}</span></h4>
+					</div>
+					<div class="space-y-4 text-sm">
+						<div>
+							<label class="mb-1.5 block font-semibold text-white/70">{tr('მიმართულება', 'Conversion')}</label>
+							<select id="conv-type" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none [&>option]:bg-night">
+								<option value="kw_to_btu">kW ➔ BTU/h</option>
+								<option value="btu_to_kw">BTU/h ➔ kW</option>
+								<option value="bar_to_psi">Bar ➔ PSI</option>
+								<option value="psi_to_bar">PSI ➔ Bar</option>
+								<option value="c_to_f">°C ➔ °F</option>
+								<option value="f_to_c">°F ➔ °C</option>
+							</select>
+						</div>
+						<div>
+							<label class="mb-1.5 block font-semibold text-white/70">{tr('მნიშვნელობა', 'Value')}</label>
+							<input type="number" id="conv-input" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-accent focus:outline-none" placeholder="0">
+						</div>
+					</div>
+					<div class="mt-auto pt-6">
+						<button id="btn-calc-conv" class="w-full rounded-xl bg-accent py-2 text-sm font-bold text-white transition-all hover:bg-accent/90 active:scale-[0.98]">{tr('გამოთვლა', 'Calculate')}</button>
+						<div class="mt-3 flex items-center justify-between rounded-xl border border-white/10 bg-black/20 p-3">
+							<span class="text-xs text-white/70">{tr('შედეგი:', 'Result:')}</span>
+							<strong id="conv-result-display" class="text-md text-accent">---</strong>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<script>
+	const isEnglish = document.documentElement.lang === 'en';
+	const tr = (ka: string, en: string): string => isEnglish ? en : ka;
+	// ----------------------------------------------------
+	// 1. SPACE CALCULATOR LOGIC
+	// ----------------------------------------------------
+	
+	const syncInput = (sliderId: string, numberId: string) => {
+		const s = document.getElementById(sliderId) as HTMLInputElement;
+		const n = document.getElementById(numberId) as HTMLInputElement;
+		if (s && n) {
+			s.addEventListener('input', (e) => { n.value = (e.target as HTMLInputElement).value; });
+			n.addEventListener('input', (e) => { s.value = (e.target as HTMLInputElement).value; });
+		}
+	};
+	syncInput('u-area-r', 'u-area-n');
+	syncInput('u-height-r', 'u-height-n');
+
+	document.querySelectorAll('.counter-btn').forEach(btn => {
+		btn.addEventListener('click', (e) => {
+			const targetId = (e.currentTarget as HTMLButtonElement).dataset.target;
+			const step = parseInt((e.currentTarget as HTMLButtonElement).dataset.step || "0");
+			const input = document.getElementById(targetId || "") as HTMLInputElement;
+			if (input) {
+				let v = parseInt(input.value) || 0;
+				v += step;
+				if (v < 0) v = 0;
+				input.value = String(v);
+				updateUnified(); 
+			}
+		});
+	});
+
+	document.querySelectorAll('.u-trigger').forEach(el => {
+		el.addEventListener('input', updateUnified);
+		el.addEventListener('change', updateUnified);
+	});
+
+	function updateUnified() {
+		const area = parseFloat((document.getElementById('u-area-n') as HTMLInputElement).value) || 0;
+		const height = parseFloat((document.getElementById('u-height-n') as HTMLInputElement).value) || 0;
+		if (area <= 0 || height <= 0) return;
+
+		const insul = (document.querySelector('input[name="u-insul"]:checked') as HTMLInputElement).value;
+		const sun = (document.querySelector('input[name="u-sun"]:checked') as HTMLInputElement).value;
+		const people = parseInt((document.getElementById('u-people') as HTMLInputElement).value) || 0;
+		const tech = parseInt((document.getElementById('u-tech') as HTMLInputElement).value) || 0;
+		const roof = (document.getElementById('u-roof') as HTMLInputElement).checked;
+		const vitrageElement = document.getElementById('u-vitrage') as HTMLInputElement;
+		const vitrage = vitrageElement ? vitrageElement.checked : false;
+
+		// 1. Sensible Cooling Load (Aligned with user preferred reference)
+		let baseCoolingWm3 = 30; // Average
+		if (insul === 'good') baseCoolingWm3 = 25;
+		if (insul === 'poor') baseCoolingWm3 = 40;
+
+		let sunFactor = 1.0;
+		if (sun === 'shade') sunFactor = 0.9;
+		if (sun === 'sun') sunFactor = 1.15;
+		
+		const volume = area * height;
+		let envelopeCoolingW = (volume * baseCoolingWm3) * sunFactor;
+		if (roof) envelopeCoolingW *= 1.15; // +15% for roof
+		if (vitrage) envelopeCoolingW *= 1.25; // +25% for huge windows
+
+		// Internal gains
+		const peopleCoolingW = people * 100;
+		const techCoolingW = tech * 100;
+
+		const totalCoolingW = envelopeCoolingW + peopleCoolingW + techCoolingW;
+
+		// 2. Heating Load
+		let baseHeatingWm3 = 35; 
+		if (insul === 'good') baseHeatingWm3 = 28;
+		if (insul === 'poor') baseHeatingWm3 = 45;
+		
+		let envelopeHeatingW = volume * baseHeatingWm3;
+		if (roof) envelopeHeatingW *= 1.20;
+		if (vitrage) envelopeHeatingW *= 1.15; 
+
+		const totalHeatingW = envelopeHeatingW;
+
+		const coolingBtu = totalCoolingW * 3.41214;
+		const heatingBtu = totalHeatingW * 3.41214;
+
+		// 3. Recommended Unit Logic (Overclocking thresholds)
+		let recommended = "";
+		
+		if (coolingBtu <= 10500) recommended = "9,000 BTU";
+		else if (coolingBtu <= 14500) recommended = "12,000 BTU";
+		else if (coolingBtu <= 20500) recommended = "18,000 BTU";
+		else if (coolingBtu <= 27000) recommended = "24,000 BTU";
+		else if (coolingBtu <= 33000) recommended = "30,000 BTU";
+		else if (coolingBtu <= 40000) recommended = "36,000 BTU";
+		else if (coolingBtu <= 52000) recommended = "48,000 BTU";
+		else if (coolingBtu <= 65000) recommended = "60,000 BTU";
+		else {
+			recommended = `<span class="text-xl">${tr('რამდენიმე აგრეგატი', 'Multiple units')}</span><br/><span class="text-sm font-normal text-white/70 mt-1 block">${tr('საერთო სიმძლავრე:', 'Total capacity:')} ${Math.ceil(coolingBtu/1000)*1000} BTU ${tr('-მდე', 'or higher')}</span>`;
+		}
+
+		// Update UI
+		const uiBtu = document.getElementById('res-btu');
+		if(uiBtu) uiBtu.innerHTML = `${Math.round(Math.max(coolingBtu, heatingBtu)).toLocaleString()} <span class="text-xl font-semibold text-white">${tr('BTU/სთ', 'BTU/h')}</span>`;
+
+		const uiKw = document.getElementById('res-kw');
+		if(uiKw) {
+			uiKw.innerHTML = `
+				<div class="flex flex-col gap-1.5 mt-2 text-sm text-white/90 font-medium">
+					<span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-blue-400"></div>${tr('გაგრილება:', 'Cooling:')} <strong class="text-blue-400">${(totalCoolingW / 1000).toFixed(1)} ${tr('კვტ', 'kW')}</strong></span>
+					<span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-fire"></div>${tr('გათბობა:', 'Heating:')} <strong class="text-fire">${(totalHeatingW / 1000).toFixed(1)} ${tr('კვტ', 'kW')}</strong></span>
+				</div>
+			`;
+		}
+
+		const uiRec = document.getElementById('res-rec');
+		if(uiRec) {
+			if(coolingBtu > 65000) {
+				uiRec.innerHTML = recommended;
+			} else {
+				uiRec.innerHTML = `${recommended} <span class="text-lg">${tr('კლასი', 'class')}</span>`;
+			}
+		}
+	}
+	
+	updateUnified();
+
+
+	// ----------------------------------------------------
+	// 2. STANDALONE ENGINEERING TOOLS LOGIC
+	// ----------------------------------------------------
+
+	// Condensate Pump
+	const condHumSelect = document.getElementById('tl-cond-hum') as HTMLSelectElement;
+	const condCustomInput = document.getElementById('tl-cond-custom') as HTMLInputElement;
+	condHumSelect?.addEventListener('change', () => {
+		if(condHumSelect.value === 'custom') {
+			condCustomInput?.classList.remove('hidden');
+		} else {
+			condCustomInput?.classList.add('hidden');
+		}
+	});
+
+	document.getElementById('btn-tl-cond')?.addEventListener('click', () => {
+		const cap = parseFloat((document.getElementById('tl-cond-cap') as HTMLSelectElement).value);
+		let hum = parseFloat(condHumSelect.value);
+		if(condHumSelect.value === 'custom') {
+			let rh = parseFloat(condCustomInput.value);
+			if (!isNaN(rh)) {
+				hum = 0.5 + ((rh - 40) * (0.7 / 30));
+				if (hum < 0.1) hum = 0.1;
+			} else {
+				hum = NaN;
+			}
+		}
+		if (isNaN(cap) || isNaN(hum)) return;
+
+		const targetW = cap / 3.41214;
+		const lph = (targetW / 1000) * hum;
+		const pump = Math.max(10, Math.ceil(lph * 3));
+		
+		const box = document.getElementById('res-tl-cond');
+		const text = document.getElementById('text-tl-cond');
+		box?.classList.remove('hidden');
+		const pipeNote = lph < 10 ? ` (${tr('სტანდარტული გოფრე', 'standard corrugated pipe')})` : '';
+		const actualPipe = lph < 10 ? `Ø16${tr('მმ', 'mm')}` : `Ø20${tr('მმ', 'mm')}`;
+		if(text) text.innerHTML = `
+			<div class="text-center">
+				<div class="text-sm text-white/80">${tr('კონდენსატი:', 'Condensate:')} <strong class="text-lg text-accent">${lph.toFixed(2)} ${tr('ლ/სთ', 'L/h')}</strong></div>
+				<div class="mt-1 text-[11px] text-white/50">(${tr('დატვირთვა:', 'Load:')} ${(targetW / 1000).toFixed(1)} kW)</div>
+			</div>
+			<div class="my-3 border-t border-dashed border-accent/50"></div>
+			<div class="rounded-lg border border-white/10 bg-white/5 p-3">
+				<div class="mb-2 flex items-center gap-2 font-bold text-accent">
+					<svg class="size-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+					${tr('რეკომენდაცია:', 'Recommendation:')}
+				</div>
+				<ul class="list-disc space-y-1.5 pl-5 text-white/90">
+					<li>${tr('მილი:', 'Pipe:')} <strong class="text-white">${actualPipe}${pipeNote}</strong></li>
+					<li>${tr('ტუმბო:', 'Pump:')} <strong class="text-white">${tr('მინ.', 'min.')} ${pump} ${tr('ლ/სთ', 'L/h')} (Silent type)</strong></li>
+				</ul>
+				<div class="mt-3 flex items-start gap-2 text-[11px] italic text-white/60">
+					<svg class="mt-0.5 size-3.5 shrink-0 text-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2V17h6v-.3c0-.8.4-1.5 1-2A7 7 0 0 0 12 2z"/></svg>
+					<span>${tr('რჩევა: თვითდინებისას დაიცავით დახრა (1სმ / 1 მეტრზე).', 'Tip: maintain a downward slope for gravity drainage (1 cm per metre).')}</span>
+				</div>
+			</div>
+		`;
+	});
+
+	// Pipe Insulation
+	document.getElementById('btn-tl-insul')?.addEventListener('click', () => {
+		const t = parseFloat((document.getElementById('tl-insul-t') as HTMLInputElement).value);
+		const rh = parseFloat((document.getElementById('tl-insul-rh') as HTMLInputElement).value);
+		
+		const a = 17.27, b = 237.7;
+		const alpha = ((a * t) / (b + t)) + Math.log(rh / 100);
+		const dp = (b * alpha) / (a - alpha);
+
+		let thick = 9, warning = '';
+		if (dp > 20) thick = 13;
+		if (dp > 25) thick = 19;
+		if (dp > 29) { thick = 25; warning = `<br/><span class="text-fire text-[10px]">! ${tr('ექსტრემალური კონდენსაციის რისკი', 'Extreme condensation risk')}</span>`; }
+
+		const box = document.getElementById('res-tl-insul');
+		const text = document.getElementById('text-tl-insul');
+		box?.classList.remove('hidden');
+		if(text) text.innerHTML = `${tr('სისქე (K-Flex):', 'Thickness (K-Flex):')} <strong class="text-accent">${thick} ${tr('მმ', 'mm')}</strong><br/><span class="text-white/50 text-[11px]">${tr('ნამის წერტილი:', 'Dew point:')} ~${Math.round(dp)}°C</span>${warning}`;
+	});
+
+	// Electrical (General)
+	document.getElementById('btn-tl-elec')?.addEventListener('click', () => {
+		const volt = parseFloat((document.getElementById('tl-elec-v') as HTMLInputElement).value);
+		const amps = parseFloat((document.getElementById('tl-elec-a') as HTMLInputElement).value);
+		const dist = parseFloat((document.getElementById('tl-elec-dist') as HTMLInputElement).value);
+		const mat = (document.getElementById('tl-elec-mat') as HTMLSelectElement).value;
+		const mmInput = (document.getElementById('tl-elec-mm') as HTMLSelectElement).value;
+		
+		const box = document.getElementById('res-tl-elec');
+		const text = document.getElementById('text-tl-elec');
+		
+		if (isNaN(volt) || isNaN(amps) || isNaN(dist)) {
+			box?.classList.remove('hidden');
+			if(text) text.innerHTML = `<span class="text-danger font-bold">${tr('შეავსეთ ყველა ველი!', 'Complete all fields.')}</span>`;
+			return;
+		}
+
+		const p = mat === 'cu' ? 0.0175 : 0.028;
+		const sizes = [1.5, 2.5, 4.0, 6.0, 10.0, 16.0];
+		
+		const limitsCu: Record<number, number> = {1.5: 16, 2.5: 25, 4: 32, 6: 40, 10: 63, 16: 80};
+		const limitsAl: Record<number, number> = {1.5: 10, 2.5: 20, 4: 25, 6: 32, 10: 50, 16: 63};
+		const limits = mat === 'cu' ? limitsCu : limitsAl;
+
+		let selectedMm = 0;
+		let warning = '';
+
+		if (mmInput === 'auto') {
+			selectedMm = 16.0; 
+			for (let s of sizes) {
+				if (s === 1.5 && mat === 'al') continue; 
+				if (amps <= limits[s]) {
+					const vd = (2 * dist * amps * p) / s;
+					if ((vd / volt) <= 0.03) {
+						selectedMm = s;
+						break;
+					}
+				}
+			}
+			if (amps > limits[selectedMm]) {
+				warning = `<br/><span class="text-danger text-[10px] font-bold">! ${tr('დენი აღემატება კაბელის გამტარობას', 'Current exceeds the cable capacity')}</span>`;
+			}
+		} else {
+			selectedMm = parseFloat(mmInput);
+			if (amps > limits[selectedMm]) {
+				warning = `<br/><span class="text-danger text-[10px] font-bold">! ${tr('საფრთხე: კვეთი მცირეა ამ დენისთვის', 'Warning: the cross-section is too small for this current')} (max. ~${limits[selectedMm]}A)</span>`;
+			}
+		}
+
+		const vDrop = (2 * dist * amps * p) / selectedMm;
+		const vDropPct = (vDrop / volt) * 100;
+		const vDropCls = vDropPct > 5 ? 'text-danger' : vDropPct > 3 ? 'text-fire' : 'text-green-400';
+		
+		let breaker = 10;
+		const bSizes = [10, 16, 20, 25, 32, 40, 50, 63, 80];
+		for (let b of bSizes) {
+			if (b >= amps && b <= limits[selectedMm]) {
+				breaker = b;
+				break;
+			}
+		}
+		if (amps > limits[selectedMm]) breaker = limits[selectedMm]; 
+		
+		box?.classList.remove('hidden');
+		if(text) text.innerHTML = `
+			${tr('კაბელი:', 'Cable:')} <strong class="text-accent">${selectedMm} ${tr('მმ²', 'mm²')}</strong> <span class="text-white/50 text-[10px]">(${mat === 'cu' ? tr('სპილენძი', 'copper') : tr('ალუმინი', 'aluminum')})</span><br/>
+			${tr('რეკ. ავტომატი:', 'Recommended breaker:')} <strong class="text-accent">${breaker}A</strong><br/>
+			<div class="mt-2 pt-2 border-t border-white/10">
+				${tr('ძაბვის ვარდნა:', 'Voltage drop:')} <strong class="${vDropCls}">${vDrop.toFixed(1)}V (${vDropPct.toFixed(1)}%)</strong><br/>
+				${tr('ბოლოში ძაბვა:', 'Voltage at the end:')} <strong class="text-white">${(volt - vDrop).toFixed(1)}V</strong>
+			</div>
+			${warning}
+		`;
+	});
+
+	// ROI
+	document.getElementById('btn-tl-roi')?.addEventListener('click', () => {
+		const cap = parseFloat((document.getElementById('tl-roi-cap') as HTMLInputElement).value);
+		const hrs = parseFloat((document.getElementById('tl-roi-hrs') as HTMLInputElement).value);
+		const trf = parseFloat((document.getElementById('tl-roi-trf') as HTMLInputElement).value);
+		
+		const box = document.getElementById('res-tl-roi');
+		const text = document.getElementById('text-tl-roi');
+		
+		if (isNaN(cap) || isNaN(hrs) || isNaN(trf)) return;
+
+		const kwHeat = (cap / 3.41214) / 1000;
+		const pOnOff = kwHeat / 2.8; 
+		const pInv = kwHeat / 3.6;
+		
+		const costOnOff = pOnOff * hrs * 30 * trf;
+		const costInv = pInv * hrs * 30 * trf;
+		const saveMonth = costOnOff - costInv;
+		const saveYear = saveMonth * 12;
+		
+		box?.classList.remove('hidden');
+		if(text) text.innerHTML = `
+			<div class="mb-3 text-white/80 font-medium">${tr('ხარჯი თვეში:', 'Monthly cost:')}</div>
+			<div class="flex items-center gap-2 mb-2">
+				<div class="w-3 h-3 rounded-full bg-danger shrink-0"></div>
+				<span class="text-danger/90">On/Off (${tr('ჩვეულებრივი', 'standard')}): <strong class="text-danger">${costOnOff.toFixed(2)} ₾</strong></span>
+			</div>
+			<div class="flex items-center gap-2 mb-5">
+				<div class="w-3 h-3 rounded-full bg-green-500 shrink-0"></div>
+				<span class="text-green-500/90">Inverter (${tr('ეკონომიური', 'efficient')}): <strong class="text-green-400">${costInv.toFixed(2)} ₾</strong></span>
+			</div>
+			
+			<div class="border-t border-dashed border-accent/50 pt-4 text-center">
+				<div class="text-white/80 font-medium mb-2">${tr('თქვენი ეკონომია:', 'Your savings:')}</div>
+				<div class="text-2xl font-bold text-green-400 flex items-center justify-center gap-2 mb-1">
+					<svg class="size-6 text-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M10.5 9.5h3"/><path d="M10.5 14.5h3"/></svg>
+					${Math.round(saveMonth)} ₾ <span class="text-sm text-white/70 font-normal">${tr('/თვეში', '/month')}</span>
+				</div>
+				<div class="text-[13px] text-white/60 flex items-center justify-center gap-1.5">
+					( <svg class="size-4 text-accent/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+					${tr('წელიწადში:', 'per year:')} ~${Math.round(saveYear)} ₾ )
+				</div>
+			</div>
+		`;
+	});
+	// P-T API...
+	(window as any).ptCache = (window as any).ptCache || new Map();
+	
+	async function getDanfossTemp(ref: string, press: number, unit: string, phase: string): Promise<number | null> {
+		const refIdMap: Record<string, string> = { 'R410A': 'r410a', 'R32': 'r32', 'R22': 'r22' };
+		const refId = refIdMap[ref];
+		const calcPhase = ref === 'R410A' ? phase : 'dew';
+		const pKey = Math.round(press * 100) / 100;
+		const cacheKey = `${ref}|${unit}|${calcPhase}|${pKey}`;
+
+		if ((window as any).ptCache.has(cacheKey)) return (window as any).ptCache.get(cacheKey);
+		
+		try {
+			const res = await fetch(`https://reftools.danfoss.com/api/ref-slider/temperature?refId=${refId}`, {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify({
+					pressure: String(pKey), refId, temperatureUnit: 'celsius',
+					pressureUnit: unit, pressureReferencePoint: 'gauge',
+					pressureCalculationPoint: calcPhase, gaugeType: 'dry', altitudeInMeter: 0
+				})
+			});
+			if (res.ok) {
+				const t = parseFloat(await res.text());
+				if (Number.isFinite(t)) {
+					(window as any).ptCache.set(cacheKey, t);
+					return t;
+				}
+			}
+		} catch (e) {
+			console.error("Danfoss API Error:", e);
+		}
+		return null;
+	}
+
+	let ptTimer: any = null;
+	document.getElementById('pt-ref')?.addEventListener('change', (e) => {
+		const val = (e.target as HTMLSelectElement).value;
+		const wrap = document.getElementById('pt-phase-wrap');
+		if(wrap) {
+			if (val === 'R410A') wrap.classList.remove('hidden');
+			else wrap.classList.add('hidden');
+		}
+		calculatePT();
+	});
+	['pt-press', 'pt-unit', 'pt-phase'].forEach(id => {
+		document.getElementById(id)?.addEventListener('input', calculatePT);
+	});
+
+	async function calculatePT() {
+		const ref = (document.getElementById('pt-ref') as HTMLSelectElement).value;
+		const pressVal = parseFloat((document.getElementById('pt-press') as HTMLInputElement).value);
+		const unit = (document.getElementById('pt-unit') as HTMLSelectElement).value;
+		const phase = (document.getElementById('pt-phase') as HTMLSelectElement).value;
+		const display = document.getElementById('pt-display');
+		
+		if (!display) return;
+		if (isNaN(pressVal)) { display.innerHTML = '--- °C'; return; }
+		
+		if (ptTimer) clearTimeout(ptTimer);
+		ptTimer = setTimeout(async () => {
+			display.innerHTML = '<span class="animate-pulse text-white/50">...</span>';
+			const t = await getDanfossTemp(ref, pressVal, unit, phase);
+			if (t !== null) {
+				display.innerHTML = `${t.toFixed(1)} °C`;
+			} else {
+				display.innerHTML = '<span class="text-danger">Err</span>';
+			}
+		}, 300);
+	}
+
+	// Superheat
+	document.getElementById('btn-calc-diag')?.addEventListener('click', async () => {
+		const mode = (document.querySelector('input[name="diag-mode"]:checked') as HTMLInputElement).value;
+		const ref = (document.getElementById('diag-ref') as HTMLSelectElement).value;
+		const press = parseFloat((document.getElementById('diag-press') as HTMLInputElement).value);
+		const line = parseFloat((document.getElementById('diag-line') as HTMLInputElement).value);
+		
+		const resBox = document.getElementById('diag-result');
+		const resText = document.getElementById('diag-result-text');
+
+		if (isNaN(press) || isNaN(line)) {
+			resBox?.classList.remove('hidden');
+			if(resText) resText.innerHTML = `<div class="font-bold text-danger">${tr('შეავსეთ P და T!', 'Enter P and T.')}</div>`;
+			return;
+		}
+
+		resBox?.classList.remove('hidden');
+		if(resText) resText.innerHTML = `<div class="animate-pulse text-accent">${tr('იტვირთება Danfoss...', 'Loading Danfoss...')}</div>`;
+		
+		const phase = mode === 'sh' ? 'dew' : 'bubble';
+		const satTemp = await getDanfossTemp(ref, press, 'bar', phase);
+		
+		if (satTemp === null) {
+			if(resText) resText.innerHTML = `<div class="font-bold text-danger">${tr('API კავშირის შეცდომა.', 'API connection error.')}</div>`;
+			return;
+		}
+
+		let diff = 0, title = '', expl = '', color = 'text-white';
+		if (mode === 'sh') {
+			diff = line - satTemp;
+			title = 'SH';
+			if (diff < 4) { expl = tr('დაბალია! სითხის დაბრუნების რისკი.', 'Low: risk of liquid refrigerant returning to the compressor.'); color = 'text-danger'; }
+			else if (diff > 12) { expl = tr('მაღალია! ფრეონის ნაკლებობა.', 'High: possible refrigerant undercharge.'); color = 'text-fire'; }
+			else { expl = tr('ნორმალურია.', 'Normal.'); color = 'text-green-400'; }
+		} else {
+			diff = satTemp - line;
+			title = 'SC';
+			if (diff < 2) { expl = tr('დაბალია! ფრეონის ნაკლებობა.', 'Low: possible refrigerant undercharge.'); color = 'text-fire'; }
+			else if (diff > 10) { expl = tr('მაღალია! ფრეონის გადამეტება.', 'High: possible refrigerant overcharge.'); color = 'text-danger'; }
+			else { expl = tr('ნორმალურია.', 'Normal.'); color = 'text-green-400'; }
+		}
+
+		if(resText) resText.innerHTML = `
+			<div class="flex justify-between mb-1"><span class="text-white/50">Sat (Danfoss):</span> <strong>${satTemp.toFixed(1)} °C</strong></div>
+			<div class="flex justify-between mb-2 pb-2 border-b border-white/10"><span class="text-white/50">${title}:</span> <strong class="text-[14px] text-accent">${diff.toFixed(1)} °C</strong></div>
+			<div class="font-bold ${color}">${expl}</div>
+		`;
+	});
+
+	// Airflow
+	document.getElementById('btn-calc-air')?.addEventListener('click', () => {
+		const btu = parseFloat((document.getElementById('air-btu') as HTMLInputElement).value);
+		const ret = parseFloat((document.getElementById('air-return') as HTMLInputElement).value);
+		const sup = parseFloat((document.getElementById('air-supply') as HTMLInputElement).value);
+		
+		const resBox = document.getElementById('air-result');
+		const resText = document.getElementById('air-result-text');
+
+		if (!btu || isNaN(ret) || isNaN(sup)) {
+			resBox?.classList.remove('hidden');
+			if(resText) resText.innerHTML = `<div class="font-bold text-danger">${tr('შეავსეთ t!', 'Enter t.')}</div>`;
+			return;
+		}
+		
+		const dt = ret - sup;
+		if (dt <= 0) {
+			resBox?.classList.remove('hidden');
+		if(resText) resText.innerHTML = `<div class="font-bold text-danger">${tr('შეცდომა!', 'Error.')}</div>`;
+			return;
+		}
+
+		let m3h = '---', msg = '', color = 'text-white';
+		if (dt < 3) { msg = tr('კომპ. არ მუშაობს', 'Compressor may not be operating'); color = 'text-danger'; }
+		else {
+			const cfm = (btu * 0.75) / (1.08 * (dt * 1.8));
+			m3h = Math.round(cfm * 1.7) + ' m³/h';
+			if (dt < 8) { msg = tr('ცუდად აგრილებს', 'Cooling performance is low'); color = 'text-fire'; }
+			else if (dt <= 15) { msg = tr('იდეალურია!', 'Within the expected range.'); color = 'text-green-400'; }
+			else { msg = tr('ნაკადი შეზღუდულია!', 'Airflow may be restricted.'); color = 'text-danger'; }
+		}
+
+		resBox?.classList.remove('hidden');
+		if(resText) resText.innerHTML = `
+			<div class="flex justify-between mb-1"><span class="text-white/50">${tr('ნაკადი:', 'Airflow:')}</span> <strong class="text-accent">${m3h}</strong></div>
+			<div class="flex justify-between mb-2 pb-2 border-b border-white/10"><span class="text-white/50">Delta T:</span> <strong>${dt.toFixed(1)} °C</strong></div>
+			<div class="font-bold ${color}">${msg}</div>
+		`;
+	});
+
+	// Converter
+	document.getElementById('btn-calc-conv')?.addEventListener('click', () => {
+		const v = parseFloat((document.getElementById('conv-input') as HTMLInputElement).value);
+		const t = (document.getElementById('conv-type') as HTMLSelectElement).value;
+		const d = document.getElementById('conv-result-display');
+		if (!d) return;
+		if (isNaN(v)) { d.innerHTML = '---'; return; }
+		
+		let r = 0, u = '';
+		if (t === 'c_to_f') { r = (v * 9)/5 + 32; u = '°F'; }
+		else if (t === 'f_to_c') { r = (v - 32)*5/9; u = '°C'; }
+		else if (t === 'bar_to_psi') { r = v * 14.5038; u = 'PSI'; }
+		else if (t === 'psi_to_bar') { r = v / 14.5038; u = 'Bar'; }
+		else if (t === 'kw_to_btu') { r = v * 3412.14; u = 'BTU/h'; }
+		else if (t === 'btu_to_kw') { r = v / 3412.14; u = 'kW'; }
+		
+		d.innerHTML = `${r.toFixed(2)} <span class="text-[10px] text-white/50">${u}</span>`;
+	});
+</script>
+
+
+

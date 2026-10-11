@@ -1,0 +1,135 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import BrandLogo from './BrandLogo.astro';
+import {
+	getPagePath,
+	mainNavigation,
+	pageLabels,
+	type Locale,
+	type PageId,
+} from '../data/site';
+
+interface Props {
+	locale: Locale;
+	pageId: PageId;
+	isNotFound?: boolean;
+}
+
+const { locale, pageId, isNotFound = false } = Astro.props;
+const text = locale === 'ka'
+	? { menu: 'მთავარი მენიუ', nav: 'მთავარი ნავიგაცია' }
+	: { menu: 'Main menu', nav: 'Main navigation' };
+---
+
+<div class="h-18 lg:h-22 w-full shrink-0" aria-hidden="true"></div>
+<header data-site-header style="--site-header-height: 4.5rem" class:list={[
+	'fixed top-0 inset-x-0 z-50 border-b',
+	'border-white/10 bg-night',
+]}>
+	<div data-site-header-inner class="mx-auto flex min-h-18 max-w-shell items-center justify-between gap-4 px-5 py-3 sm:px-8 lg:min-h-22 lg:px-10">
+		<a
+			class="inline-flex min-h-12 items-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+			href={getPagePath(locale, 'home')}
+			aria-label={locale === 'ka' ? 'KlimatMasteri — მთავარი' : 'KlimatMasteri — home'}
+		>
+			<BrandLogo size="medium" className="site-header-brand" />
+		</a>
+
+		<nav class="hidden items-center gap-2 xl:mr-7 xl:flex" aria-label={text.nav}>
+			{mainNavigation.map((id) => (
+				<a
+					class:list={[
+						'georgian-caps inline-flex min-h-12 items-center border-b-2 border-transparent px-3.5 py-2 text-sm font-semibold hover:border-fire focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent xl:px-4',
+						'text-white/75 hover:text-white',
+						!isNotFound && pageId === id && 'border-fire text-white',
+					]}
+					href={getPagePath(locale, id)}
+					aria-current={!isNotFound && pageId === id ? 'page' : undefined}
+				>
+					{pageLabels[id][locale]}
+				</a>
+			))}
+			<LanguageSwitcher locale={locale} pageId={pageId} />
+		</nav>
+
+		<details class="group relative xl:hidden">
+			<summary class:list={[
+				'grid size-12 cursor-pointer list-none place-items-center rounded-2xl border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors [&::-webkit-details-marker]:hidden',
+				'border-white/20 text-white hover:bg-white/10 group-open:border-white/10 group-open:bg-night-panel group-open:text-white',
+			]}>
+				<span class="sr-only">{text.menu}</span>
+				<span class="relative h-4 w-5" aria-hidden="true">
+					<span class="absolute left-0 top-0 h-0.5 w-5 rounded bg-white transition-transform group-open:top-[7px] group-open:rotate-45"></span>
+					<span class="absolute left-0 top-[7px] h-0.5 w-5 rounded bg-white transition-opacity group-open:opacity-0"></span>
+					<span class="absolute left-0 top-[14px] h-0.5 w-5 rounded bg-white transition-transform group-open:top-[7px] group-open:-rotate-45"></span>
+				</span>
+			</summary>
+			<div class:list={[
+				'absolute right-0 top-[calc(100%+0.75rem)] w-[min(19rem,calc(100vw-2.5rem))] rounded-3xl border p-3 shadow-panel group-open:fixed group-open:inset-x-0 group-open:top-[var(--site-header-height)] group-open:z-40 group-open:max-h-[calc(100dvh-11.5rem)] group-open:w-screen group-open:overflow-y-auto group-open:rounded-none group-open:border-0 group-open:bg-night-panel group-open:p-0',
+				'border-white/10 bg-night-panel',
+			]}>
+				<nav class="grid" aria-label={text.nav}>
+					{mainNavigation.map((id) => (
+						<a
+							class:list={[
+							'georgian-caps flex min-h-14 items-center justify-start border-b border-white/15 px-6 text-left text-base font-semibold text-white transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-accent sm:px-8',
+							!isNotFound && pageId === id && 'bg-white/10',
+							]}
+							href={getPagePath(locale, id)}
+							aria-current={!isNotFound && pageId === id ? 'page' : undefined}
+						>
+							{pageLabels[id][locale]}
+						</a>
+					))}
+				</nav>
+				<div class="flex justify-end border-t border-white/10 px-6 py-4 sm:px-8">
+					<LanguageSwitcher locale={locale} pageId={pageId} />
+				</div>
+			</div>
+		</details>
+	</div>
+</header>
+
+<script>
+	const header = document.querySelector<HTMLElement>('[data-site-header]');
+	if (header) {
+		const updateHeaderSize = () => {
+			const isScrolled = window.scrollY > 24;
+			header.toggleAttribute('data-scrolled', isScrolled);
+			header.style.setProperty('--site-header-height', isScrolled ? '3.75rem' : '4.5rem');
+		};
+
+		updateHeaderSize();
+		window.addEventListener('scroll', updateHeaderSize, { passive: true });
+	}
+</script>
+
+<style>
+	[data-site-header-inner] {
+		transition: min-height 180ms ease, padding 180ms ease;
+	}
+
+	:global(.site-header-brand) {
+		transition: font-size 180ms ease;
+	}
+
+	[data-site-header][data-scrolled] {
+		box-shadow: 0 8px 24px rgb(0 0 0 / 0.2);
+	}
+
+	[data-site-header][data-scrolled] [data-site-header-inner] {
+		min-height: 3.75rem;
+		padding-block: 0.5rem;
+	}
+
+	[data-site-header][data-scrolled] :global(.site-header-brand) {
+		font-size: 1.125rem;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		[data-site-header-inner],
+		:global(.site-header-brand) {
+			transition: none;
+		}
+	}
+</style>

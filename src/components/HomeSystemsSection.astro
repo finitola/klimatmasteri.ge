@@ -1,0 +1,102 @@
+---
+import { Image } from 'astro:assets';
+import systemsPhoto from '../assets/images/kondicirebis-sistemebis-galerea.png';
+import { getPagePath, type Locale } from '../data/site';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const content = locale === 'ka'
+	? {
+		eyebrow: 'HVAC/R სისტემები',
+		title: 'სისტემები, რომლებზეც ვმუშაობთ',
+		link: 'ყველა სისტემის ნახვა',
+		groups: [
+			{ title: 'საცხოვრებელი', systems: ['Split', 'Multi Split', 'Mini VRF'] },
+			{ title: 'კომერციული', systems: ['VRF / VRV', 'Rooftop Units', 'Packaged Units', 'Chiller + FCU', 'AHU + FCU', 'DOAS'] },
+			{ title: 'ინდუსტრიული', systems: ['Air / Water-Cooled Chillers', 'High Air Flow / Hygienic AHU', 'Industrial Ventilation', 'Precision Cooling (CRAC / CRAH)', 'Refrigeration Systems'] },
+			{ title: 'მართვის სისტემები', systems: ['BMS'] },
+		],
+	}
+	: {
+		eyebrow: 'HVAC/R Systems',
+		title: 'Systems We Work With',
+		link: 'Explore all systems',
+		groups: [
+			{ title: 'Residential', systems: ['Split', 'Multi Split', 'Mini VRF'] },
+			{ title: 'Commercial', systems: ['VRF / VRV', 'Rooftop Units', 'Packaged Units', 'Chiller + FCU', 'AHU + FCU', 'DOAS'] },
+			{ title: 'Industrial', systems: ['Air / Water-Cooled Chillers', 'High Air Flow / Hygienic AHU', 'Industrial Ventilation', 'Precision Cooling (CRAC / CRAH)', 'Refrigeration Systems'] },
+			{ title: 'Building Management', systems: ['BMS'] },
+		],
+	};
+---
+
+<section class="relative isolate overflow-hidden border-y border-white/10 bg-night" aria-labelledby="home-systems-title" data-systems-parallax>
+	<div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+		<Image
+			class="systems-parallax-image absolute inset-0 size-full object-cover object-center"
+			src={systemsPhoto}
+			widths={[640, 960, 1280, 1680]}
+			sizes="100vw"
+			format="webp"
+			quality={78}
+			alt=""
+			loading="lazy"
+			data-parallax-image
+		/>
+		<div class="absolute inset-0 bg-night/75 backdrop-blur-[3px]"></div>
+		<div class="absolute inset-0 bg-gradient-to-b from-night/45 via-transparent to-night/65"></div>
+	</div>
+
+	<div class="mx-auto max-w-shell px-5 py-12 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
+		<div class="max-w-3xl">
+			<p class="text-small font-extrabold uppercase tracking-[0.18em] text-accent">
+				{content.eyebrow}
+			</p>
+			<h2 id="home-systems-title" class="georgian-caps mt-4 text-h2 font-extrabold text-white sm:text-3xl">{content.title}</h2>
+		</div>
+
+		<div class="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-8">
+			{content.groups.map((group, index) => (
+				<div class="border-l-2 border-accent/70 pl-4 sm:pl-5">
+					<h3 class:list={[
+						'georgian-caps text-base font-extrabold sm:text-lg',
+						index % 2 === 0 ? 'text-accent' : 'text-fire',
+					]}>{group.title}</h3>
+					<ul class="mt-3 flex flex-wrap gap-2" aria-label={group.title}>
+						{group.systems.map((system) => (
+							<li class="border border-white/15 bg-night/65 px-3 py-1.5 text-sm font-medium leading-6 text-white/85 backdrop-blur-sm">{system}</li>
+						))}
+					</ul>
+				</div>
+			))}
+		</div>
+
+		<a class="mt-8 inline-flex min-h-12 items-center gap-3 border border-accent/70 px-5 text-sm font-bold text-white transition-colors hover:bg-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent" href={getPagePath(locale, 'learning')}>
+			<span>{content.link}</span>
+			<svg class="size-4 text-fire" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+				<path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+			</svg>
+		</a>
+	</div>
+</section>
+
+<script>
+	import '../scripts/home-systems-parallax.ts';
+</script>
+
+<style>
+	.systems-parallax-image {
+		transform: translate3d(0, 0, 0) scale(1.32);
+		will-change: transform;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.systems-parallax-image {
+			transform: scale(1.16);
+			will-change: auto;
+		}
+	}
+</style>

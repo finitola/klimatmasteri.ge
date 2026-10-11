@@ -1,0 +1,31 @@
+---
+import type { Locale } from '../data/site';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const mapTitle = locale === 'ka' ? 'საქართველოს რუკა — თბილისი' : 'Map of Georgia — Tbilisi';
+const mapDescription = locale === 'ka' ? 'საქართველოს რუკაზე თბილისი ყვითელი წერტილით არის მონიშნული.' : 'Tbilisi is marked with a yellow dot on the map of Georgia.';
+const cityLabel = locale === 'ka' ? 'თბილისი' : 'Tbilisi';
+---
+
+<figure class="flex items-center justify-center">
+	<svg class="h-auto w-full max-w-[42rem]" viewBox="45 45 545 305" role="img" aria-labelledby="georgia-map-title georgia-map-description">
+		<title id="georgia-map-title">{mapTitle}</title>
+		<desc id="georgia-map-description">{mapDescription}</desc>
+		<defs>
+			<linearGradient id="country-fill" x1="0" y1="0" x2="1" y2="1">
+				<stop offset="0" stop-color="#263139" />
+				<stop offset="1" stop-color="#1e2428" />
+			</linearGradient>
+		</defs>
+		<path d="M68 81.9 76.3 63.4 86.4 62 107.8 69.5 117.6 65.9 144.5 83.4 171.9 87.7 186.6 100.5 221.3 104.2 244.5 98.2 264 108.8 279.9 105.4 292.6 112.9 292.5 118.9 304.2 129.6 352.3 150.5 346.5 163.4 362.7 171.2 381.9 163 387.4 155.2 405 150 417.8 152.9 424.8 165 431.2 149.1 443.9 156.6 453.3 156.1 468.2 174.6 493.8 175.9 496.6 182.3 488.7 208.6 507.4 219.2 512.3 227.6 532.9 230.8 548.3 241.7 539.6 256 530.3 257.8 529.6 266.8 539.6 284 567.5 306.4 562.5 324.5 551.6 332 531.9 315.4 513.9 318.8 494.6 308.2 497.1 300.9 462.7 288.4 438.3 308.7 428.3 307.6 430.3 314.4 412.8 312.9 408.3 317.8 380.6 312.2 376.5 317.7 357 319.7 348.8 325.2 326.2 325.5 321.2 316.7 309.8 318.3 300.3 310.2 306.3 304.8 282.8 283.4 280 286.3 275.2 282.9 277.8 274.9 261.7 275 252.6 290.7 214.2 282.8 204.2 291.7 195.9 284.5 182.4 281.9 198.7 256.7 201.3 240 177.7 153.9 154.8 145.2 145.3 124.5 138.6 125.3 132.8 116.7 113.2 114.3 98.7 106.1 94 108.4 85.4 89.4 72.1 83.3Z" fill="url(#country-fill)" stroke="#02a5f6" stroke-width="2.5" stroke-linejoin="round" />
+		<circle cx="430.3" cy="261.8" r="7" fill="#ffbf00" stroke="#15191c" stroke-width="2" />
+		<path d="M440 255 459 237" fill="none" stroke="#ffbf00" stroke-width="2" stroke-dasharray="4 4" />
+		<rect x="452" y="207" width="124" height="42" rx="21" fill="#15191c" stroke="#ffbf00" stroke-width="1.5" />
+		<circle cx="470" cy="228" r="4.5" fill="#ffbf00" />
+		<text x="483" y="233" fill="#ffffff" font-family="Noto Sans Georgian, sans-serif" font-size="14" font-weight="700">{cityLabel}</text>
+	</svg>
+</figure>

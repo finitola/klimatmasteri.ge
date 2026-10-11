@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPagePath } from '../data/site';
+---
+
+<BaseLayout locale="ka" pageId="home" isNotFound>
+	<main id="main-content" class="flex w-full flex-1 items-center bg-night px-5 py-14 text-white sm:px-8 sm:py-20">
+		<section class="mx-auto w-full max-w-3xl rounded-3xl border border-white/10 bg-night-panel px-6 py-12 text-center shadow-panel sm:px-12 sm:py-16" aria-labelledby="not-found-title">
+			<p class="text-7xl font-black tracking-tight text-fire sm:text-9xl" aria-hidden="true">404</p>
+			<h1 id="not-found-title" class="georgian-caps mt-6 text-h1 font-bold text-white">გვერდი ვერ მოიძებნა</h1>
+			<p class="mx-auto mt-4 max-w-xl text-base leading-7 text-white/70 sm:text-lg">
+				სამწუხაროდ, გვერდი რომელსაც თქვენ ეძებთ, აღარ არსებობს ან გადატანილია სხვა მისამართზე.
+			</p>
+			<nav class="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:gap-4" aria-label="გვერდის არჩევა">
+				<a
+					href="/"
+					class="inline-flex min-h-12 items-center justify-center rounded-xl bg-accent px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+				>
+					მთავარ გვერდზე დაბრუნება
+				</a>
+				<a
+					href={getPagePath('ka', 'services')}
+					class="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/15 px-6 py-3 text-sm font-semibold text-white/85 transition-colors hover:border-accent hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+				>
+					სერვისების ნახვა
+				</a>
+			</nav>
+		</section>
+	</main>
+</BaseLayout>

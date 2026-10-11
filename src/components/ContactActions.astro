@@ -1,0 +1,65 @@
+---
+import type { Locale } from '../data/site';
+
+interface Props {
+	locale: Locale;
+	variant?: 'cta' | 'home' | 'sticky';
+}
+
+const { locale, variant = 'cta' } = Astro.props;
+const isGeorgian = locale === 'ka';
+const isSticky = variant === 'sticky';
+const phoneLabel = variant === 'home'
+	? (isGeorgian ? 'დარეკვა' : 'Call')
+	: (isGeorgian ? 'დაგვიკავშირდი' : 'Call us');
+const phoneAriaLabel = isSticky
+	? (isGeorgian ? 'გამოიძახე ხელოსანი: +995 514 12 88 21' : 'Call a technician: +995 514 12 88 21')
+	: (isGeorgian ? `ტელეფონით დაკავშირება: +995 514 12 88 21` : 'Call: +995 514 12 88 21');
+const whatsappAriaLabel = isGeorgian ? 'WhatsApp — ახალ ჩანართში გაიხსნება' : 'WhatsApp — opens in a new tab';
+
+const actionsClass = 'flex w-full flex-col gap-3 md:w-fit md:flex-row';
+const phoneButtonClass = 'inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-fire px-5 text-sm font-extrabold text-ink shadow-button transition-colors hover:bg-fire-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-fire md:w-60';
+const whatsappButtonClass = 'inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-whatsapp px-5 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-whatsapp md:w-60';
+
+---
+
+{isSticky ? (
+	<nav class="mobile-contact-bar fixed inset-x-0 bottom-0 z-40 grid bg-whatsapp md:hidden" aria-label={isGeorgian ? 'სწრაფი კონტაქტი' : 'Quick contact'}>
+		<a class="flex min-h-16 items-center justify-center gap-2 bg-fire px-5 text-sm font-bold text-ink transition-colors hover:bg-fire-strong active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-ink" href="tel:+995514128821" aria-label={phoneAriaLabel}>
+			<span class="call-cta-icon relative flex size-8 shrink-0 items-center justify-center rounded-full" aria-hidden="true">
+				<svg class="size-5" viewBox="0 0 24 24" fill="none">
+					<path d="M7.2 3.8h2.1l1.1 4.3-1.7 1.7a14.2 14.2 0 0 0 5.5 5.5l1.7-1.7 4.3 1.1v2.1c0 1-.8 1.8-1.8 1.8A15.6 15.6 0 0 1 5.4 5.6c0-1 .8-1.8 1.8-1.8Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+			</span>
+			<span class="grid gap-0.5 text-left leading-tight">
+				<span>{isGeorgian ? 'გამოიძახე ხელოსანი' : 'Call a technician'}</span>
+				<span class="font-brand text-base font-extrabold tabular-nums">+995 514 12 88 21</span>
+			</span>
+		</a>
+		<a class="flex min-h-12 items-center justify-center gap-2 bg-whatsapp px-5 text-sm font-bold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-white" href="https://wa.me/995514128821" target="_blank" rel="noopener noreferrer" aria-label={whatsappAriaLabel}>
+			<svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+				<path d="M12 3a8.7 8.7 0 0 0-7.5 13.1L3.4 20l4-1.1A8.7 8.7 0 1 0 12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+				<path d="M9.1 8.4c.2-.4.4-.4.7-.4h.4c.2 0 .4.1.5.4l.7 1.7c.1.2 0 .4-.1.6l-.5.6c-.2.2-.2.4 0 .6.4.7 1 1.3 1.8 1.7.2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.6.8c.2.1.3.3.3.5 0 .5-.3 1.2-.7 1.5-.5.4-1.1.6-1.8.5-1.1-.2-2.3-.8-3.4-1.8-1.2-1.1-2-2.3-2.2-3.3-.2-.8.1-1.5.6-2.1.3-.3.5-.5.7-.5Z" fill="currentColor" />
+			</svg>
+			<span>WhatsApp</span>
+		</a>
+	</nav>
+) : (
+	<div class={actionsClass}>
+		<a class={phoneButtonClass} href="tel:+995514128821" aria-label={phoneAriaLabel}>
+			<svg class="size-5 shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+				<path d="M7.2 3.8h2.1l1.1 4.3-1.7 1.7a14.2 14.2 0 0 0 5.5 5.5l1.7-1.7 4.3 1.1v2.1c0 1-.8 1.8-1.8 1.8A15.6 15.6 0 0 1 5.4 5.6c0-1 .8-1.8 1.8-1.8Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+			</svg>
+			<span class:list={['font-brand font-extrabold tabular-nums', variant === 'home' ? 'text-sm' : 'text-base']}>
+				{variant === 'home' ? phoneLabel : '+995 514 12 88 21'}
+			</span>
+		</a>
+		<a class={whatsappButtonClass} href="https://wa.me/995514128821" target="_blank" rel="noopener noreferrer" aria-label={whatsappAriaLabel}>
+			<svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+				<path d="M12 3a8.7 8.7 0 0 0-7.5 13.1L3.4 20l4-1.1A8.7 8.7 0 1 0 12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+				<path d="M9.1 8.4c.2-.4.4-.4.7-.4h.4c.2 0 .4.1.5.4l.7 1.7c.1.2 0 .4-.1.6l-.5.6c-.2.2-.2.4 0 .6.4.7 1 1.3 1.8 1.7.2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.6.8c.2.1.3.3.3.5 0 .5-.3 1.2-.7 1.5-.5.4-1.1.6-1.8.5-1.1-.2-2.3-.8-3.4-1.8-1.2-1.1-2-2.3-2.2-3.3-.2-.8.1-1.5.6-2.1.3-.3.5-.5.7-.5Z" fill="currentColor" />
+			</svg>
+			<span>WhatsApp</span>
+		</a>
+	</div>
+)}

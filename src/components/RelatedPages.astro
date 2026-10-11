@@ -1,0 +1,31 @@
+---
+import { getPagePath, pageLabels, pages, type Locale, type PageId } from '../data/site';
+
+interface Props {
+	locale: Locale;
+	relatedIds: PageId[];
+}
+
+const { locale, relatedIds } = Astro.props;
+---
+
+<section class="mx-auto w-full max-w-shell px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14 border-t border-white/10 mt-10">
+	<div class="mb-8 max-w-2xl">
+		<p class="text-small font-extrabold uppercase tracking-[0.18em] text-accent mb-2">{locale === 'ka' ? 'დაკავშირებული გვერდები' : 'Related Pages'}</p>
+		<h2 class="text-2xl font-bold text-white">{locale === 'ka' ? 'იხილეთ ასევე' : 'See Also'}</h2>
+	</div>
+	<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+		{relatedIds.map(id => (
+			<a href={getPagePath(locale, id)} class="group flex flex-col justify-between p-6 rounded-2xl bg-blue-900/10 border border-white/10 shadow-lg hover:border-accent/50 hover:bg-blue-900/20 hover:shadow-accent/10 transition-all duration-300 transform hover:-translate-y-1">
+				<div>
+					<h3 class="text-lg font-bold text-white mb-2 group-hover:text-accent transition-colors">{pageLabels[id][locale]}</h3>
+					<p class="text-sm text-white/60 line-clamp-2">{pages[id].description[locale]}</p>
+				</div>
+				<div class="mt-4 flex items-center gap-2 text-sm font-bold text-accent">
+					<span>{locale === 'ka' ? 'გადასვლა' : 'Go to page'}</span>
+					<svg class="size-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+				</div>
+			</a>
+		))}
+	</div>
+</section>
