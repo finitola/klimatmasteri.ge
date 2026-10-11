@@ -1,12 +1,6 @@
-import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
-import { getPageUrl, indexablePageIdsByLocale, SITE_URL } from './src/data/site';
-import { getSitemapEntry } from './src/data/seo';
-
-const indexableUrls = new Set(
-	Object.entries(indexablePageIdsByLocale).flatMap(([locale, pageIds]) => pageIds.map((pageId) => getPageUrl(locale as 'ka' | 'en', pageId).replace(/\/$/, ''))),
-);
+import { SITE_URL } from './src/data/site';
 
 export default defineConfig({
 	site: SITE_URL,
@@ -29,15 +23,6 @@ export default defineConfig({
 			prefixDefaultLocale: false,
 		},
 	},
-	integrations: indexableUrls.size
-		? [sitemap({
-			filter: (page) => indexableUrls.has(page.replace(/\/$/, '')),
-			serialize(item) {
-				const entry = getSitemapEntry(item.url);
-				return entry ? { ...item, links: entry.links } : undefined;
-			},
-		})]
-		: [],
 	vite: {
 		plugins: [tailwindcss()],
 	},
