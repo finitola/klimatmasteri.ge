@@ -34,10 +34,10 @@ const content = locale === 'ka'
 	};
 ---
 
-<section class="relative isolate overflow-hidden border-y border-white/10 bg-night" aria-labelledby="home-systems-title" data-systems-parallax>
+<section class="relative isolate overflow-hidden border-y border-white/10 bg-night" aria-labelledby="home-systems-title">
 	<div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
 		<Image
-			class="systems-parallax-image absolute inset-0 size-full object-cover object-center"
+			class="absolute inset-0 size-full object-cover object-center"
 			src={systemsPhoto}
 			widths={[640, 960, 1280, 1680]}
 			sizes="100vw"
@@ -45,7 +45,6 @@ const content = locale === 'ka'
 			quality={78}
 			alt={homeSystemsAlt[locale]}
 			loading="lazy"
-			data-parallax-image
 		/>
 		<div class="absolute inset-0 bg-night/75 backdrop-blur-[3px]"></div>
 		<div class="absolute inset-0 bg-gradient-to-b from-night/45 via-transparent to-night/65"></div>
@@ -84,20 +83,3 @@ const content = locale === 'ka'
 	</div>
 </section>
 
-<script>
-	import '../scripts/home-systems-parallax.ts';
-</script>
-
-<style>
-	.systems-parallax-image {
-		transform: translate3d(0, 0, 0) scale(1.32);
-		will-change: transform;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.systems-parallax-image {
-			transform: scale(1.16);
-			will-change: auto;
-		}
-	}
-</style>
