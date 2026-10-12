@@ -1,5 +1,20 @@
-const CACHE_NAME = 'klimatmasteri-shell-v1';
+const CACHE_NAME = 'klimatmasteri-shell-v2';
 const APP_SHELL = ['/', '/en/'];
+
+async function cacheResponse(request, response) {
+	if (!response.ok) return;
+
+	try {
+		const cache = await caches.open(CACHE_NAME);
+		await cache.put(request, response.clone());
+	} catch {
+		// Caching is best-effort; it must not break a successful network response.
+	}
+}
+
+function offlineResponse() {
+	return new Response(null, { status: 504, statusText: 'Gateway Timeout' });
+}
 
 self.addEventListener('install', (event) => {
 	event.waitUntil(
@@ -22,26 +37,29 @@ self.addEventListener('fetch', (event) => {
 	if (request.mode === 'navigate') {
 		event.respondWith(
 			fetch(request).then((response) => {
-				if (response.ok) {
-					const copy = response.clone();
-					caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
-				}
+				void cacheResponse(request, response);
 				return response;
-			}).catch(async () => (await caches.match(request)) || (await caches.match(new URL(request.url).pathname.startsWith('/en/') ? '/en/' : '/'))),
+			}).catch(async () => {
+				const fallbackPath = new URL(request.url).pathname.startsWith('/en/') ? '/en/' : '/';
+				return (await caches.match(request)) || (await caches.match(fallbackPath)) || offlineResponse();
+			}),
 		);
 		return;
 	}
 
-	event.respondWith(
-		caches.match(request).then((cached) => {
-			const network = fetch(request).then((response) => {
-				if (response.ok) {
-					const copy = response.clone();
-					caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
-				}
-				return response;
-			});
-			return cached || network;
-		}),
-	);
+	const networkRequest = fetch(request)
+		.then(async (response) => {
+			await cacheResponse(request, response);
+			return response;
+		})
+		.catch(() => null);
+
+	event.respondWith((async () => {
+		const cached = await caches.match(request).catch(() => undefined);
+		if (cached) {
+			return cached;
+		}
+
+		return (await networkRequest) || offlineResponse();
+	})());
 });
