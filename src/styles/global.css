@@ -1,14 +1,5 @@
 @import 'tailwindcss';
 
-@font-face {
-	font-family: 'Noto Sans Georgian';
-	src: url('../assets/fonts/NotoSansGeorgian-VF.ttf') format('truetype');
-	font-style: normal;
-	font-weight: 100 900;
-	font-stretch: 62.5% 100%;
-	font-display: swap;
-}
-
 @theme {
 	--color-ink: #292929;
 	--color-muted: #656b70;

@@ -4,7 +4,6 @@ import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import ContactActions from '../components/ContactActions.astro';
 import homeHeroImage from '../assets/images/kondicioneris-xelosani.webp';
-import georgianFontUrl from '../assets/fonts/NotoSansGeorgian-VF.ttf?url';
 import { businessInfo } from '../data/business';
 import { getHreflangAlternates, getMetaDescription, getMetaTitle, getStructuredData } from '../data/seo';
 import { getPageUrl, isIndexablePage, type Locale, type PageId } from '../data/site';
@@ -44,7 +43,9 @@ const structuredData = isNotFound ? undefined : getStructuredData(locale, pageId
 		<!-- End Google Tag Manager -->
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="preload" href={georgianFontUrl} as="font" type="font/ttf" crossorigin="anonymous" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@100..900&display=swap" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="robots" content={isIndexable ? 'index,follow,max-image-preview:large' : 'noindex,follow'} />
 		<link rel="sitemap" href="/sitemap-0.xml" />
@@ -89,7 +90,7 @@ const structuredData = isNotFound ? undefined : getStructuredData(locale, pageId
 		<div class="fixed right-4 bottom-40 z-50 flex flex-col items-center sm:right-8 md:bottom-8">
 			<button
 				type="button"
-				class="scroll-top-action flex size-12 items-center justify-center rounded-full bg-fire text-ink shadow-button focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink sm:size-14"
+				class="scroll-top-action flex size-12 cursor-pointer items-center justify-center rounded-full bg-fire text-ink shadow-button focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink sm:size-14"
 				aria-label={locale === 'ka' ? 'გვერდის თავში დაბრუნება' : 'Back to top'}
 				title={locale === 'ka' ? 'გვერდის თავში დაბრუნება' : 'Back to top'}
 				aria-hidden="true"
