@@ -93,14 +93,27 @@ const text = locale === 'ka'
 <script>
 	const header = document.querySelector<HTMLElement>('[data-site-header]');
 	if (header) {
+		let isScrolled = header.hasAttribute('data-scrolled');
+		let updateScheduled = false;
+
 		const updateHeaderSize = () => {
-			const isScrolled = window.scrollY > 24;
-			header.toggleAttribute('data-scrolled', isScrolled);
-			header.style.setProperty('--site-header-height', isScrolled ? '3.75rem' : '4.5rem');
+			updateScheduled = false;
+			const nextIsScrolled = window.scrollY > 24;
+			if (nextIsScrolled === isScrolled) return;
+
+			isScrolled = nextIsScrolled;
+			header.toggleAttribute('data-scrolled', nextIsScrolled);
+			header.style.setProperty('--site-header-height', nextIsScrolled ? '3.75rem' : '4.5rem');
+		};
+
+		const scheduleHeaderUpdate = () => {
+			if (updateScheduled) return;
+			updateScheduled = true;
+			window.requestAnimationFrame(updateHeaderSize);
 		};
 
 		updateHeaderSize();
-		window.addEventListener('scroll', updateHeaderSize, { passive: true });
+		window.addEventListener('scroll', scheduleHeaderUpdate, { passive: true });
 	}
 </script>
 
