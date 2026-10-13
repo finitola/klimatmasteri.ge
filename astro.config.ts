@@ -25,6 +25,7 @@ export default defineConfig({
 		: [],
 	trailingSlash: 'never',
 	redirects: {
+		'/konsultacia-kondicioneris-xelosantan': '/kondicioneris-xelosani',
 		'/chven-shesakheb': '/chven-shesakheb-kondicioneris-khelosani-klimatmasteri',
 		'/kalkulatori': '/kondicioneris-xelosani-klimatmasteri-kalkulatorebi',
 		'/konfidencialurobis-politika': '/kondicioneris-xelosani-klimatmasteri-konfidencialurobis-politika',

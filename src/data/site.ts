@@ -219,8 +219,8 @@ export const pages: Record<PageId, PageDefinition> = {
 		},
 	},
 	'service-consultation': {
-		slug: { ka: 'konsultacia-kondicioneris-xelosantan', en: 'air-conditioner-consultation' },
-		title: { ka: 'კონსულტაცია კონდიციონერის ხელოსანთან | KlimatMasteri', en: 'Consultation with an Air Conditioner Technician | KlimatMasteri' },
+		slug: { ka: 'kondicioneris-xelosani', en: 'air-conditioner-consultation' },
+		title: { ka: 'კონსულტაცია | KlimatMasteri', en: 'Consultation | KlimatMasteri' },
 		description: { ka: 'კონსულტაცია კონდიციონერის ხელოსანთან: სისტემის მონტაჟის, არსებული სისტემის მუშაობისა და საჭირო შეკეთების შესახებ.', en: 'Consult an air-conditioning technician about system installation, existing system operation, and possible repair needs.' },
 	},
 	'service-installation': {
@@ -316,7 +316,7 @@ export const pageLabels: Record<PageId, LocalizedText> = {
 	calculators: { ka: 'კალკულატორები', en: 'Calculators' },
 	privacy: { ka: 'კონფიდენციალურობის პოლიტიკა', en: 'Privacy Policy' },
 	terms: { ka: 'მომსახურების პირობები', en: 'Terms of Service' },
-	'service-consultation': { ka: 'კონსულტაცია კონდიციონერის ხელოსანთან', en: 'Consultation with an air-conditioner technician' },
+	'service-consultation': { ka: 'კონდიციონერის ხელოსანი - კონსულტაცია', en: 'Air Conditioner Technician - Consultation' },
 	'service-installation': { ka: 'კონდიციონერის მონტაჟი', en: 'Air conditioner installation' },
 	'service-pipe-preinstallation': { ka: 'კონდიციონერის მილების წინასწარი მონტაჟი', en: 'Air conditioner pipe pre-installation' },
 	'service-drainage-system': { ka: 'კონდიციონერის სადრენაჟე სისტემის მოწყობა, პომპის ინტეგრაცია (ინსტალაცია)', en: 'Air conditioner drainage setup and pump integration' },
