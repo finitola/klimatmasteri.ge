@@ -7,6 +7,7 @@ export type PageId =
 	| 'about'
 	| 'contact'
 	| 'faq'
+	| 'works'
 	| 'refrigerants'
 	| 'licensing'
 	| 'licensing-learning'
@@ -34,7 +35,7 @@ export type PageId =
 
 // The exam Q&A and simulation pages have only a short English notice, so keep
 // those English URLs available to visitors but out of search indexes/sitemaps.
-export const indexablePageIds: PageId[] = ['home','services','about','contact','faq','refrigerants','licensing','licensing-learning','licensing-testing','licensing-info','learning','air-conditioner-components','air-conditioner-service','air-conditioner-electrical','calculators','privacy','terms','service-consultation','service-installation','service-pipe-preinstallation','service-drainage-system','service-water-leak','service-dismantling','service-diagnostics','service-repair','service-control-board-repair','service-refrigerant-check','service-refrigerant-leak-repair','service-deep-cleaning'];
+export const indexablePageIds: PageId[] = ['home','services','about','contact','faq','works','refrigerants','licensing','licensing-learning','licensing-testing','licensing-info','learning','air-conditioner-components','air-conditioner-service','air-conditioner-electrical','calculators','privacy','terms','service-consultation','service-installation','service-pipe-preinstallation','service-drainage-system','service-water-leak','service-dismantling','service-diagnostics','service-repair','service-control-board-repair','service-refrigerant-check','service-refrigerant-leak-repair','service-deep-cleaning'];
 export const indexablePageIdsByLocale: Record<Locale, PageId[]> = {
 	ka: indexablePageIds,
 	en: indexablePageIds.filter((pageId) => pageId !== 'licensing-learning' && pageId !== 'licensing-testing'),
@@ -58,6 +59,7 @@ export const pageIds: PageId[] = [
 	'about',
 	'contact',
 	'faq',
+	'works',
 	'refrigerants',
 	'licensing',
 	'licensing-learning',
@@ -129,6 +131,14 @@ export const pages: Record<PageId, PageDefinition> = {
 		description: {
 			ka: 'კონდიციონერის მონტაჟის, მოვლის, ენერგოეფექტურობისა და გაუმართაობების შესახებ ხშირად დასმული კითხვები და პასუხები.',
 			en: 'Answers to common questions about air-conditioning installation, maintenance, energy efficiency, and troubleshooting.',
+		},
+	},
+	works: {
+		slug: { ka: 'kondicioneris-xelosani-namushevrebi', en: 'our-work' },
+		title: { ka: 'ნამუშევრები | KlimatMasteri', en: 'Our Work | KlimatMasteri' },
+		description: {
+			ka: 'KlimatMasteri-ის ნამუშევრების ფოტოგალერეა.',
+			en: 'A photo gallery of work by KlimatMasteri.',
 		},
 	},
 	refrigerants: {
@@ -280,8 +290,8 @@ export const pages: Record<PageId, PageDefinition> = {
 	},
 };
 
-export const mainNavigation: PageId[] = ['home', 'services', 'faq', 'about', 'contact'];
-export const footerNavigation: PageId[] = ['home', 'services', 'about', 'contact', 'faq'];
+export const mainNavigation: PageId[] = ['home', 'services', 'faq', 'works', 'about', 'contact'];
+export const footerNavigation: PageId[] = ['home', 'services', 'about', 'contact', 'faq', 'works'];
 export const resourceNavigation: PageId[] = ['learning', 'air-conditioner-components', 'air-conditioner-service', 'air-conditioner-electrical', 'refrigerants', 'licensing', 'calculators'];
 export const servicePageIds: PageId[] = [
 	'service-consultation',
@@ -304,6 +314,7 @@ export const pageLabels: Record<PageId, LocalizedText> = {
 	about: { ka: 'ჩვენ შესახებ', en: 'About' },
 	contact: { ka: 'კონტაქტი', en: 'Contact' },
 	faq: { ka: 'FAQ', en: 'FAQ' },
+	works: { ka: 'ნამუშევრები', en: 'Our Work' },
 	refrigerants: { ka: 'მაცივარაგენტები', en: 'Refrigerants' },
 	licensing: { ka: 'სალიცენზიო გამოცდა', en: 'Licensing Exam' },
 	'licensing-learning': { ka: 'კითხვები და პასუხები', en: 'Q&A' },

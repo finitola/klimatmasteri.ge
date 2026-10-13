@@ -32,6 +32,7 @@ import RelatedPages from './RelatedPages.astro';
 import ServiceContactCta from './ServiceContactCta.astro';
 import ServiceDetailContent from './ServiceDetailContent.astro';
 import ResourceEnglishContent from './ResourceEnglishContent.astro';
+import WorksGallery from './WorksGallery.astro';
 import { getPagePath, pageLabels, pages, servicePageIds, resourceNavigation, type Locale, type PageId } from '../data/site';
 import { serviceDetails, type ServicePageId } from '../data/service-details';
 import { resourceEnglishPages } from '../data/resource-english';
@@ -51,6 +52,7 @@ const isAboutPage = pageId === 'about';
 const isPrivacyPage = pageId === 'privacy';
 const isTermsPage = pageId === 'terms';
 const isFaqPage = pageId === 'faq';
+const isWorksPage = pageId === 'works';
 const isContactPage = pageId === 'contact';
 const isRepairPage = pageId === 'air-conditioner-service';
 const isLearningPage = pageId === 'learning';
@@ -424,7 +426,7 @@ if (isLicensingLearningPage) {
 							<>
 								<div class:list={['w-full', isServiceDetail && 'grid gap-7 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-10']}>
 									<div>
-										{!isPrivacyPage && !isTermsPage && (
+										{!isPrivacyPage && !isTermsPage && !isWorksPage && (
 											<p class="flex items-center gap-3 text-small font-extrabold uppercase tracking-[0.18em] text-accent">
 												<span class="h-px w-8 bg-fire" aria-hidden="true"></span>
 												{pageLabels[pageId][locale]}
@@ -437,7 +439,7 @@ if (isLicensingLearningPage) {
 											<p class="mt-5 max-w-3xl text-base font-bold leading-7 text-white/85">{locale === 'ka' ? 'KlimatMasteri.ge-ის გამოყენებით თქვენ ეთანხმებით ქვემოთ მოცემულ პირობებს' : 'By using KlimatMasteri.ge, you agree to the terms below.'}</p>
 										) : isServiceDetail ? (
 											<p class="mt-5 max-w-2xl border-l-2 border-accent pl-4 text-base leading-7 text-white/70 sm:text-lg sm:leading-8">{serviceDetails[pageId as ServicePageId].intro[locale]}</p>
-										) : !isServicesPage && !isPrivacyPage && !isTermsPage && !isFaqPage && (!isContactPage || locale === 'en') && (
+										) : !isServicesPage && !isPrivacyPage && !isTermsPage && !isFaqPage && !isWorksPage && (!isContactPage || locale === 'en') && (
 											<p class="mt-5 max-w-2xl border-l-2 border-accent pl-4 text-base leading-7 text-white/70 sm:text-lg sm:leading-8">{resourceEnglishPages[pageId]?.intro ?? text.placeholder}</p>
 										)}
 									</div>
@@ -453,6 +455,7 @@ if (isLicensingLearningPage) {
 
 					</div>
 				</section>
+				{isWorksPage && <WorksGallery locale={locale} />}
 				{isContactPage && <ContactPageContent locale={locale} />}
 				{isAboutPage && (
 					<article class="mx-auto w-full max-w-shell px-5 py-10 sm:px-8 sm:py-14 lg:px-10 lg:py-16">

@@ -64,7 +64,7 @@ export interface ImportantPageEntry {
 }
 
 export function getImportantPages(locale: Locale): ImportantPageEntry[] {
-	const pageIds: PageId[] = ['home', 'services', 'about', 'contact', 'faq'];
+	const pageIds: PageId[] = ['home', 'services', 'about', 'contact', 'faq', 'works'];
 	return pageIds.map((pageId) => ({
 		pageId,
 		name: pageLabels[pageId][locale],

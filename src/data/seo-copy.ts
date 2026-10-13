@@ -45,6 +45,16 @@ export const seoCopy: Record<PageId, LocalizedSeoCopy> = {
 			en: 'Learn about air-conditioner installation, maintenance, energy efficiency and common faults. Get clear answers to common service questions.',
 		},
 	},
+	works: {
+		title: {
+			ka: 'კონდიციონერის ნამუშევრების ფოტო-გალერეა | KlimatMasteri',
+			en: 'Air-Conditioner Work Photo Gallery | KlimatMasteri',
+		},
+		description: {
+			ka: 'დაათვალიერეთ KlimatMasteri-ის ნამუშევრები: კონდიციონერის მონტაჟი, მილების გაყვანა, წმენდა, დიაგნოსტიკა, შეკეთება და სადრენაჟო პომპის ინსტალაცია.',
+			en: 'KlimatMasteri project photos show air-conditioner installation, pipework, cleaning, diagnostics, repairs and condensate pump work in one gallery.',
+		},
+	},
 	refrigerants: {
 		title: { ka: 'მაცივარაგენტები: უსაფრთხოება და ტერმინები | KlimatMasteri', en: 'Refrigerant Safety, Types and Terms | KlimatMasteri' },
 		description: {

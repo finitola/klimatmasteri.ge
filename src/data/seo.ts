@@ -134,7 +134,7 @@ export function getStructuredData(locale: Locale, pageId: PageId) {
 			publisher: { '@id': orgId },
 		},
 		{
-			'@type': 'WebPage',
+			'@type': pageId === 'works' ? 'CollectionPage' : 'WebPage',
 			'@id': pageIdUrl,
 			url: pageUrl,
 			name: getMetaTitle(locale, pageId),
@@ -144,6 +144,7 @@ export function getStructuredData(locale: Locale, pageId: PageId) {
 			about: { '@id': orgId },
 			...(pageId !== 'home' ? { breadcrumb: { '@id': breadcrumbId } } : {}),
 			...(pageId === 'faq' ? { mainEntity: { '@id': `${pageUrl}#faq` } } : {}),
+			...(pageId === 'works' ? { mainEntity: { '@id': `${pageUrl}#gallery` } } : {}),
 		},
 		...(pageId !== 'home' ? [{
 			'@type': 'BreadcrumbList',

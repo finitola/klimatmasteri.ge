@@ -1,0 +1,186 @@
+---
+import { getImage, Image } from 'astro:assets';
+import type { Locale } from '../data/site';
+import { getPageUrl } from '../data/site';
+import { getMetaTitle } from '../data/seo';
+import { workPhotos } from '../data/works-gallery';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const text = locale === 'ka'
+	? {
+		gallery: 'ნამუშევრების ფოტო გალერეა',
+		empty: 'ნამუშევრების ფოტოები აქ გამოჩნდება.',
+		open: (index: number) => `ფოტოს გადიდება — ${index + 1}`,
+		close: 'გალერეის დახურვა',
+		previous: 'წინა ფოტო',
+		next: 'შემდეგი ფოტო',
+	}
+	: {
+		gallery: 'Work photo gallery',
+		empty: 'Project photos will appear here.',
+		open: (index: number) => `Enlarge photo ${index + 1}`,
+		close: 'Close gallery',
+		previous: 'Previous photo',
+		next: 'Next photo',
+	};
+
+const photos = await Promise.all(workPhotos.map(async (photo) => ({
+	...photo,
+	thumbnailWidths: [...new Set([320, 480, 640, 800, photo.image.width].filter((width) => width <= photo.image.width))].sort((a, b) => a - b),
+	fullImage: await getImage({ src: photo.image, width: Math.min(1920, photo.image.width), format: 'webp', quality: 86 }),
+})));
+
+const worksUrl = getPageUrl(locale, 'works');
+const galleryStructuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'ItemList',
+	'@id': `${worksUrl}#gallery`,
+	name: getMetaTitle(locale, 'works'),
+	itemListOrder: 'https://schema.org/ItemListUnordered',
+	numberOfItems: photos.length,
+	itemListElement: photos.map((photo, index) => ({
+		'@type': 'ListItem',
+		position: index + 1,
+		item: {
+			'@type': 'ImageObject',
+			name: photo.caption?.[locale] ?? photo.alt[locale],
+			contentUrl: new URL(photo.fullImage.src, worksUrl).href,
+			description: photo.alt[locale],
+			width: photo.image.width,
+			height: photo.image.height,
+		},
+	})),
+};
+---
+
+<section class="mx-auto w-full max-w-shell px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14" aria-label={text.gallery}>
+	{photos.length > 0 ? (
+		<div data-works-gallery>
+			<div class="columns-2 gap-3 sm:gap-4 lg:columns-3 xl:columns-4" data-works-grid>
+				{photos.map((photo, index) => (
+					<button
+						type="button"
+						class="group mb-3 block w-full break-inside-avoid cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-night-panel text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl hover:shadow-black/30 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent motion-reduce:transform-none motion-reduce:transition-none sm:mb-4"
+						aria-label={`${text.open(index)}: ${photo.alt[locale]}`}
+						data-gallery-photo
+						data-full-src={photo.fullImage.src}
+						data-photo-alt={photo.alt[locale]}
+						data-photo-caption={photo.caption?.[locale] ?? ''}
+					>
+						<span class="relative block overflow-hidden">
+							<Image
+								src={photo.image}
+								widths={photo.thumbnailWidths}
+								sizes="(min-width: 80rem) 23vw, (min-width: 64rem) 30vw, (min-width: 40rem) 46vw, 45vw"
+								format="webp"
+								quality={80}
+								alt={photo.alt[locale]}
+								class="block h-auto w-full aspect-auto transition-transform duration-500 group-hover:scale-[1.04] group-focus-visible:scale-[1.02] motion-reduce:transition-none"
+								loading="lazy"
+							/>
+							<span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none" aria-hidden="true"></span>
+							<span class="pointer-events-none absolute right-3 top-3 grid size-9 place-items-center rounded-full bg-black/60 text-white opacity-0 shadow-lg transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none" aria-hidden="true">
+								<svg class="size-4" viewBox="0 0 24 24" fill="none"><path d="M15 3h6v6m-1-5-7 7m-4 10H3v-6m1 5 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</span>
+						</span>
+					</button>
+				))}
+			</div>
+
+			<dialog
+				class="m-auto max-h-[calc(100dvh-2rem)] max-w-[calc(100vw-1rem)] overflow-visible bg-transparent p-0 text-white backdrop:bg-black/90 sm:max-w-[calc(100vw-3rem)]"
+				aria-label={text.gallery}
+				data-work-lightbox
+			>
+				<div class="relative grid max-h-[calc(100dvh-2rem)] min-h-32 max-w-6xl place-items-center">
+					<button type="button" class="absolute right-2 top-2 z-10 grid size-11 cursor-pointer place-items-center rounded-full bg-black/70 text-white hover:bg-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" aria-label={text.close} data-gallery-close>
+						<svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+					</button>
+					{photos.length > 1 && (
+						<>
+							<button type="button" class="absolute left-2 top-1/2 z-10 grid size-11 -translate-y-1/2 cursor-pointer place-items-center rounded-full bg-black/70 text-white hover:bg-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:left-4" aria-label={text.previous} data-gallery-previous>
+								<svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</button>
+							<button type="button" class="absolute right-2 top-1/2 z-10 grid size-11 -translate-y-1/2 cursor-pointer place-items-center rounded-full bg-black/70 text-white hover:bg-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:right-4" aria-label={text.next} data-gallery-next>
+								<svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</button>
+						</>
+					)}
+					<figure class="grid max-h-[calc(100dvh-2rem)] justify-items-center gap-2">
+						<img class="max-h-[calc(100dvh-5rem)] max-w-full rounded-xl object-contain" data-lightbox-image alt="" />
+						<figcaption class="text-center text-sm text-white/80" data-lightbox-caption hidden></figcaption>
+					</figure>
+				</div>
+			</dialog>
+		</div>
+	) : (
+		<div class="rounded-3xl border border-dashed border-white/15 bg-night-panel/60 px-6 py-16 text-center sm:py-20">
+			<svg class="mx-auto size-10 text-accent/80" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+				<rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.6" />
+				<circle cx="8.5" cy="9" r="1.5" stroke="currentColor" stroke-width="1.6" />
+				<path d="m4 17 5-5 3 3 2-2 6 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+			</svg>
+			<p class="mt-4 text-base text-white/65">{text.empty}</p>
+		</div>
+	)}
+</section>
+
+{photos.length > 0 && <script type="application/ld+json" set:html={JSON.stringify(galleryStructuredData)} />}
+
+<script>
+	const gallery = document.querySelector<HTMLElement>('[data-works-gallery]');
+	const grid = gallery?.querySelector<HTMLElement>('[data-works-grid]');
+	if (grid) {
+		const cards = Array.from(grid.children);
+		for (let index = cards.length - 1; index > 0; index--) {
+			const swapIndex = Math.floor(Math.random() * (index + 1));
+			const currentCard = cards[index];
+			const swapCard = cards[swapIndex];
+			if (!currentCard || !swapCard) continue;
+			[cards[index], cards[swapIndex]] = [swapCard, currentCard];
+		}
+		grid.append(...cards);
+	}
+	const dialog = gallery?.querySelector<HTMLDialogElement>('[data-work-lightbox]');
+	const photoButtons = gallery ? Array.from(gallery.querySelectorAll<HTMLButtonElement>('[data-gallery-photo]')) : [];
+	const lightboxImage = dialog?.querySelector<HTMLImageElement>('[data-lightbox-image]');
+	const lightboxCaption = dialog?.querySelector<HTMLElement>('[data-lightbox-caption]');
+	const closeButton = dialog?.querySelector<HTMLButtonElement>('[data-gallery-close]');
+	const previousButton = dialog?.querySelector<HTMLButtonElement>('[data-gallery-previous]');
+	const nextButton = dialog?.querySelector<HTMLButtonElement>('[data-gallery-next]');
+
+	if (dialog && lightboxImage && photoButtons.length > 0) {
+		let activeIndex = 0;
+
+		const showPhoto = (index: number) => {
+			activeIndex = (index + photoButtons.length) % photoButtons.length;
+			const photo = photoButtons[activeIndex];
+			if (!photo) return;
+			lightboxImage.src = photo.dataset.fullSrc ?? '';
+			lightboxImage.alt = photo.dataset.photoAlt ?? '';
+			if (lightboxCaption) {
+				lightboxCaption.textContent = photo.dataset.photoCaption ?? '';
+				lightboxCaption.hidden = !lightboxCaption.textContent;
+			}
+		};
+
+		photoButtons.forEach((button, index) => button.addEventListener('click', () => {
+			showPhoto(index);
+			dialog.showModal();
+		}));
+		closeButton?.addEventListener('click', () => dialog.close());
+		previousButton?.addEventListener('click', () => showPhoto(activeIndex - 1));
+		nextButton?.addEventListener('click', () => showPhoto(activeIndex + 1));
+		dialog.addEventListener('click', (event) => {
+			if (event.target === dialog) dialog.close();
+		});
+		dialog.addEventListener('keydown', (event) => {
+			if (event.key === 'ArrowLeft') showPhoto(activeIndex - 1);
+			if (event.key === 'ArrowRight') showPhoto(activeIndex + 1);
+		});
+	}
+</script>
