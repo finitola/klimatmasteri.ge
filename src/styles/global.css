@@ -4,8 +4,16 @@
 	font-family: 'Noto Sans Georgian';
 	src: url('../assets/fonts/NotoSansGeorgian-VF.ttf') format('truetype');
 	font-style: normal;
-	font-weight: 100 900;
+	font-weight: 100 600;
 	font-stretch: 62.5% 100%;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Noto Sans Georgian';
+	src: url('../assets/fonts/Galio-Bold.ttf') format('truetype');
+	font-style: normal;
+	font-weight: 700 900;
 	font-display: swap;
 }
 

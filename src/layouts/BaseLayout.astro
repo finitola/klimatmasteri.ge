@@ -5,6 +5,7 @@ import SiteHeader from '../components/SiteHeader.astro';
 import ContactActions from '../components/ContactActions.astro';
 import homeHeroImage from '../assets/images/kondicioneris-xelosani.webp';
 import georgianFontUrl from '../assets/fonts/NotoSansGeorgian-VF.ttf?url';
+import galioBoldFontUrl from '../assets/fonts/Galio-Bold.ttf?url';
 import { businessInfo } from '../data/business';
 import { getHreflangAlternates, getMetaDescription, getMetaTitle, getStructuredData } from '../data/seo';
 import { getPageUrl, isIndexablePage, type Locale, type PageId } from '../data/site';
@@ -36,6 +37,7 @@ const structuredData = isNotFound ? undefined : getStructuredData(locale, pageId
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="preload" href={georgianFontUrl} as="font" type="font/ttf" crossorigin="anonymous" />
+		<link rel="preload" href={galioBoldFontUrl} as="font" type="font/ttf" crossorigin="anonymous" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="robots" content={isIndexable ? 'index,follow,max-image-preview:large' : 'noindex,follow'} />
 		<link rel="sitemap" href="/sitemap-0.xml" />
