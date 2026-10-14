@@ -47,7 +47,7 @@ export const seoCopy: Record<PageId, LocalizedSeoCopy> = {
 	},
 	works: {
 		title: {
-			ka: 'კონდიციონერის ხელოსანი - ნამუშევრების გალერეა - KlimatMasteri',
+			ka: 'კონდიციონერის ხელოსანი - ნამუშევრები | KlimatMasteri',
 			en: 'Air-Conditioner Work Photo Gallery | KlimatMasteri',
 		},
 		description: {

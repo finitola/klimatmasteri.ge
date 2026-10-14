@@ -24,11 +24,9 @@ function validateSeoMetadata(): void {
 			const description = `${metaDescriptionPrefix}${descriptionBody}`;
 			const titleLength = Array.from(title).length;
 			const descriptionLength = Array.from(description).length;
-			// Keep the user's exact gallery title, which is one character over the shared limit.
-			const maxTitleLength = pageId === 'works' && locale === 'ka' ? MAX_META_TITLE_LENGTH + 1 : MAX_META_TITLE_LENGTH;
 
-			if (titleLength < MIN_META_TITLE_LENGTH || titleLength > maxTitleLength) {
-				errors.push(`${locale}/${pageId}: title is ${titleLength} characters; expected ${MIN_META_TITLE_LENGTH}–${maxTitleLength}.`);
+			if (titleLength < MIN_META_TITLE_LENGTH || titleLength > MAX_META_TITLE_LENGTH) {
+				errors.push(`${locale}/${pageId}: title is ${titleLength} characters; expected ${MIN_META_TITLE_LENGTH}–${MAX_META_TITLE_LENGTH}.`);
 			}
 			if (descriptionLength < MIN_META_DESCRIPTION_LENGTH || descriptionLength > MAX_META_DESCRIPTION_LENGTH) {
 				errors.push(`${locale}/${pageId}: description is ${descriptionLength} characters; expected ${MIN_META_DESCRIPTION_LENGTH}–${MAX_META_DESCRIPTION_LENGTH}.`);

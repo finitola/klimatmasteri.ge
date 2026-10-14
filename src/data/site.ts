@@ -135,7 +135,7 @@ export const pages: Record<PageId, PageDefinition> = {
 	},
 	works: {
 		slug: { ka: 'kondicioneris-xelosani-namushevrebi', en: 'our-work' },
-		title: { ka: 'ნამუშევრები | KlimatMasteri', en: 'Our Work | KlimatMasteri' },
+		title: { ka: 'ნამუშევრები ფოტო-გალერეა | KlimatMasteri', en: 'Our Work | KlimatMasteri' },
 		description: {
 			ka: 'იხილეთ KlimatMasteri-ის ნამუშევრები: კონდიციონერის მონტაჟი, მილების გაყვანა, წმენდა, დიაგნოსტიკა, შეკეთება და სადრენაჟო პომპის ინსტალაცია.',
 			en: 'A photo gallery of work by KlimatMasteri.',
