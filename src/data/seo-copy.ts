@@ -47,11 +47,11 @@ export const seoCopy: Record<PageId, LocalizedSeoCopy> = {
 	},
 	works: {
 		title: {
-			ka: 'კონდიციონერის ნამუშევრების ფოტო-გალერეა | KlimatMasteri',
+			ka: 'კონდიციონერის ხელოსანი - ნამუშევრების გალერეა - KlimatMasteri',
 			en: 'Air-Conditioner Work Photo Gallery | KlimatMasteri',
 		},
 		description: {
-			ka: 'დაათვალიერეთ KlimatMasteri-ის ნამუშევრები: კონდიციონერის მონტაჟი, მილების გაყვანა, წმენდა, დიაგნოსტიკა, შეკეთება და სადრენაჟო პომპის ინსტალაცია.',
+			ka: 'იხილეთ KlimatMasteri-ის ნამუშევრები: კონდიციონერის მონტაჟი, მილების გაყვანა, წმენდა, დიაგნოსტიკა, შეკეთება და სადრენაჟო პომპის ინსტალაცია.',
 			en: 'KlimatMasteri project photos show air-conditioner installation, pipework, cleaning, diagnostics, repairs and condensate pump work in one gallery.',
 		},
 	},

@@ -20,6 +20,7 @@ export const GET: APIRoute = () => {
 		`- [About Us](${getPageUrl('ka', 'about')}): ${pages.about.description.ka}`,
 		`- [Contact](${getPageUrl('ka', 'contact')}): ${pages.contact.description.ka}`,
 		`- [FAQ](${getPageUrl('ka', 'faq')}): ${pages.faq.description.ka}`,
+		`- [${pages.works.title.ka.split(' | ')[0]}](${getPageUrl('ka', 'works')}): ${pages.works.description.ka}`,
 		'',
 		'## Services (Georgian)',
 		...servicePageIds.map(id => `- [${pages[id].title.ka.split(' - ')[0].trim()}](${getPageUrl('ka', id)}): ${pages[id].description.ka}`),
