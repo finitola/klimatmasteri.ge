@@ -18,7 +18,7 @@ export const seoCopy: Record<PageId, LocalizedSeoCopy> = {
 		},
 	},
 	services: {
-		title: { ka: 'კონდიციონერის სერვისები და მონტაჟი | KlimatMasteri', en: 'Air Conditioner Services in Tbilisi | KlimatMasteri' },
+		title: { ka: 'კონდიციონერის სერვისი და მონტაჟი თბილისში | KlimatMasteri', en: 'Air Conditioner Services in Tbilisi | KlimatMasteri' },
 		description: {
 			ka: 'კონდიციონერის მონტაჟი, დემონტაჟი, დიაგნოსტიკა, შეკეთება, გაწმენდა და სერვისები თბილისში. ნახეთ მომსახურების დეტალები და შეარჩიეთ საჭირო სერვისი.',
 			en: 'Air-conditioner installation, removal, diagnostics, repair and cleaning services in Tbilisi. Review details and choose a service for your needs.',

@@ -99,8 +99,8 @@ export const pages: Record<PageId, PageDefinition> = {
 		},
 	},
 	services: {
-		slug: { ka: 'kondicioneris-servisebi', en: 'air-conditioner-services' },
-		title: { ka: 'კონდიციონერის სერვისები | KlimatMasteri', en: 'Air Conditioner Services | KlimatMasteri' },
+		slug: { ka: 'kondicioneris-servisi', en: 'air-conditioner-services' },
+		title: { ka: 'კონდიციონერის სერვისი | KlimatMasteri', en: 'Air Conditioner Services | KlimatMasteri' },
 		description: {
 			ka: 'კონდიციონერის მონტაჟი, დემონტაჟი, დიაგნოსტიკა, შეკეთება, გაწმენდა და სხვა მომსახურებები.',
 			en: 'Explore air conditioner installation, repair, cleaning, diagnostics, refrigerant, and drainage services from KlimatMasteri.',
