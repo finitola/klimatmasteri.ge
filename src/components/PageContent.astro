@@ -187,15 +187,15 @@ if (isLicensingLearningPage) {
 
 				<section class="border-b border-white/10 bg-night-panel" aria-label={locale === 'ka' ? 'საკონტაქტო ინფორმაცია' : 'Contact information'}>
 					<div class="mx-auto grid max-w-shell divide-y divide-white/10 px-5 sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:px-8 lg:px-10">
-						<div class="py-4 sm:px-5 sm:py-5 lg:px-8">
+						<div class="flex flex-col items-center py-4 text-center sm:px-5 sm:py-5 lg:px-8">
 							<p class="text-small font-bold uppercase tracking-[0.16em] text-accent">{locale === 'ka' ? 'მისამართი' : 'Location'}</p>
 							<p class="mt-1 text-sm font-semibold text-white">{locale === 'ka' ? 'თბილისი, საბურთალო' : 'Tbilisi, Saburtalo'}</p>
 						</div>
-						<div class="py-4 sm:px-5 sm:py-5 lg:px-8">
+						<div class="flex flex-col items-center py-4 text-center sm:px-5 sm:py-5 lg:px-8">
 							<p class="text-small font-bold uppercase tracking-[0.16em] text-accent">{locale === 'ka' ? 'ტელეფონი' : 'Phone'}</p>
 							<a class="mt-1 inline-flex rounded-sm text-sm font-bold tabular-nums text-white hover:text-fire focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="tel:+995514128821">+995 514 12 88 21</a>
 						</div>
-						<div class="py-4 sm:px-5 sm:py-5 lg:px-8">
+						<div class="flex flex-col items-center py-4 text-center sm:px-5 sm:py-5 lg:px-8">
 							<p class="text-small font-bold uppercase tracking-[0.16em] text-accent">{locale === 'ka' ? 'სამუშაო დრო' : 'Hours'}</p>
 							<p class="mt-1 text-sm font-semibold text-white">{locale === 'ka' ? 'სამუშაო 24/7' : 'Open 24/7'}</p>
 						</div>
@@ -207,24 +207,40 @@ if (isLicensingLearningPage) {
 							<h2 class="georgian-caps text-h2 font-extrabold text-white">{pageLabels.services[locale]}</h2>
 							<p class="mt-3 text-base leading-7 text-white/65 sm:leading-8">{servicesIntro}</p>
 						</div>
-						<ol class="mt-8 border-t border-white/10 sm:mt-10" aria-label={locale === 'ka' ? 'კონდიციონერის მომსახურებები' : 'Air conditioner services'}>
+						<ol data-home-services-list class="mt-8 grid gap-2 sm:mt-10" aria-label={locale === 'ka' ? 'კონდიციონერის მომსახურებები' : 'Air conditioner services'}>
 							{homeServices.map((service, index) => (
-								<li class="grid min-h-16 grid-cols-[2.5rem_minmax(0,1fr)] items-center gap-3 border-b border-white/10 py-4 sm:grid-cols-[4rem_minmax(0,1fr)_minmax(8rem,0.65fr)] sm:gap-5 sm:py-5">
-									<span class:list={[
-										'font-brand text-small font-extrabold tabular-nums tracking-wider',
-										index % 2 === 0 ? 'text-accent' : 'text-fire',
-									]}>{String(index + 1).padStart(2, '0')}</span>
-									<h3 class="georgian-caps text-base font-bold leading-6 text-white sm:text-lg">{service}</h3>
-									<span class="hidden h-px w-full bg-white/10 sm:block" aria-hidden="true"></span>
+								<li data-home-service-item>
+										<details name="home-services" open={index === 0} data-home-service class="group overflow-hidden rounded-md border border-white/10 bg-white/[0.025] transition-colors duration-300 open:border-accent/45 open:bg-night-panel">
+										<summary class="flex cursor-pointer list-none items-center gap-3 px-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&::-webkit-details-marker]:hidden sm:gap-5 sm:px-5">
+											<span data-home-service-number class:list={[
+												'font-brand text-small font-extrabold tabular-nums tracking-wider',
+												index % 2 === 0 ? 'text-accent' : 'text-fire',
+											]}>{String(index + 1).padStart(2, '0')}</span>
+											<h3 data-home-service-label class="georgian-caps min-w-0 flex-1 text-left text-sm font-bold leading-6 text-white sm:text-base">{service}</h3>
+										</summary>
+										<div data-home-service-content class="px-4 py-2 sm:px-5 sm:py-0">
+											<div class="sm:ml-10">
+												{locale === 'ka' ? (
+													<>
+														<a class="w-fit rounded-sm font-brand text-lg font-extrabold tabular-nums text-fire underline decoration-transparent underline-offset-4 transition-colors hover:text-white hover:decoration-fire focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="tel:+995514128821">514-12-88-21</a>
+														<p class="mt-3 text-sm font-semibold leading-6 text-white/90">KlimatMasteri. | კონდიციონერის ხელოსანი - მაღალი სტანდარტები, პროფესიონალიზმი, პასუხისმგებლობა.</p>
+														<div class="mt-auto w-full pt-5 text-left">
+															<p class="text-left text-sm font-bold leading-6 text-white/80">რა სერვისებს გთავაზობთ ?</p>
+															<a class="mt-7 flex min-h-11 w-fit items-center justify-center rounded-md bg-accent px-5 text-sm font-bold text-ink shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-fire hover:shadow-button active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent" href={getPagePath(locale, 'services')}>სერვისების ნახვას</a>
+														</div>
+													</>
+												) : (
+													<>
+														<p class="text-base font-semibold leading-7 text-white/90 sm:text-lg sm:leading-8">If you need another service, click</p>
+														<a class="mt-auto inline-flex min-h-11 w-full items-center justify-center rounded-md bg-accent px-5 text-sm font-bold text-ink shadow-button transition-all duration-200 hover:-translate-y-0.5 hover:bg-fire hover:shadow-button active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent" href={getPagePath(locale, 'services')}>view services</a>
+													</>
+												)}
+											</div>
+										</div>
+									</details>
 								</li>
 							))}
 						</ol>
-						<a class="mt-7 inline-flex min-h-12 items-center gap-3 rounded-full border border-accent/60 px-5 text-sm font-bold text-white transition-colors hover:bg-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent" href={getPagePath(locale, 'services')}>
-							<span>{locale === 'ka' ? 'სერვისების ნახვა' : 'View services'}</span>
-							<svg class="size-4 text-fire" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-								<path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-							</svg>
-						</a>
 				</section>
 
 				<HomeSystemsSection locale={locale} />
@@ -652,7 +668,152 @@ if (isLicensingLearningPage) {
 	</main>
 </BaseLayout>
 
+<style>
+	[data-home-service] summary {
+		min-height: 3.5rem;
+		padding-block: 0.75rem;
+	}
+
+	@supports (interpolate-size: allow-keywords) {
+		:global(html) {
+			interpolate-size: allow-keywords;
+		}
+
+		[data-home-service]::details-content {
+			block-size: 0;
+			overflow: clip;
+			transition: block-size 240ms ease, content-visibility 240ms allow-discrete;
+		}
+
+		[data-home-service][open]::details-content {
+			block-size: auto;
+		}
+	}
+
+	@media (min-width: 80rem) {
+		ol[data-home-services-list] {
+			display: flex;
+			gap: 0.75rem;
+			block-size: 22rem;
+		}
+
+		[data-home-service-item] {
+			flex: 0 0 2.75rem;
+			min-inline-size: 0;
+			transition: flex-grow 360ms cubic-bezier(0.2, 0.75, 0.25, 1), flex-basis 360ms cubic-bezier(0.2, 0.75, 0.25, 1);
+		}
+
+		[data-home-service-item]:has(> [data-home-service][open]) {
+			flex: 1 1 0;
+		}
+
+		[data-home-service] {
+			display: flex;
+			flex-direction: column;
+			block-size: 100%;
+		}
+
+		[data-home-service] summary {
+			position: relative;
+			flex: 1 1 auto;
+			min-block-size: 0;
+			padding: 0.75rem;
+		}
+
+		[data-home-service-number] {
+			position: absolute;
+			top: 0.75rem;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+
+		[data-home-service-label] {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 16rem;
+			max-block-size: 2.5rem;
+			transform: translate(-50%, -50%) rotate(-90deg);
+			overflow: hidden;
+			font-size: 0.75rem;
+			line-height: 1.25rem;
+			text-align: left;
+			transition: transform 360ms ease, font-size 360ms ease;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+		}
+
+		[data-home-service][open] summary {
+			flex: 0 0 auto;
+			height: auto;
+			min-height: 3rem;
+			block-size: auto;
+			min-block-size: 3rem;
+			padding: 0.5rem 1rem;
+		}
+
+		[data-home-service][open]::details-content {
+			display: flex;
+			flex: 1 1 auto;
+			min-block-size: 0;
+		}
+
+		[data-home-service-content] {
+			display: flex;
+			flex: 1 1 auto;
+			min-block-size: 0;
+			padding-block-end: 1.5rem;
+		}
+
+		[data-home-service-content] > div {
+			display: flex;
+			flex: 1 1 auto;
+			flex-direction: column;
+			align-items: flex-start;
+			margin-inline: 2.5rem;
+		}
+
+		[data-home-service][open] [data-home-service-number],
+		[data-home-service][open] [data-home-service-label] {
+			position: static;
+			width: auto;
+			max-block-size: none;
+			transform: none;
+			overflow: visible;
+			font-size: inherit;
+			line-height: inherit;
+			display: block;
+			-webkit-line-clamp: unset;
+			-webkit-box-orient: initial;
+		}
+
+		[data-home-service][open] [data-home-service-label] {
+			font-size: 1rem;
+			line-height: 1.5rem;
+		}
+
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		[data-home-service]::details-content,
+		[data-home-service-label],
+		[data-home-service-item] {
+			transition: none;
+		}
+	}
+</style>
+
 <script>
+	const homeServicesList = document.querySelector<HTMLOListElement>('[data-home-services-list]');
+	homeServicesList?.addEventListener('click', (event: MouseEvent) => {
+		if (!(event.target instanceof Element)) return;
+
+		const summary = event.target.closest('summary');
+		const details = summary?.parentElement;
+		if (details instanceof HTMLDetailsElement && details.open) event.preventDefault();
+	});
+
 	const statistics = document.querySelector('[data-statistics]');
 	const counters = document.querySelectorAll<HTMLElement>('[data-count]');
 	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
