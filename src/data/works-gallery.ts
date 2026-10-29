@@ -29,7 +29,7 @@ import wallPipesSecond from '../assets/images/works/kondicioneris-milebis-montaj
 import indoorUnitElectrical from '../assets/images/works/kondicioneris-shida-blokis-eleqtrooba.webp';
 import dirtyFilters from '../assets/images/works/kondicioneris-dabindzurebuli-filtrebi.webp';
 import concealedPipes from '../assets/images/works/kondicioneris-milebi-chashenebis-montaji.webp';
-import installedOutdoorUnit from '../assets/images/works/kondicioneris-gare-blokis-montaji.webp';
+import indoorPipeRouting from '../assets/images/works/kondicioneris-milebis-gayvana.webp';
 import wallPipesThird from '../assets/images/works/kondicioneris-milebis-montaji-kedelshi-3.webp';
 
 export interface WorkPhoto {
@@ -58,10 +58,10 @@ export const workPhotos: WorkPhoto[] = [
 	{
 		image: dirtyEvaporator,
 		alt: {
-			ka: 'კონდიციონერის დაბინძურებული აორთქლებელი',
+			ka: 'კონდიციონერის დაბინძურებული საორთქლებელი',
 			en: 'A dirty heat exchanger inside an air conditioner.',
 		},
-		caption: { ka: 'კონდიციონერის დაბინძურებული აორთქლებელი', en: 'A dirty air-conditioner evaporator coil' },
+		caption: { ka: 'კონდიციონერის დაბინძურებული საორთქლებელი', en: 'A dirty air-conditioner evaporator coil' },
 	},
 	{
 		image: fanMotor,
@@ -98,10 +98,10 @@ export const workPhotos: WorkPhoto[] = [
 	{
 		image: outdoorUnit,
 		alt: {
-			ka: 'კონდიციონერის გარე ბლოკი შენობის ფასადზე',
-			en: 'An outdoor air-conditioning unit mounted on a building façade.',
+			ka: 'კონდიციონერის იზოლირებული მილები, რომლებიც ფასადზე დამონტაჟებულ გარე ბლოკს უერთდება',
+			en: 'Insulated air-conditioning pipes routed along the façade to the mounted outdoor unit.',
 		},
-		caption: { ka: 'კონდიციონერის გარე ბლოკის მონტაჟი', en: 'Outdoor unit installation' },
+		caption: { ka: 'კონდიციონერის მილების გაყვანა გარე ბლოკთან', en: 'Air-conditioning pipes routed to an outdoor unit' },
 	},
 	{
 		image: multisplitInstallation,
@@ -178,7 +178,7 @@ export const workPhotos: WorkPhoto[] = [
 	{
 		image: disassembledIndoorUnit,
 		alt: {
-			ka: 'დაშლილი კედლის კონდიციონერის შიდა ბლოკი, რომელშიც აორთქლებელი და ელექტრული ნაწილები ჩანს',
+			ka: 'დაშლილი კედლის კონდიციონერის შიდა ბლოკი, რომელშიც საორთქლებელი და ელექტრული ნაწილები ჩანს',
 			en: 'A disassembled wall-mounted air conditioner with its evaporator and electrical parts exposed.',
 		},
 		caption: { ka: 'კონდიციონერის შიდა ბლოკის დაშლა', en: 'Disassembly of an indoor unit' },
@@ -272,12 +272,12 @@ export const workPhotos: WorkPhoto[] = [
 		caption: { ka: 'კონდიციონერის ჩასაშენებელი მილები', en: 'Concealed air-conditioning pipes' },
 	},
 	{
-		image: installedOutdoorUnit,
+		image: indoorPipeRouting,
 		alt: {
-			ka: 'შენობის ფასადზე, აივნის მიღმა დამონტაჟებული კონდიციონერის გარე ბლოკი',
-			en: 'An air-conditioner outdoor unit mounted on the building façade beyond a balcony.',
+			ka: 'კონდიციონერის მილები, რომლებიც ოთახის ჭერის გასწვრივაა გაყვანილი; ფანჯრის მიღმა გარე ბლოკი ჩანს',
+			en: 'Air-conditioning pipes routed along the indoor ceiling, with the outdoor unit visible beyond the window.',
 		},
-		caption: { ka: 'კონდიციონერის გარე ბლოკი ფასადზე', en: 'Air-conditioner outdoor unit on a façade' },
+		caption: { ka: 'კონდიციონერის მილების გაყვანა', en: 'Routing air-conditioning pipes' },
 	},
 	{
 		image: wallPipesThird,
