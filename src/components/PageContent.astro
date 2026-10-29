@@ -75,7 +75,7 @@ const servicesIntro = locale === 'ka'
 	? 'რა სერვისებს გთავაზობთ კლიმატ მასტერი ? '
 	: 'What services does KlimatMasteri offer?';
 const servicesHeroIntro = locale === 'ka'
-	? 'კონდიციოენრის სერვისების გვერდზე, დეტალურად გაეცნობით ინფორმაციას თითოეულ სერვისზე, რასაც კლიმატ მასტერი გთავაზობთ.'
+	? 'კონდიციონერის სერვისების გვერდზე, დეტალურად გაეცნობით ინფორმაციას თითოეულ სერვისზე, რასაც კლიმატ მასტერი გთავაზობთ.'
 	: 'On the air-conditioning services page, you can find detailed information about every service offered by KlimatMasteri.';
 const homeServices = locale === 'ka' ? [
 	'კონდიციონერის მონტაჟი',
@@ -219,21 +219,21 @@ if (isLicensingLearningPage) {
 											]}>{String(index + 1).padStart(2, '0')}</span>
 											<h3 data-home-service-label class="georgian-caps min-w-0 flex-1 text-left text-sm font-bold leading-6 text-white sm:text-base">{service}</h3>
 										</summary>
-										<div data-home-service-content class="px-4 py-2 sm:px-5 sm:py-0">
+										<div data-home-service-content class="px-4 pt-2 pb-5 sm:px-5 sm:pt-0 sm:pb-5">
 											<div class="sm:ml-10">
 												{locale === 'ka' ? (
 													<>
-														<a class="w-fit rounded-sm font-brand text-lg font-extrabold tabular-nums text-fire underline decoration-transparent underline-offset-4 transition-colors hover:text-white hover:decoration-fire focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="tel:+995514128821">514-12-88-21</a>
-														<p class="mt-3 text-sm font-semibold leading-6 text-white/90">KlimatMasteri. | კონდიციონერის ხელოსანი - მაღალი სტანდარტები, პროფესიონალიზმი, პასუხისმგებლობა.</p>
+														<a data-home-service-reveal="phone" class="w-fit rounded-sm font-brand text-lg font-extrabold tabular-nums text-fire underline decoration-transparent underline-offset-4 transition-colors hover:text-white hover:decoration-fire focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="tel:+995514128821">514-12-88-21</a>
+														<p data-home-service-reveal="description" class="mt-3 text-sm font-semibold leading-6 text-white/90">KlimatMasteri. | კონდიციონერის ხელოსანი - მაღალი სტანდარტები, პროფესიონალიზმი, პასუხისმგებლობა.</p>
 														<div class="mt-auto w-full pt-5 text-left">
-															<p class="text-left text-sm font-bold leading-6 text-white/80">რა სერვისებს გთავაზობთ ?</p>
-															<a class="mt-7 flex min-h-11 w-fit items-center justify-center rounded-md bg-accent px-5 text-sm font-bold text-ink shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-fire hover:shadow-button active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent" href={getPagePath(locale, 'services')}>სერვისების ნახვას</a>
+															<p data-home-service-reveal="prompt" class="text-left text-sm font-bold leading-6 text-white/80">რა სერვისებს გთავაზობთ ?</p>
+															<a data-home-service-reveal="button" class="mt-7 flex min-h-11 w-fit items-center justify-center rounded-md bg-accent px-5 text-sm font-bold text-ink shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-fire hover:shadow-button active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent" href={getPagePath(locale, 'services')}>სერვისების ნახვა</a>
 														</div>
 													</>
 												) : (
 													<>
-														<p class="text-base font-semibold leading-7 text-white/90 sm:text-lg sm:leading-8">If you need another service, click</p>
-														<a class="mt-auto inline-flex min-h-11 w-full items-center justify-center rounded-md bg-accent px-5 text-sm font-bold text-ink shadow-button transition-all duration-200 hover:-translate-y-0.5 hover:bg-fire hover:shadow-button active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent" href={getPagePath(locale, 'services')}>view services</a>
+														<p data-home-service-reveal="description" class="text-base font-semibold leading-7 text-white/90 sm:text-lg sm:leading-8">If you need another service, click</p>
+														<a data-home-service-reveal="button" class="mt-auto inline-flex min-h-11 w-full items-center justify-center rounded-md bg-accent px-5 text-sm font-bold text-ink shadow-button transition-all duration-200 hover:-translate-y-0.5 hover:bg-fire hover:shadow-button active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent" href={getPagePath(locale, 'services')}>view services</a>
 													</>
 												)}
 											</div>
@@ -680,6 +680,40 @@ if (isLicensingLearningPage) {
 		padding-block: 0.75rem;
 	}
 
+	ol[data-home-services-list] {
+		--service-accordion-duration: 240ms;
+		--service-content-step: 100ms;
+		--service-content-start-delay: calc(var(--service-accordion-duration) + 180ms);
+	}
+
+	[data-home-service-reveal] {
+		opacity: 0;
+		transform: translateY(0.25rem);
+		transition: opacity 180ms ease, transform 180ms ease;
+	}
+
+	[data-home-service][open] [data-home-service-reveal] {
+		opacity: 1;
+		transform: none;
+		transition-delay: var(--service-content-start-delay);
+	}
+
+	[data-home-service][open] [data-home-service-reveal="description"] {
+		transition-delay: calc(var(--service-content-start-delay) + var(--service-content-step));
+	}
+
+	[data-home-service][open] [data-home-service-reveal="prompt"] {
+		transition-delay: calc(var(--service-content-start-delay) + var(--service-content-step) + var(--service-content-step));
+	}
+
+	[data-home-service][open] [data-home-service-reveal="button"] {
+		transition-delay: calc(var(--service-content-start-delay) + var(--service-content-step) + var(--service-content-step) + var(--service-content-step));
+	}
+
+	[data-home-service][data-home-service-animate][open] [data-home-service-label] {
+		animation: home-service-label-reveal 180ms ease-out var(--service-accordion-duration) both;
+	}
+
 	@supports (interpolate-size: allow-keywords) {
 		:global(html) {
 			interpolate-size: allow-keywords;
@@ -698,7 +732,8 @@ if (isLicensingLearningPage) {
 
 	@media (min-width: 80rem) {
 		ol[data-home-services-list] {
-			--service-accordion-transition: 520ms cubic-bezier(0.4, 0, 0.2, 1);
+			--service-accordion-duration: 520ms;
+			--service-accordion-transition: var(--service-accordion-duration) cubic-bezier(0.4, 0, 0.2, 1);
 			display: flex;
 			gap: 0.75rem;
 			block-size: 22rem;
@@ -745,7 +780,6 @@ if (isLicensingLearningPage) {
 			font-size: 0.75rem;
 			line-height: 1.25rem;
 			text-align: left;
-			transition: transform var(--service-accordion-transition), font-size 280ms ease;
 			display: -webkit-box;
 			-webkit-box-orient: vertical;
 			-webkit-line-clamp: 2;
@@ -802,11 +836,46 @@ if (isLicensingLearningPage) {
 
 	}
 
+	@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+		[data-home-service]:not([open]):hover {
+			animation: home-service-card-wave 700ms ease-in-out;
+		}
+	}
+
+	@keyframes home-service-card-wave {
+		0%, 100% { transform: translateY(0) scale(1); }
+		35% { transform: translateY(-0.75px) scale(1.002); }
+		65% { transform: translateY(-1.5px) scale(1.003); }
+		85% { transform: translateY(-0.5px) scale(1.001); }
+	}
+
+	@keyframes home-service-label-reveal {
+		from {
+			opacity: 0;
+			transform: translateY(0.25rem);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		[data-home-service]::details-content,
-		[data-home-service-label],
 		[data-home-service-item] {
 			transition: none;
+		}
+
+		[data-home-service-reveal] {
+			transition: none;
+			opacity: 1;
+			transform: none;
+		}
+
+		[data-home-service][data-home-service-animate][open] [data-home-service-label] {
+			animation: none;
+			opacity: 1;
+			transform: none;
 		}
 	}
 </style>
@@ -818,7 +887,10 @@ if (isLicensingLearningPage) {
 
 		const summary = event.target.closest('summary');
 		const details = summary?.parentElement;
-		if (details instanceof HTMLDetailsElement && details.open) event.preventDefault();
+		if (details instanceof HTMLDetailsElement) {
+			if (details.open) event.preventDefault();
+			else details.setAttribute('data-home-service-animate', '');
+		}
 	});
 
 	const statistics = document.querySelector('[data-statistics]');
