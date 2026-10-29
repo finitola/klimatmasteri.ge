@@ -17,6 +17,20 @@ import airConditionerRepair from '../assets/images/works/kondicioneris-sheketeba
 import drainagePump from '../assets/images/works/pompis-instalacia.webp';
 import drainagePumpInUnit from '../assets/images/works/pompis-profesionaluri-instalacia.webp';
 import professionalInstallation from '../assets/images/works/profesionaluri-kondicioneris-montaji.webp';
+import disassembledIndoorUnit from '../assets/images/works/kondicioneris-dashlili-shida-bloki.webp';
+import condensatePump from '../assets/images/works/kondicioneris-sadrenaje-pompa.webp';
+import controlBoard from '../assets/images/works/kondicioneris-eleqtro-plata.webp';
+import electricalComponents from '../assets/images/works/kondicioneris-eleqtro-komponentebis-detalebi.webp';
+import electricalWiring from '../assets/images/works/kondicioneris-eleqtro-sadenebi.webp';
+import rooftopPipes from '../assets/images/works/kondicioneris-milebi-saxuravze.webp';
+import removedFanMotor from '../assets/images/works/kondicioneris-ventilatoris-dzravis-motor-i.webp';
+import wallPipesFirst from '../assets/images/works/kondicioneris-milebis-montaji-kedelshi-1.webp';
+import wallPipesSecond from '../assets/images/works/kondicioneris-milebis-montaji-kedelshi-2.webp';
+import indoorUnitElectrical from '../assets/images/works/kondicioneris-shida-blokis-eleqtrooba.webp';
+import dirtyFilters from '../assets/images/works/kondicioneris-dabindzurebuli-filtrebi.webp';
+import concealedPipes from '../assets/images/works/kondicioneris-milebi-chashenebis-montaji.webp';
+import installedOutdoorUnit from '../assets/images/works/kondicioneris-gare-blokis-montaji.webp';
+import wallPipesThird from '../assets/images/works/kondicioneris-milebis-montaji-kedelshi-3.webp';
 
 export interface WorkPhoto {
 	image: ImageMetadata;
@@ -160,5 +174,117 @@ export const workPhotos: WorkPhoto[] = [
 			en: 'An outdoor air-conditioning unit installed on a rooftop.',
 		},
 		caption: { ka: 'კონდიციონერის პროფესიონალური მონტაჟი', en: 'Professional air-conditioner installation' },
+	},
+	{
+		image: disassembledIndoorUnit,
+		alt: {
+			ka: 'დაშლილი კედლის კონდიციონერის შიდა ბლოკი, რომელშიც აორთქლებელი და ელექტრული ნაწილები ჩანს',
+			en: 'A disassembled wall-mounted air conditioner with its evaporator and electrical parts exposed.',
+		},
+		caption: { ka: 'კონდიციონერის შიდა ბლოკის დაშლა', en: 'Disassembly of an indoor unit' },
+	},
+	{
+		image: condensatePump,
+		alt: {
+			ka: 'კონდიციონერის სადრენაჟო პომპა შიდა ბლოკის კორპუსთან',
+			en: 'A condensate drain pump beside the casing of an indoor air-conditioning unit.',
+		},
+		caption: { ka: 'კონდიციონერის სადრენაჟო პომპა', en: 'Air-conditioner condensate pump' },
+	},
+	{
+		image: controlBoard,
+		alt: {
+			ka: 'კონდიციონერის მართვის ელექტრონული პლატა მასზე მიერთებული სადენებით',
+			en: 'An air-conditioner control board with connected wiring.',
+		},
+		caption: { ka: 'კონდიციონერის ელექტრონული პლატა', en: 'Air-conditioner control board' },
+	},
+	{
+		image: electricalComponents,
+		alt: {
+			ka: 'კონდიციონერის ელექტრულ განყოფილებაში არსებული სადენები, კონდენსატორი და რელე',
+			en: 'Wiring, a capacitor and a relay inside an air-conditioner electrical compartment.',
+		},
+		caption: { ka: 'კონდიციონერის ელექტრული კომპონენტები', en: 'Air-conditioner electrical components' },
+	},
+	{
+		image: electricalWiring,
+		alt: {
+			ka: 'კონდიციონერის ელექტრულ ნაწილში არსებული სადენები და მტვრიანი კომპონენტები',
+			en: 'Wiring and dusty components inside an air-conditioner electrical compartment.',
+		},
+		caption: { ka: 'კონდიციონერის ელექტრული ნაწილი', en: 'Air-conditioner electrical compartment' },
+	},
+	{
+		image: rooftopPipes,
+		alt: {
+			ka: 'სახურავზე გაყვანილი კონდიციონერის მილები დამცავი თბოიზოლაციით',
+			en: 'Air-conditioning pipes with protective insulation routed across a rooftop.',
+		},
+		caption: { ka: 'კონდიციონერის მილები სახურავზე', en: 'Air-conditioning pipes on a rooftop' },
+	},
+	{
+		image: removedFanMotor,
+		alt: {
+			ka: 'კონდიციონერის გარე ბლოკის ამოღებული ვენტილატორის ელექტროძრავი',
+			en: 'A removed fan motor from an air-conditioner outdoor unit.',
+		},
+		caption: { ka: 'კონდიციონერის ვენტილატორის ძრავი', en: 'Air-conditioner fan motor' },
+	},
+	{
+		image: wallPipesFirst,
+		alt: {
+			ka: 'კედელში გაყვანილი და თბოიზოლაციით დაფარული კონდიციონერის მილები მონტაჟამდე',
+			en: 'Insulated air-conditioning pipes routed through a wall before installation.',
+		},
+		caption: { ka: 'კედელში ჩასაყოლებელი მილების მონტაჟი', en: 'Installing pipes inside a wall' },
+	},
+	{
+		image: wallPipesSecond,
+		alt: {
+			ka: 'კედლის ღარში გაყვანილი კონდიციონერის მილები და დრენაჟის შლანგი',
+			en: 'Air-conditioning pipes and a drain hose routed through a wall channel.',
+		},
+		caption: { ka: 'კონდიციონერის მილები კედლის ღარში', en: 'Air-conditioning pipes in a wall channel' },
+	},
+	{
+		image: indoorUnitElectrical,
+		alt: {
+			ka: 'გახსნილი კონდიციონერის შიდა ბლოკის ელექტრული კავშირები და სპილენძის მილები',
+			en: 'Electrical connections and copper pipes inside an opened indoor air-conditioning unit.',
+		},
+		caption: { ka: 'შიდა ბლოკის ელექტრული კავშირები', en: 'Indoor-unit electrical connections' },
+	},
+	{
+		image: dirtyFilters,
+		alt: {
+			ka: 'კასეტური კონდიციონერის მტვრით დაფარული ფილტრების რეცხვა გამდინარე წყლით',
+			en: 'Dust-covered cassette air-conditioner filters being rinsed under running water.',
+		},
+		caption: { ka: 'კასეტური კონდიციონერის დაბინძურებული ფილტრები', en: 'Dirty cassette air-conditioner filters' },
+	},
+	{
+		image: concealedPipes,
+		alt: {
+			ka: 'კონდიციონერის მონტაჟისთვის კედელში წინასწარ გაყვანილი და იზოლირებული მილები',
+			en: 'Pre-installed insulated pipes routed through a wall for an air conditioner.',
+		},
+		caption: { ka: 'კონდიციონერის ჩასაშენებელი მილები', en: 'Concealed air-conditioning pipes' },
+	},
+	{
+		image: installedOutdoorUnit,
+		alt: {
+			ka: 'შენობის ფასადზე, აივნის მიღმა დამონტაჟებული კონდიციონერის გარე ბლოკი',
+			en: 'An air-conditioner outdoor unit mounted on the building façade beyond a balcony.',
+		},
+		caption: { ka: 'კონდიციონერის გარე ბლოკი ფასადზე', en: 'Air-conditioner outdoor unit on a façade' },
+	},
+	{
+		image: wallPipesThird,
+		alt: {
+			ka: 'კედლის ღარში გაყვანილი კონდიციონერის მილები და გოფრირებული სადრენაჟო მილი',
+			en: 'Air-conditioning pipes and a corrugated drain hose routed through a wall channel.',
+		},
+		caption: { ka: 'კონდიციონერის მილების წინასწარი მონტაჟი', en: 'Pre-installation of air-conditioning pipes' },
 	},
 ];
