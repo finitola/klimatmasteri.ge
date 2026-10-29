@@ -7,6 +7,7 @@ import fanMotor from '../assets/images/works/kondicioneris-frtis-dzravis-shecvla
 import indoorUnitCleaning from '../assets/images/works/kondicioneris-garecxva-profesionaluri-momsaxureba.webp';
 import magneticStarter from '../assets/images/works/kondicioneris-magnituri-gamshvebis-shecvla.webp';
 import pipeInstallation from '../assets/images/works/kondicioneris-milebis-montaji.webp';
+import professionalPipeInstallation from '../assets/images/works/kondicioneris-milebis-profesionaluri-montaji.webp';
 import outdoorUnit from '../assets/images/works/kondicioneris-montaji-gare-bloki.webp';
 import multisplitInstallation from '../assets/images/works/kondicioneris-montaji-multisplit-sistema.webp';
 import rooftopInstallation from '../assets/images/works/kondicioneris-montaji-saxuravze.webp';
@@ -94,6 +95,13 @@ export const workPhotos: WorkPhoto[] = [
 			en: 'Air-conditioning pipes routed through a wall during renovation.',
 		},
 		caption: { ka: 'კონდიციონერის მილების მონტაჟი', en: 'Air-conditioner pipe installation' },
+	},
+	{
+		image: professionalPipeInstallation,
+		alt: {
+			ka: 'კონდიციონერის მილების პროფესიონალური მონტაჟი',
+			en: 'Insulated air-conditioning pipes routed along an unfinished interior wall.',
+		},
 	},
 	{
 		image: outdoorUnit,
