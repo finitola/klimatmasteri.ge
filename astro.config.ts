@@ -36,6 +36,7 @@ export default defineConfig({
 	
 	build: {
 		format: 'file',
+		inlineStylesheets: 'always',
 	},
 	i18n: {
 		defaultLocale: 'ka',

@@ -1,5 +1,5 @@
-const CACHE_NAME = 'klimatmasteri-shell-v2';
-const APP_SHELL = ['/', '/en/'];
+const CACHE_NAME = 'klimatmasteri-shell-v3';
+const APP_SHELL = ['/', '/en'];
 
 async function cacheResponse(request, response) {
 	if (!response.ok) return;
@@ -40,7 +40,8 @@ self.addEventListener('fetch', (event) => {
 				void cacheResponse(request, response);
 				return response;
 			}).catch(async () => {
-				const fallbackPath = new URL(request.url).pathname.startsWith('/en/') ? '/en/' : '/';
+				const requestPath = new URL(request.url).pathname;
+				const fallbackPath = requestPath === '/en' || requestPath.startsWith('/en/') ? '/en' : '/';
 				return (await caches.match(request)) || (await caches.match(fallbackPath)) || offlineResponse();
 			}),
 		);
