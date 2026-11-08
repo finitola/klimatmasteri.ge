@@ -94,6 +94,8 @@ const galleryStructuredData = {
 			<dialog
 				class="m-auto max-h-[calc(100dvh-2rem)] max-w-[calc(100vw-1rem)] overflow-visible bg-transparent p-0 text-white backdrop:bg-black/90 sm:max-w-[calc(100vw-3rem)]"
 				aria-label={text.gallery}
+				role="dialog"
+				aria-modal="true"
 				data-work-lightbox
 			>
 				<div class="relative grid max-h-[calc(100dvh-2rem)] min-h-32 max-w-6xl place-items-center">
@@ -129,6 +131,41 @@ const galleryStructuredData = {
 	)}
 </section>
 
+<style>
+	@supports not (height: 100dvh) {
+		[data-work-lightbox],
+		[data-work-lightbox] > div,
+		[data-work-lightbox] figure {
+			max-height: calc(100vh - 2rem);
+		}
+
+		[data-work-lightbox] img[data-lightbox-image] {
+			max-height: calc(100vh - 5rem);
+		}
+	}
+
+	@supports not (background-color: color-mix(in oklab, #000 90%, transparent)) {
+		[data-work-lightbox]::backdrop {
+			background-color: rgba(0, 0, 0, 0.9);
+		}
+	}
+
+	[data-work-lightbox][data-dialog-fallback-open] {
+		position: fixed;
+		inset: 0;
+		z-index: 50;
+		display: grid;
+		width: 100vw;
+		height: 100vh;
+		max-width: 100vw;
+		max-height: 100vh;
+		margin: 0;
+		place-items: center;
+		border: 0;
+		background-color: #15191c;
+	}
+</style>
+
 {photos.length > 0 && <script type="application/ld+json" set:html={JSON.stringify(galleryStructuredData)} />}
 
 <script>
@@ -155,6 +192,19 @@ const galleryStructuredData = {
 
 	if (dialog && lightboxImage && photoButtons.length > 0) {
 		let activeIndex = 0;
+		let opener: HTMLButtonElement | null = null;
+		const hasNativeDialog = typeof dialog.showModal === 'function' && typeof dialog.close === 'function';
+
+		const closeDialog = () => {
+			if (hasNativeDialog) {
+				dialog.close();
+				return;
+			}
+
+			dialog.removeAttribute('open');
+			dialog.removeAttribute('data-dialog-fallback-open');
+			opener?.focus();
+		};
 
 		const showPhoto = (index: number) => {
 			activeIndex = (index + photoButtons.length) % photoButtons.length;
@@ -169,16 +219,43 @@ const galleryStructuredData = {
 		};
 
 		photoButtons.forEach((button, index) => button.addEventListener('click', () => {
+			opener = button;
 			showPhoto(index);
-			dialog.showModal();
+			if (hasNativeDialog) {
+				dialog.showModal();
+			} else {
+				dialog.setAttribute('open', '');
+				dialog.setAttribute('data-dialog-fallback-open', '');
+				closeButton?.focus();
+			}
 		}));
-		closeButton?.addEventListener('click', () => dialog.close());
+		closeButton?.addEventListener('click', closeDialog);
 		previousButton?.addEventListener('click', () => showPhoto(activeIndex - 1));
 		nextButton?.addEventListener('click', () => showPhoto(activeIndex + 1));
 		dialog.addEventListener('click', (event) => {
-			if (event.target === dialog) dialog.close();
+			if (event.target === dialog) closeDialog();
 		});
 		dialog.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape' && !hasNativeDialog) {
+				event.preventDefault();
+				closeDialog();
+				return;
+			}
+
+			if (event.key === 'Tab' && !hasNativeDialog) {
+				const focusable = Array.from(dialog.querySelectorAll<HTMLButtonElement>('button:not([disabled])'));
+				const first = focusable[0];
+				const last = focusable[focusable.length - 1];
+
+				if (event.shiftKey && document.activeElement === first) {
+					event.preventDefault();
+					last?.focus();
+				} else if (!event.shiftKey && document.activeElement === last) {
+					event.preventDefault();
+					first?.focus();
+				}
+			}
+
 			if (event.key === 'ArrowLeft') showPhoto(activeIndex - 1);
 			if (event.key === 'ArrowRight') showPhoto(activeIndex + 1);
 		});

@@ -34,10 +34,15 @@ if (header || topButton) {
 	};
 
 	topButton?.addEventListener('click', () => {
-		window.scrollTo({
-			top: 0,
-			behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-		});
+		const supportsSmoothScroll = 'scrollBehavior' in document.documentElement.style;
+		const prefersReducedMotion = typeof window.matchMedia === 'function'
+			&& window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		if (supportsSmoothScroll && !prefersReducedMotion) {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		} else {
+			window.scrollTo(0, 0);
+		}
 	});
 
 	window.addEventListener('scroll', scheduleScrollUiUpdate, { passive: true });

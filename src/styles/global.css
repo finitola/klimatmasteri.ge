@@ -112,6 +112,7 @@ body {
 }
 
 .mobile-contact-bar {
+	padding-bottom: 0;
 	padding-bottom: env(safe-area-inset-bottom);
 }
 
@@ -121,7 +122,28 @@ body:has(header details[open]) .scroll-top-action {
 }
 
 .mobile-page-bottom-space {
+	padding-bottom: 7rem;
 	padding-bottom: calc(7rem + env(safe-area-inset-bottom));
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+	.compat-glass-night {
+		background-color: #15191c;
+	}
+
+	.compat-glass-panel {
+		background-color: #1e2428;
+	}
+}
+
+@supports not (background-color: color-mix(in oklab, #15191c 80%, transparent)) {
+	.compat-glass-night {
+		background-color: #15191c;
+	}
+
+	.compat-glass-panel {
+		background-color: #1e2428;
+	}
 }
 
 .call-cta-icon::after {

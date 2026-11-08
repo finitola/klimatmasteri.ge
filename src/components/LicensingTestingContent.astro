@@ -16,7 +16,7 @@ if (locale !== 'ka') {
 const serializedQuestions = JSON.stringify(questionsDb);
 ---
 
-<div class="mx-auto w-full max-w-shell px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14" id="exam-app">
+<div class="mx-auto w-full max-w-shell px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14" id="exam-app" data-questions={serializedQuestions}>
 	
 	<!-- STATE 1: START SCREEN -->
 	<div id="start-screen" class="flex flex-col items-center text-center">
@@ -133,7 +133,7 @@ const serializedQuestions = JSON.stringify(questionsDb);
 		</div>
 	</div>
 	<!-- Custom Modal -->
-	<div id="custom-modal" class="fixed inset-0 z-50 hidden flex-col items-center justify-center bg-black/80 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-300">
+	<div id="custom-modal" class="compat-glass-night fixed inset-0 z-50 hidden flex-col items-center justify-center bg-black/80 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-300">
 		<div class="w-full max-w-md rounded-2xl border border-white/10 bg-night-panel p-6 shadow-2xl transform scale-95 transition-transform duration-300">
 			<div class="mb-4 flex items-center gap-3">
 				<div id="modal-icon" class="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
@@ -149,49 +149,61 @@ const serializedQuestions = JSON.stringify(questionsDb);
 	</div>
 
 </div>
-<script define:vars={{ serializedQuestions }}>
+<script>
+	type ExamOption = { text: string; isCorrect: boolean };
+	type ExamQuestion = { id: number; question: string; options: ExamOption[] };
+	type ModalButton = { text: string; className: string; onClick?: () => void };
+
 	// Encapsulate everything to avoid global scope pollution
 	(function() {
-		const allQuestions = JSON.parse(serializedQuestions);
+		const getElement = <T extends HTMLElement>(id: string): T => {
+			const element = document.getElementById(id);
+			if (!element) throw new Error(`Missing exam element: ${id}`);
+			return element as T;
+		};
+
+		const examApp = getElement<HTMLDivElement>('exam-app');
+		const allQuestions = JSON.parse(examApp.getAttribute('data-questions') ?? '[]') as ExamQuestion[];
 		
-		let questions = [];
-		let userAnswers = {}; // key: index (0-29), value: optionIndex
+		let questions: ExamQuestion[] = [];
+		let userAnswers: Partial<Record<number, number>> = {}; // key: index (0-29), value: optionIndex
 		let currentQ = 0;
 		let timeLeft = 30 * 60; 
-		let timerInterval = null;
+		let timerInterval: number | undefined;
 		let isFinished = false;
 
 		// Elements
 		const screens = {
-			start: document.getElementById('start-screen'),
-			test: document.getElementById('test-screen'),
-			results: document.getElementById('results-screen')
+			start: getElement<HTMLDivElement>('start-screen'),
+			test: getElement<HTMLDivElement>('test-screen'),
+			results: getElement<HTMLDivElement>('results-screen')
 		};
 		
-		const elTimer = document.getElementById('timer-display');
-		const elStatAnswered = document.getElementById('stat-answered');
-		const elStatUnanswered = document.getElementById('stat-unanswered');
-		const elQNum = document.getElementById('current-q-num');
-		const elQText = document.getElementById('question-text');
-		const elOptions = document.getElementById('options-container');
-		const elNavGrid = document.getElementById('nav-grid');
-		const elReview = document.getElementById('review-container');
+		const elTimer = getElement<HTMLElement>('timer-display');
+		const elStatAnswered = getElement<HTMLElement>('stat-answered');
+		const elStatUnanswered = getElement<HTMLElement>('stat-unanswered');
+		const elQNum = getElement<HTMLElement>('current-q-num');
+		const elQText = getElement<HTMLElement>('question-text');
+		const elOptions = getElement<HTMLDivElement>('options-container');
+		const elNavGrid = getElement<HTMLDivElement>('nav-grid');
+		const elReview = getElement<HTMLDivElement>('review-container');
 		
-		const btnStart = document.getElementById('btn-start');
-		const btnFinish = document.getElementById('btn-finish');
-		const btnRestart = document.getElementById('btn-restart');
-		const btnPrev = document.getElementById('btn-prev');
-		const btnNext = document.getElementById('btn-next');
-		const btnNextText = document.getElementById('btn-next-text');
+		const btnStart = getElement<HTMLButtonElement>('btn-start');
+		const btnFinish = getElement<HTMLButtonElement>('btn-finish');
+		const btnRestart = getElement<HTMLButtonElement>('btn-restart');
+		const btnPrev = getElement<HTMLButtonElement>('btn-prev');
+		const btnNext = getElement<HTMLButtonElement>('btn-next');
+		const btnNextText = getElement<HTMLElement>('btn-next-text');
 
 		// Modal System
-		const customModal = document.getElementById('custom-modal');
-		const modalContent = customModal.querySelector('div');
-		const modalTitle = document.getElementById('modal-title');
-		const modalMessage = document.getElementById('modal-message');
-		const modalActions = document.getElementById('modal-actions');
+		const customModal = getElement<HTMLDivElement>('custom-modal');
+		const modalContent = customModal.querySelector<HTMLDivElement>('div');
+		if (!modalContent) throw new Error('Missing exam modal content');
+		const modalTitle = getElement<HTMLElement>('modal-title');
+		const modalMessage = getElement<HTMLElement>('modal-message');
+		const modalActions = getElement<HTMLDivElement>('modal-actions');
 
-		function showModal(title, message, buttons) {
+		function showModal(title: string, message: string, buttons: ModalButton[]): void {
 			modalTitle.textContent = title;
 			modalMessage.innerHTML = message;
 			modalActions.innerHTML = '';
@@ -212,13 +224,13 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			// small delay for transition
 			setTimeout(() => {
 				customModal.classList.remove('opacity-0');
-				modalContent.classList.remove('scale-95');
+				modalContent?.classList.remove('scale-95');
 			}, 10);
 		}
 
-		function hideModal() {
+		function hideModal(): void {
 			customModal.classList.add('opacity-0');
-			modalContent.classList.add('scale-95');
+				modalContent?.classList.add('scale-95');
 			setTimeout(() => {
 				customModal.classList.add('hidden');
 				customModal.classList.remove('flex');
@@ -226,7 +238,7 @@ const serializedQuestions = JSON.stringify(questionsDb);
 		}
 
 		// Helpers
-		function shuffleArray(array) {
+		function shuffleArray<T>(array: T[]): T[] {
 			const arr = [...array];
 			for (let i = arr.length - 1; i > 0; i--) {
 				const j = Math.floor(Math.random() * (i + 1));
@@ -235,14 +247,26 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			return arr;
 		}
 
-		function formatTime(seconds) {
+		function formatTime(seconds: number): string {
 			const m = Math.floor(seconds / 60).toString().padStart(2, '0');
 			const s = (seconds % 60).toString().padStart(2, '0');
 			return `${m}:${s}`;
 		}
 
+		function scrollToElement(element: HTMLElement): void {
+			const supportsSmoothScroll = 'scrollBehavior' in document.documentElement.style;
+			const prefersReducedMotion = typeof window.matchMedia === 'function'
+				&& window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+			if (supportsSmoothScroll && !prefersReducedMotion) {
+				element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			} else {
+				element.scrollIntoView(true);
+			}
+		}
+
 		// Core Logic
-		function startTest() {
+		function startTest(): void {
 			if (!allQuestions || allQuestions.length === 0) return;
 			
 			// Shuffle 206 questions and pick 30
@@ -273,7 +297,7 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			clearInterval(timerInterval);
 			elTimer.classList.remove('text-danger', 'animate-pulse');
 			elTimer.textContent = formatTime(timeLeft);
-			timerInterval = setInterval(() => {
+			timerInterval = window.setInterval(() => {
 				timeLeft--;
 				if (timeLeft < 0) timeLeft = 0;
 				elTimer.textContent = formatTime(timeLeft);
@@ -291,22 +315,22 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			};
 		}
 
-		function buildNavGrid() {
+		function buildNavGrid(): void {
 			elNavGrid.innerHTML = '';
 			for (let i = 0; i < 30; i++) {
 				const btn = document.createElement('button');
 				btn.className = `flex size-10 items-center justify-center rounded-lg text-sm font-bold transition-all border border-white/10 bg-white/5 text-white/60 hover:bg-white/10`;
-				btn.textContent = i + 1;
+				btn.textContent = String(i + 1);
 				btn.onclick = () => renderQuestion(i);
 				elNavGrid.appendChild(btn);
 			}
 			updateNavGridState();
 		}
 
-		function updateNavGridState() {
+		function updateNavGridState(): void {
 			const btns = elNavGrid.children;
 			for (let i = 0; i < 30; i++) {
-				const btn = btns[i];
+				const btn = btns[i] as HTMLButtonElement;
 				// Base reset
 				btn.className = `flex w-full aspect-square items-center justify-center rounded-lg text-base font-bold transition-all border cursor-pointer`;
 				
@@ -324,12 +348,13 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			}
 		}
 
-		function renderQuestion(index) {
+		function renderQuestion(index: number): void {
 			if (isFinished) return;
 			currentQ = index;
 			const q = questions[currentQ];
+			if (!q) return;
 			
-			elQNum.textContent = currentQ + 1;
+			elQNum.textContent = String(currentQ + 1);
 			elQText.textContent = q.question;
 			
 			elOptions.innerHTML = '';
@@ -375,7 +400,7 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			updateControls();
 		}
 
-		function updateControls() {
+		function updateControls(): void {
 			if (currentQ === 0) {
 				btnPrev.style.display = 'none';
 			} else {
@@ -396,14 +421,14 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			}
 		}
 
-		function updateStats() {
+		function updateStats(): void {
 			const answered = Object.keys(userAnswers).length;
 			const unanswered = 30 - answered;
-			elStatAnswered.textContent = answered;
-			elStatUnanswered.textContent = unanswered;
+			elStatAnswered.textContent = String(answered);
+			elStatUnanswered.textContent = String(unanswered);
 		}
 
-		function selectOption(optIdx) {
+		function selectOption(optIdx: number): void {
 			if (isFinished) return;
 
 			userAnswers[currentQ] = optIdx;
@@ -413,7 +438,7 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			renderQuestion(currentQ);
 		}
 
-		function finishTest(isTimeUp = false) {
+		function finishTest(isTimeUp = false): void {
 			if (isFinished) return;
 			isFinished = true;
 			clearInterval(timerInterval);
@@ -431,17 +456,17 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			// Show Results
 			screens.test.classList.add('hidden');
 			screens.results.classList.remove('hidden');
-			screens.results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			scrollToElement(screens.results);
 
 			renderResultsScreen(score, isTimeUp);
 		}
 
-		function renderResultsScreen(score, isTimeUp) {
+		function renderResultsScreen(score: number, isTimeUp: boolean): void {
 			const passed = score >= 27;
 			
-			const iconContainer = document.getElementById('result-icon');
-			const title = document.getElementById('result-title');
-			const scoreText = document.getElementById('result-score');
+			const iconContainer = getElement<HTMLDivElement>('result-icon');
+			const title = getElement<HTMLHeadingElement>('result-title');
+			const scoreText = getElement<HTMLElement>('result-score');
 
 			if (isTimeUp) {
 				title.textContent = 'დრო ამოიწურა! ტესტი დასრულებულია.';
@@ -532,7 +557,7 @@ const serializedQuestions = JSON.stringify(questionsDb);
 		// Bind events
 		btnStart.addEventListener('click', startTest);
 		btnFinish.addEventListener('click', () => {
-			const unansweredList = [];
+			const unansweredList: number[] = [];
 			for(let i = 0; i < 30; i++) {
 				if(userAnswers[i] === undefined) unansweredList.push(i);
 			}
@@ -545,8 +570,9 @@ const serializedQuestions = JSON.stringify(questionsDb);
 						text: 'კითხვებზე დაბრუნება',
 						className: 'rounded-xl bg-accent px-5 py-2.5 text-sm font-bold text-white shadow-lg transition-all hover:bg-accent/90 hover:shadow-accent/20 cursor-pointer',
 						onClick: () => {
-							renderQuestion(unansweredList[0]);
-							document.getElementById('test-screen').scrollIntoView({ behavior: 'smooth', block: 'start' });
+							const firstUnanswered = unansweredList[0];
+							if (firstUnanswered !== undefined) renderQuestion(firstUnanswered);
+							scrollToElement(screens.test);
 						}
 					}]
 				);

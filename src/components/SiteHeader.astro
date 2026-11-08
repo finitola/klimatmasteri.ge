@@ -64,7 +64,7 @@ const text = locale === 'ka'
 					<span class="absolute left-0 top-[14px] h-0.5 w-5 rounded bg-white transition-transform group-open:top-[7px] group-open:-rotate-45"></span>
 				</span>
 			</summary>
-			<div class:list={[
+			<div data-mobile-menu-panel class:list={[
 				'absolute right-0 top-[calc(100%+0.75rem)] w-[min(19rem,calc(100vw-2.5rem))] rounded-3xl border p-3 shadow-panel group-open:fixed group-open:inset-x-0 group-open:top-[var(--site-header-height)] group-open:z-40 group-open:max-h-[calc(100dvh-11.5rem)] group-open:w-screen group-open:overflow-y-auto group-open:rounded-none group-open:border-0 group-open:bg-night-panel group-open:p-0',
 				'border-white/10 bg-night-panel',
 			]}>
@@ -91,6 +91,12 @@ const text = locale === 'ka'
 </header>
 
 <style>
+	@supports not (height: 100dvh) {
+		details[open] [data-mobile-menu-panel] {
+			max-height: calc(100vh - 11.5rem);
+		}
+	}
+
 	[data-site-header-inner] {
 		transition: min-height 180ms ease, padding 180ms ease;
 	}
