@@ -13,7 +13,7 @@ export const seoCopy: Record<PageId, LocalizedSeoCopy> = {
 			en: 'Air-Conditioner Repair and Installation | KlimatMasteri',
 		},
 		description: {
-			ka: 'კონდიციონერის ხელოსანი | KlimatMasteri. კონდიციონერის მონტაჟი, კონდიციონერის შეკეთება, მოგემსახურებიან პროფესიონალი კონდიციონერის ხელოსნები',
+			ka: 'KlimatMasteri — კონდიციონერის ხელოსანი: Kondicioneris Xelosani. მონტაჟი (Kondiiconeris Montaji) და შეკეთება (Kondicioneris sheketeba) თბილისში.',
 			en: 'Air-conditioner technician in Tbilisi for installation, diagnostics and repair. KlimatMasteri serves Tbilisi and the surrounding areas.',
 		},
 	},
