@@ -1,0 +1,8 @@
+# Keep these permanent redirects aligned with astro.config.ts.
+/kondicioneris-servisebi /kondicioneris-servisi 301
+/konsultacia-kondicioneris-xelosantan /kondicioneris-xelosani 301
+/chven-shesakheb /chven-shesakheb-kondicioneris-khelosani-klimatmasteri 301
+/kalkulatori /kondicioneris-xelosani-klimatmasteri-kalkulatorebi 301
+/konfidencialurobis-politika /kondicioneris-xelosani-klimatmasteri-konfidencialurobis-politika 301
+/momsakhurebis-pirobebi /kondicioneris-xelosani-klimatmasteri-momsakhurebis-pirobebi 301
+/kondicioneris-garecxva-shida-da-gare-blokebis-sigrmiseuli-tsmenda /kondicioneris-gatsmenda-shida-da-gare-blokebis-sigrmiseuli-tsmenda 301
