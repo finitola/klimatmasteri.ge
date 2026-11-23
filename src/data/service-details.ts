@@ -260,17 +260,17 @@ export const serviceDetails: Record<ServicePageId, ServiceDetailCopy> = {
 	},
 	'service-deep-cleaning': {
 		intro: {
-			ka: 'კონდიციონერის სიღრმისეული წმენდა უზრუნველყოფს სუფთა ჰაერს, ბაქტერიების განადგურებას და მოწყობილობის ენერგოეფექტურობას.',
-			en: 'Deep cleaning of an air conditioner helps remove bacteria, provide cleaner air, and maintain the unit’s energy efficiency.',
+			ka: 'კონდიციონერის სიღრმისეული წმენდა უზრუნველყოფს სუფთა ჰაერს, ბაქტერიების განადგურებას და მოწყობილობის ენერგოეფექტურობას. ის მოიცავს საორთქლებლის (რადიატორის) და კონდენსატორის (რადიატორის) წმენდას.',
+			en: 'Deep cleaning of an air conditioner helps remove bacteria, provide cleaner air, and maintain the unit’s energy efficiency. It includes cleaning the evaporator (radiator) and condenser (radiator).',
 		},
 		description: {
-			ka: 'დროთა განმავლობაში კონდიციონერში გროვდება მტვერი და სოკო, რაც იწვევს უსიამოვნო სუნს და ამცირებს გაგრილების ძალას. სიღრმისეული წმენდისას კონდიციონერის ხელოსანი სპეციალური ანტიბაქტერიული ხსნარებითა და წნევით წმენდს შიდა და გარე ბლოკებს. სუფთა ტექნიკა ნიშნავს ჯანსაღ გარემოს და ნაკლებ ელექტროენერგიის ხარჯს. გასაწმენდი კონდიციონერის სიმპტომებია მუშაობისას გადახურება და გათიშვა, წყლის წვეთა (ხშირ შემთხვევაში), ჰაერის ნაკადის შემცირება და სიცივის წარმოების შემცირება. საბოლოო ჯამში, გაუმართაობის ძირითადი პრობლემები წმენდასთან არის დაკავშირებული.',
-			en: 'Dust and mold can build up in an air conditioner over time, causing unpleasant odors and reducing cooling performance. During a deep clean, the technician cleans the indoor and outdoor units using specialized antibacterial solutions and pressure. A clean unit supports a healthier environment and lower electricity use. Signs that an air conditioner may need cleaning include overheating or shutting down during operation, water dripping, reduced airflow, and reduced cooling output. Many common air-conditioner faults are related to a lack of cleaning.',
+			ka: 'დროთა განმავლობაში კონდიციონერში გროვდება მტვერი და სოკო, რაც იწვევს უსიამოვნო სუნს და ამცირებს გაგრილების ძალას. სიღრმისეული წმენდისას კონდიციონერის ხელოსანი სპეციალური ანტიბაქტერიული ხსნარებითა და წნევით წმენდს შიდა და გარე ბლოკებს, მათ შორის საორთქლებელს (რადიატორს) და კონდენსატორს (რადიატორს). სუფთა ტექნიკა ნიშნავს ჯანსაღ გარემოს და ნაკლებ ელექტროენერგიის ხარჯს. გასაწმენდი კონდიციონერის სიმპტომებია მუშაობისას გადახურება და გათიშვა, წყლის წვეთა (ხშირ შემთხვევაში), ჰაერის ნაკადის შემცირება და სიცივის წარმოების შემცირება. საბოლოო ჯამში, გაუმართაობის ძირითადი პრობლემები წმენდასთან არის დაკავშირებული.',
+			en: 'Dust and mold can build up in an air conditioner over time, causing unpleasant odors and reducing cooling performance. During a deep clean, the technician cleans the indoor and outdoor units using specialized antibacterial solutions and pressure. This includes cleaning the evaporator (radiator) and condenser (radiator). A clean unit supports a healthier environment and lower electricity use. Signs that an air conditioner may need cleaning include overheating or shutting down during operation, water dripping, reduced airflow, and reduced cooling output. Many common air-conditioner faults are related to a lack of cleaning.',
 		},
 		scopeTitle: { ka: 'წმენდის ძირითადი ეტაპები', en: 'Main cleaning steps' },
 		scope: [
-			{ ka: 'შიდა ბლოკის, ფილტრებისა და რადიატორის ანტიბაქტერიული წმენდა', en: 'Cleaning the indoor unit, filters, and coil with an antibacterial solution' },
-			{ ka: 'გარე ბლოკის წნევით წმენდა და მტვრისგან გასუფთავება', en: 'Pressure-cleaning the outdoor unit and removing dust' },
+			{ ka: 'შიდა ბლოკის ფილტრებისა და საორთქლებლის (რადიატორის) ანტიბაქტერიული წმენდა', en: 'Antibacterial cleaning of the indoor-unit filters and evaporator (radiator)' },
+			{ ka: 'გარე ბლოკის კონდენსატორის (რადიატორის) წნევით წმენდა და მტვრისგან გასუფთავება', en: 'Pressure-cleaning the outdoor-unit condenser (radiator) and removing dust' },
 			{ ka: 'სისტემის საერთო შემოწმება (მინი კონდიციონერის დიაგნოსტიკა)', en: 'Checking the system overall as part of a basic air-conditioner diagnostic' },
 		],
 		noteTitle: { ka: 'გასათვალისწინებელია', en: 'Please note' },

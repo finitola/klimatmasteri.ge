@@ -1,31 +1,48 @@
 ---
 import type { Locale } from '../data/site';
 import licensingQuestions from '../data/licensing-questions.json';
+import { licensingQuestionTranslations } from '../data/licensing-questions-en';
 
 interface Props {
 	locale: Locale;
 }
 
 const { locale } = Astro.props;
-
-if (locale !== 'ka') {
-	return null; // English content not provided yet
-}
+const text = locale === 'ka'
+	? {
+		title: 'მაცივარაგენტზე (ფრეონზე) მომუშავე სისტემების მომსახურების სერთიფიკატი',
+		intro: 'ეს არის სასწავლო გარემო რათა შეძლოთ გამოცდის ჩაბარება. საქართველოს კანონმდებლობის მიხედვით, მაცივარაგენტის შეძენისათვის, რეალიზაციისათვის და მოხმარებისათვის საჭიროა სპეციალური ლიცენზია. აქ მოცემულია სასწავლო ბაზა, სადაც სწორი პასუხები წინასწარ არის მონიშნული.',
+	}
+	: {
+		title: 'Certificate for Servicing Systems That Use Refrigerants',
+		intro: 'Use this study resource to prepare for the examination. Under Georgian law, a special licence is required to purchase, sell, and use refrigerants. This study bank shows the correct answers in advance.',
+	};
+const questions = locale === 'ka'
+	? licensingQuestions
+	: licensingQuestions.map((question) => {
+		const translation = licensingQuestionTranslations[question.id];
+		return {
+			...question,
+			question: translation?.question ?? question.question,
+			options: question.options.map((option, index) => ({
+				...option,
+				text: translation?.options[index] ?? option.text,
+			})),
+		};
+	});
 ---
 
 <div class="mx-auto w-full max-w-shell px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
 	<!-- Hero / Intro Card -->
 	<div class="mb-12 rounded-2xl border border-white/10 bg-blue-900/10 p-6 shadow-lg md:p-8">
-		<h3 class="mb-3 text-xl font-bold text-accent md:text-2xl">მაცივარაგენტზე (ფრეონზე) მომუშავე სისტემების მომსახურების სერთიფიკატი</h3>
+		<h3 class="mb-3 text-xl font-bold text-accent md:text-2xl">{text.title}</h3>
 		<p class="text-base leading-relaxed text-white/80 sm:text-lg">
-			ეს არის სასწავლო გარემო რათა შეძლოთ გამოცდის ჩაბარება. 
-			საქართველოს კანონმდებლობის მიხედვით, მაცივარაგენტის შეძენისათვის, რეალიზაციისათვის და მოხმარებისათვის საჭიროა სპეციალური ლიცენზია. 
-			აქ მოცემულია სასწავლო ბაზა, სადაც სწორი პასუხები წინასწარ არის მონიშნული.
+			{text.intro}
 		</p>
 	</div>
 
 	<div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-		{licensingQuestions.map((q) => (
+		{questions.map((q) => (
 			<div class="rounded-2xl border border-white/10 bg-blue-900/10 p-5 shadow-lg sm:p-6 lg:p-8" id={`question-${q.id}`}>
 				<h4 class="mb-6 text-lg font-bold text-white sm:text-xl">
 					<span class="mr-2 text-accent">{q.id}.</span>

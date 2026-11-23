@@ -1,46 +1,65 @@
 ---
 import type { Locale } from '../data/site';
 import questionsDb from '../data/licensing-questions.json';
+import { licensingQuestionTranslations } from '../data/licensing-questions-en';
 
 interface Props {
 	locale: Locale;
 }
 
 const { locale } = Astro.props;
+const text = locale === 'ka'
+	? {
+		title: 'სიმულაციური გამოცდა', introStart: 'ტესტირება შედგება', introMiddle: 'კითხვისგან, რომლებიც შემთხვევითობის პრინციპით აირჩევა', introEnd: 'კითხვიანი ბაზიდან. გამოცდის ჩასაბარებლად საჭიროა მინიმუმ', correctAnswers: 'სწორი პასუხი.', minutes: 'წუთი', threshold: 'ბარიერი', start: 'დაწყება', timeLeft: 'დარჩენილი დრო', answered: 'გაცემული:', unanswered: 'დარჩენილი:', previous: 'წინა კითხვაზე დაბრუნება', question: 'კითხვა', loading: 'იტვირთება...', next: 'შემდეგი', skip: 'გამოტოვება', navigation: 'ნავიგაცია', finish: 'დასრულება', result: 'შედეგი', score: 'თქვენი ქულა:', restart: 'თავიდან დაწყება', review: 'პასუხების დეტალური განხილვა', attention: 'ყურადღება',
+		confirmQuit: 'ნამდვილად გსურთ ტესტის შეწყვეტა?', timeExpired: 'დრო ამოიწურა! ტესტი დასრულებულია.', passed: 'გილოცავთ, თქვენ ჩააბარეთ!', failed: 'სამწუხაროდ, ვერ გადალახეთ ბარიერი.', pointCorrect: '+1 ქულა (სწორი)', pointSkipped: '0 ქულა (გამოტოვებული)', pointIncorrect: '0 ქულა (არასწორი)', noAnswer: 'შეკითხვაზე პასუხი არ გაეცა', unansweredTitle: 'გამოტოვებული კითხვები', unansweredStart: 'თქვენ გაქვთ', unansweredEnd: 'გამოტოვებული კითხვა.\n\nტესტის დასასრულებლად აუცილებელია ყველა მათგანზე პასუხის გაცემა.', returnToQuestions: 'კითხვებზე დაბრუნება', finishTitle: 'ტესტის დასრულება', finishMessage: 'დარწმუნებული ხართ, რომ გსურთ ტესტის დასრულება და შედეგების ნახვა?', cancel: 'გაუქმება',
+	}
+	: {
+		title: 'Practice Exam', introStart: 'The test contains', introMiddle: 'questions selected at random from a bank of', introEnd: 'questions. You need at least', correctAnswers: 'correct answers to pass.', minutes: 'minutes', threshold: 'required to pass', start: 'Start', timeLeft: 'Time remaining', answered: 'Answered:', unanswered: 'Unanswered:', previous: 'Go to previous question', question: 'Question', loading: 'Loading...', next: 'Next', skip: 'Skip', navigation: 'Navigation', finish: 'Finish', result: 'Result', score: 'Your score:', restart: 'Start again', review: 'Detailed answer review', attention: 'Attention',
+		confirmQuit: 'Are you sure you want to leave the test?', timeExpired: 'Time is up. The test is over.', passed: 'Congratulations, you passed!', failed: 'Unfortunately, you did not reach the passing score.', pointCorrect: '+1 point (correct)', pointSkipped: '0 points (unanswered)', pointIncorrect: '0 points (incorrect)', noAnswer: 'No answer was provided', unansweredTitle: 'Unanswered questions', unansweredStart: 'You have', unansweredEnd: 'unanswered question(s).\n\nYou must answer all questions before you can finish the test.', returnToQuestions: 'Return to questions', finishTitle: 'Finish the test', finishMessage: 'Are you sure you want to finish the test and view your results?', cancel: 'Cancel',
+	};
 
-if (locale !== 'ka') {
-	return null; // English content not provided yet
-}
+const questions = locale === 'ka'
+	? questionsDb
+	: questionsDb.map((question) => {
+		const translation = licensingQuestionTranslations[question.id];
+		return {
+			...question,
+			question: translation?.question ?? question.question,
+			options: question.options.map((option, index) => ({
+				...option,
+				text: translation?.options[index] ?? option.text,
+			})),
+		};
+	});
 
-// Ensure we only pass needed data to client side
-const serializedQuestions = JSON.stringify(questionsDb);
+// Only the question fields needed by the client-side simulator are serialized.
+const serializedQuestions = JSON.stringify(questions);
 ---
 
-<div class="mx-auto w-full max-w-shell px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14" id="exam-app" data-questions={serializedQuestions}>
+<div class="mx-auto w-full max-w-shell px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14" id="exam-app" data-questions={serializedQuestions} data-locale={locale}>
 	
 	<!-- STATE 1: START SCREEN -->
 	<div id="start-screen" class="flex flex-col items-center text-center">
 		<div class="mb-8 w-full max-w-4xl rounded-2xl border border-white/10 bg-blue-900/10 p-8 shadow-lg md:p-12">
 			<svg class="mx-auto mb-6 size-16 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg>
-			<h3 class="mb-4 text-2xl font-bold text-white md:text-3xl lg:text-4xl">სიმულაციური გამოცდა</h3>
+			<h3 class="mb-4 text-2xl font-bold text-white md:text-3xl lg:text-4xl">{text.title}</h3>
 			<p class="mb-8 text-base leading-relaxed text-white/80 md:text-lg lg:text-xl max-w-2xl mx-auto">
-				ტესტირება შედგება <strong>30 კითხვისგან</strong>, რომლებიც შემთხვევითობის პრინციპით აირჩევა 206 კითხვიანი ბაზიდან. 
-				გამოცდის ჩასაბარებლად საჭიროა მინიმუმ <strong>27 სწორი პასუხი</strong>.
+				{text.introStart} <strong>30</strong> {text.introMiddle} <strong>206</strong> {text.introEnd} <strong>27</strong> {text.correctAnswers}
 			</p>
 			
 			<div class="mb-10 flex flex-wrap justify-center gap-4 text-sm sm:text-base">
 				<div class="flex items-center gap-2 rounded-lg bg-night-panel px-5 py-2.5 text-white/90 shadow-sm border border-white/10">
 					<svg class="size-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-					30 წუთი
+					30 {text.minutes}
 				</div>
 				<div class="flex items-center gap-2 rounded-lg bg-night-panel px-5 py-2.5 text-white/90 shadow-sm border border-white/10">
 					<svg class="size-5 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-					27 ბარიერი
+					27 {text.threshold}
 				</div>
 			</div>
 
 			<button id="btn-start" class="inline-flex items-center justify-center rounded-xl bg-accent px-8 py-3.5 text-base font-bold text-white shadow-lg transition-all hover:bg-accent/90 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
-				დაწყება
+				{text.start}
 			</button>
 		</div>
 	</div>
@@ -54,7 +73,7 @@ const serializedQuestions = JSON.stringify(questionsDb);
 					<svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
 				</div>
 				<div>
-					<div class="text-xs text-white/60">დარჩენილი დრო</div>
+					<div class="text-xs text-white/60">{text.timeLeft}</div>
 					<div id="timer-display" class="text-xl font-bold tracking-wider text-white">30:00</div>
 				</div>
 			</div>
@@ -62,11 +81,11 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			<div class="flex flex-wrap items-center justify-center gap-4 text-sm sm:gap-6">
 				<div class="flex items-center gap-2">
 					<span class="size-2.5 rounded-full bg-accent shadow-[0_0_8px_rgba(59,130,246,0.5)]"></span>
-					<span class="text-white/60">გაცემული: <strong id="stat-answered" class="text-white">0</strong></span>
+					<span class="text-white/60">{text.answered} <strong id="stat-answered" class="text-white">0</strong></span>
 				</div>
 				<div class="flex items-center gap-2">
 					<span class="size-2.5 rounded-full bg-white/20"></span>
-					<span class="text-white/60">დარჩენილი: <strong id="stat-unanswered" class="text-white">30</strong></span>
+					<span class="text-white/60">{text.unanswered} <strong id="stat-unanswered" class="text-white">30</strong></span>
 				</div>
 			</div>
 		</div>
@@ -77,21 +96,21 @@ const serializedQuestions = JSON.stringify(questionsDb);
 				<div class="flex h-full flex-col rounded-2xl border border-white/10 bg-blue-900/10 p-4 shadow-lg sm:p-6 lg:p-8">
 					<div class="flex-grow">
 						<div class="mb-5 grid grid-cols-[2.5rem_1fr_2.5rem] items-center border-b border-white/10 pb-4">
-							<button id="btn-prev" title="წინა კითხვაზე დაბრუნება" class="group col-start-1 row-start-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white transition-colors hover:bg-white/10 cursor-pointer disabled:cursor-not-allowed sm:size-10">
+							<button id="btn-prev" title={text.previous} class="group col-start-1 row-start-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white transition-colors hover:bg-white/10 cursor-pointer disabled:cursor-not-allowed sm:size-10">
 								<svg class="size-4 transition-transform group-hover:-translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
 							</button>
-							<div class="col-start-2 row-start-1 text-center text-xs font-bold text-accent uppercase tracking-wider whitespace-nowrap sm:text-sm">კითხვა <span id="current-q-num">1</span> / 30</div>
+							<div class="col-start-2 row-start-1 text-center text-xs font-bold text-accent uppercase tracking-wider whitespace-nowrap sm:text-sm">{text.question} <span id="current-q-num">1</span> / 30</div>
 						</div>
 						
 						<h4 id="question-text" class="mb-6 text-lg font-bold text-white sm:text-xl leading-relaxed">
-							იტვირთება...
+							{text.loading}
 						</h4>
 						<div id="options-container" class="grid gap-3 sm:gap-4">
 							<!-- Options injected here -->
 						</div>
 					</div>
 					<button id="btn-next" class="group mt-6 flex items-center gap-1 self-center rounded-lg bg-accent px-3 py-2 text-xs font-bold text-white shadow-lg transition-all hover:bg-accent/90 hover:shadow-accent/20 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed sm:gap-2 sm:px-5 sm:text-sm">
-						<span id="btn-next-text">შემდეგი</span>
+						<span id="btn-next-text">{text.next}</span>
 						<svg class="size-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
 					</button>
 				</div>
@@ -100,13 +119,13 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			<!-- Right Sidebar: Nav Grid -->
 			<div class="lg:col-span-1 h-full">
 				<div class="flex h-full flex-col rounded-2xl border border-white/10 bg-night-panel p-5 shadow-lg">
-					<h5 class="mb-5 text-center text-sm font-bold text-white/80 uppercase tracking-wider">ნავიგაცია</h5>
+					<h5 class="mb-5 text-center text-sm font-bold text-white/80 uppercase tracking-wider">{text.navigation}</h5>
 					<div id="nav-grid" class="mb-6 grid grid-cols-5 gap-2 sm:gap-3">
 						<!-- Grid items injected here -->
 					</div>
 					
 					<button id="btn-finish" class="mt-auto w-full rounded-xl bg-fire px-4 py-4 text-sm font-bold text-white shadow-lg transition-transform hover:-translate-y-0.5 hover:bg-fire/90 cursor-pointer">
-						დასრულება
+						{text.finish}
 					</button>
 				</div>
 			</div>
@@ -119,15 +138,15 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			<div id="result-icon" class="mx-auto mb-4 flex size-20 items-center justify-center rounded-full bg-blue-900/30">
 				<!-- Injected by JS -->
 			</div>
-			<h3 id="result-title" class="mb-2 text-2xl font-bold text-white md:text-3xl">შედეგი</h3>
-			<p id="result-score" class="mb-6 text-xl text-white/80">თქვენი ქულა: <strong>0 / 30</strong></p>
+			<h3 id="result-title" class="mb-2 text-2xl font-bold text-white md:text-3xl">{text.result}</h3>
+			<p id="result-score" class="mb-6 text-xl text-white/80">{text.score} <strong>0 / 30</strong></p>
 			<button id="btn-restart" class="group inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-8 py-3.5 text-base font-bold text-white shadow-lg transition-all hover:bg-accent/90 hover:-translate-y-0.5 hover:shadow-accent/20">
 				<svg class="size-5 transition-transform group-hover:-rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
-				თავიდან დაწყება
+				{text.restart}
 			</button>
 		</div>
 		
-		<h4 class="mb-6 text-xl font-bold text-white">პასუხების დეტალური განხილვა</h4>
+		<h4 class="mb-6 text-xl font-bold text-white">{text.review}</h4>
 		<div id="review-container" class="space-y-6">
 			<!-- Review items injected here -->
 		</div>
@@ -139,7 +158,7 @@ const serializedQuestions = JSON.stringify(questionsDb);
 				<div id="modal-icon" class="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
 					<svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
 				</div>
-				<h4 id="modal-title" class="text-lg font-bold text-white">ყურადღება</h4>
+				<h4 id="modal-title" class="text-lg font-bold text-white">{text.attention}</h4>
 			</div>
 			<p id="modal-message" class="mb-8 text-base text-white/80 leading-relaxed whitespace-pre-wrap"></p>
 			<div id="modal-actions" class="flex flex-wrap items-center justify-end gap-3">
@@ -163,6 +182,8 @@ const serializedQuestions = JSON.stringify(questionsDb);
 		};
 
 		const examApp = getElement<HTMLDivElement>('exam-app');
+		const isEnglish = examApp.dataset.locale === 'en';
+		const t = (ka: string, en: string): string => isEnglish ? en : ka;
 		const allQuestions = JSON.parse(examApp.getAttribute('data-questions') ?? '[]') as ExamQuestion[];
 		
 		let questions: ExamQuestion[] = [];
@@ -311,7 +332,7 @@ const serializedQuestions = JSON.stringify(questionsDb);
 
 			// Prevent accidental reload
 			window.onbeforeunload = function() {
-				if (!isFinished) return "ნამდვილად გსურთ ტესტის შეწყვეტა?";
+				if (!isFinished) return t('ნამდვილად გსურთ ტესტის შეწყვეტა?', 'Are you sure you want to leave the test?');
 			};
 		}
 
@@ -415,9 +436,9 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			
 			const hasAnswered = userAnswers[currentQ] !== undefined;
 			if (hasAnswered) {
-				btnNextText.textContent = "შემდეგი";
+				btnNextText.textContent = t('შემდეგი', 'Next');
 			} else {
-				btnNextText.textContent = "გამოტოვება";
+				btnNextText.textContent = t('გამოტოვება', 'Skip');
 			}
 		}
 
@@ -469,23 +490,23 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			const scoreText = getElement<HTMLElement>('result-score');
 
 			if (isTimeUp) {
-				title.textContent = 'დრო ამოიწურა! ტესტი დასრულებულია.';
+				title.textContent = t('დრო ამოიწურა! ტესტი დასრულებულია.', 'Time is up. The test is over.');
 				title.classList.add('text-fire');
 				iconContainer.className = 'mx-auto mb-4 flex size-20 items-center justify-center rounded-full bg-fire/20 text-fire';
 				iconContainer.innerHTML = `<svg class="size-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
 			} else if (passed) {
 				iconContainer.className = 'mx-auto mb-4 flex size-20 items-center justify-center rounded-full bg-green-500/20 text-green-400';
 				iconContainer.innerHTML = `<svg class="size-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>`;
-				title.textContent = 'გილოცავთ, თქვენ ჩააბარეთ!';
+				title.textContent = t('გილოცავთ, თქვენ ჩააბარეთ!', 'Congratulations, you passed!');
 				title.classList.add('text-green-400');
 			} else {
 				iconContainer.className = 'mx-auto mb-4 flex size-20 items-center justify-center rounded-full bg-danger/20 text-danger';
 				iconContainer.innerHTML = `<svg class="size-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>`;
-				title.textContent = 'სამწუხაროდ, ვერ გადალახეთ ბარიერი.';
+				title.textContent = t('სამწუხაროდ, ვერ გადალახეთ ბარიერი.', 'Unfortunately, you did not reach the passing score.');
 				title.classList.add('text-danger');
 			}
 			
-			scoreText.innerHTML = `თქვენი ქულა: <strong>${score} / 30</strong>`;
+			scoreText.innerHTML = `${t('თქვენი ქულა:', 'Your score:')} <strong>${score} / 30</strong>`;
 
 			// Render detailed review
 			elReview.innerHTML = '';
@@ -507,13 +528,13 @@ const serializedQuestions = JSON.stringify(questionsDb);
 				const badge = document.createElement('div');
 				if (isCorrect) {
 					badge.className = 'shrink-0 rounded bg-green-500/20 px-2.5 py-1 text-xs font-bold text-green-400';
-					badge.textContent = '+1 ქულა (სწორი)';
+					badge.textContent = t('+1 ქულა (სწორი)', '+1 point (correct)');
 				} else if (isUnanswered) {
 					badge.className = 'shrink-0 rounded bg-fire/20 px-2.5 py-1 text-xs font-bold text-fire';
-					badge.textContent = '0 ქულა (გამოტოვებული)';
+					badge.textContent = t('0 ქულა (გამოტოვებული)', '0 points (unanswered)');
 				} else {
 					badge.className = 'shrink-0 rounded bg-danger/20 px-2.5 py-1 text-xs font-bold text-danger';
-					badge.textContent = '0 ქულა (არასწორი)';
+					badge.textContent = t('0 ქულა (არასწორი)', '0 points (incorrect)');
 				}
 
 				header.appendChild(qTitle);
@@ -546,7 +567,7 @@ const serializedQuestions = JSON.stringify(questionsDb);
 				if (isUnanswered) {
 					const unMsg = document.createElement('div');
 					unMsg.className = 'mt-4 flex items-center gap-2 text-sm font-bold text-fire';
-					unMsg.innerHTML = `<svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg> შეკითხვაზე პასუხი არ გაეცა`;
+					unMsg.innerHTML = `<svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg> ${t('შეკითხვაზე პასუხი არ გაეცა', 'No answer was provided')}`;
 					wrap.appendChild(unMsg);
 				}
 
@@ -564,10 +585,10 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			
 			if (unansweredList.length > 0) {
 				showModal(
-					'გამოტოვებული კითხვები',
-					`თქვენ გაქვთ <strong>${unansweredList.length}</strong> გამოტოვებული კითხვა.\n\nტესტის დასასრულებლად აუცილებელია ყველა მათგანზე პასუხის გაცემა.`,
+					t('გამოტოვებული კითხვები', 'Unanswered questions'),
+					`${t('თქვენ გაქვთ', 'You have')} <strong>${unansweredList.length}</strong> ${t('გამოტოვებული კითხვა.\n\nტესტის დასასრულებლად აუცილებელია ყველა მათგანზე პასუხის გაცემა.', 'unanswered question(s).\n\nYou must answer all questions before you can finish the test.')}`,
 					[{
-						text: 'კითხვებზე დაბრუნება',
+						text: t('კითხვებზე დაბრუნება', 'Return to questions'),
 						className: 'rounded-xl bg-accent px-5 py-2.5 text-sm font-bold text-white shadow-lg transition-all hover:bg-accent/90 hover:shadow-accent/20 cursor-pointer',
 						onClick: () => {
 							const firstUnanswered = unansweredList[0];
@@ -580,16 +601,16 @@ const serializedQuestions = JSON.stringify(questionsDb);
 			}
 
 			showModal(
-				'ტესტის დასრულება',
-				'დარწმუნებული ხართ, რომ გსურთ ტესტის დასრულება და შედეგების ნახვა?',
+				t('ტესტის დასრულება', 'Finish the test'),
+				t('დარწმუნებული ხართ, რომ გსურთ ტესტის დასრულება და შედეგების ნახვა?', 'Are you sure you want to finish the test and view your results?'),
 				[
 					{
-						text: 'გაუქმება',
+						text: t('გაუქმება', 'Cancel'),
 						className: 'rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-white/10 cursor-pointer',
 						onClick: () => {}
 					},
 					{
-						text: 'დასრულება',
+						text: t('დასრულება', 'Finish'),
 						className: 'rounded-xl bg-fire px-5 py-2.5 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-fire/90 hover:shadow-fire/20 cursor-pointer',
 						onClick: () => {
 							finishTest(false);

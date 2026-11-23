@@ -9,7 +9,7 @@ interface LocalizedSeoCopy {
 export const seoCopy: Record<PageId, LocalizedSeoCopy> = {
 	home: {
 		title: {
-			ka: 'კონდიციონერის ხელოსანი - KlimatMasteri. | კლიმატ მასტერი',
+			ka: 'კონდიციონერის ხელოსანი - KlimatMasteri | კლიმატმასტერი',
 			en: 'Air-Conditioner Repair and Installation | KlimatMasteri',
 		},
 		description: {

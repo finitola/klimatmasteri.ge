@@ -33,12 +33,10 @@ export type PageId =
 	| 'service-refrigerant-leak-repair'
 	| 'service-deep-cleaning';
 
-// The exam Q&A and simulation pages have only a short English notice, so keep
-// those English URLs available to visitors but out of search indexes/sitemaps.
 export const indexablePageIds: PageId[] = ['home','services','about','contact','faq','works','refrigerants','licensing','licensing-learning','licensing-testing','licensing-info','learning','air-conditioner-components','air-conditioner-service','air-conditioner-electrical','calculators','privacy','terms','service-consultation','service-installation','service-pipe-preinstallation','service-drainage-system','service-water-leak','service-dismantling','service-diagnostics','service-repair','service-control-board-repair','service-refrigerant-check','service-refrigerant-leak-repair','service-deep-cleaning'];
 export const indexablePageIdsByLocale: Record<Locale, PageId[]> = {
 	ka: indexablePageIds,
-	en: indexablePageIds.filter((pageId) => pageId !== 'licensing-learning' && pageId !== 'licensing-testing'),
+	en: indexablePageIds,
 };
 
 export function isIndexablePage(locale: Locale, pageId: PageId): boolean {
@@ -108,7 +106,7 @@ export const pages: Record<PageId, PageDefinition> = {
 	},
 	about: {
 		slug: { ka: 'chven-shesakheb-kondicioneris-khelosani-klimatmasteri', en: 'about' },
-		title: { ka: 'ჩვენ შესახებ კლიმატ მასტერი | KlimatMasteri', en: 'About | KlimatMasteri' },
+		title: { ka: 'ჩვენ შესახებ კლიმატმასტერი | KlimatMasteri', en: 'About | KlimatMasteri' },
 		description: {
 			ka: 'ჩვენ ვართ კონდიციონერის ხელოსნები, მაღალი კვალიფიკაციის მქონე სერტიფიცირებული პროფესიონალები.',
 			en: 'Meet KlimatMasteri, certified air-conditioning professionals serving Tbilisi and the surrounding area.',

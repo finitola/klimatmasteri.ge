@@ -44,6 +44,16 @@ interface Props {
 	pageId: PageId;
 }
 
+interface HomeServiceLink {
+	pageId: PageId;
+	name: Record<Locale, string>;
+}
+
+interface HomeServiceGroup {
+	name: Record<Locale, string>;
+	services: HomeServiceLink[];
+}
+
 const { locale, pageId } = Astro.props;
 const page = pages[pageId];
 const isHome = pageId === 'home';
@@ -72,41 +82,38 @@ const breadcrumbs = getBreadcrumbs(locale, pageId);
 const visibleBreadcrumbs = isServiceDetail ? breadcrumbs.slice(0, -1) : breadcrumbs;
 
 const servicesIntro = locale === 'ka'
-	? 'რა სერვისებს გთავაზობთ კლიმატ მასტერი ? '
+	? 'რა სერვისებს გთავაზობთ კლიმატმასტერი?'
 	: 'What services does KlimatMasteri offer?';
 const servicesHeroIntro = locale === 'ka'
-	? 'კონდიციონერის სერვისების გვერდზე, დეტალურად გაეცნობით ინფორმაციას თითოეულ სერვისზე, რასაც კლიმატ მასტერი გთავაზობთ.'
+	? 'კონდიციონერის სერვისების გვერდზე, დეტალურად გაეცნობით ინფორმაციას თითოეულ სერვისზე, რასაც კლიმატმასტერი გთავაზობთ.'
 	: 'On the air-conditioning services page, you can find detailed information about every service offered by KlimatMasteri.';
-const homeServices = locale === 'ka' ? [
-	'კონდიციონერის მონტაჟი',
-	'კონდიციონერის დემონტაჟი',
-	'კონდიციონერის დიაგნოსტიკა',
-	'კონდიციონერიდან წყლის წვეთის პრობლემის მოგვარება',
-	'კონდიციონერის ფილტრების გაწმენდა',
-	'კონდიციონერის შეკეთება',
-	'კონდიციონერის ჟონვის პოვნა და შეკეთება',
-	'კონდიციონერის შიდა და გარე ბლოკების ღრმა წმენდა',
-	'კონდიციონერზე მაცივარაგენტის (ფრეონის) დონის შემოწმება, ფრეონის ჩასხმა.',
-	'კონდიციონერის მილების დაგრძელება',
-	'კონდიციონერის მილების წინასწარი მონტაჟი',
-	'კონდიციონერის სადრენაჟე სისტემის მოწყობა, პომპის ინტეგრაცია (ინსტალაცია)',
-	'კონდიციონერის დაზიანებული ნაწილის შეცვლა',
-	'კონდიციონერის პლატის შეკეთება/შეცვლა.',
-]: [
-	'Air conditioner installation',
-	'Air conditioner dismantling',
-	'Air conditioner diagnostics',
-	'Air conditioner water leak repair',
-	'Air conditioner filter cleaning',
-	'Air conditioner repair',
-	'Air conditioner leak detection and repair',
-	'Deep cleaning of indoor and outdoor air-conditioner units',
-	'Air conditioner refrigerant level check and refill',
-	'Air conditioner pipe extension',
-	'Pre-installation of air-conditioner piping',
-	'Air conditioner drainage system setup and pump installation',
-	'Replacement of damaged air-conditioner parts',
-	'Air conditioner control board repair or replacement',
+const homeServiceGroups: HomeServiceGroup[] = [
+	{
+		name: {
+			ka: 'კონდიციონერის მონტაჟი / დემონტაჟი / წინასწარი მომზადება',
+			en: 'Air conditioner installation / removal / pre-installation',
+		},
+		services: [
+			{ pageId: 'service-installation', name: { ka: 'კონდიციონერის მონტაჟი', en: 'Air conditioner installation' } },
+			{ pageId: 'service-dismantling', name: { ka: 'კონდიციონერის დემონტაჟი', en: 'Air conditioner dismantling' } },
+			{ pageId: 'service-pipe-preinstallation', name: { ka: 'კონდიციონერის მილების წინასწარი მონტაჟი / მილების დაგრძელება', en: 'Air conditioner pipe pre-installation / extension' } },
+			{ pageId: 'service-drainage-system', name: { ka: 'კონდიციონერის სადრენაჟე სისტემის მოწყობა / პომპის ინსტალაცია (ინტეგრაცია)', en: 'Air conditioner drainage system setup / pump installation (integration)' } },
+		],
+	},
+	{
+		name: { ka: 'კონდიციონერის დიაგნოსტიკა / შეკეთება', en: 'Air conditioner diagnostics / repair' },
+		services: [
+			{ pageId: 'service-diagnostics', name: { ka: 'კონდიციონერის დიაგნოსტიკა', en: 'Air conditioner diagnostics' } },
+			{ pageId: 'service-repair', name: { ka: 'კონდიციონერის შეკეთბა', en: 'Air conditioner repair' } },
+			{ pageId: 'service-water-leak', name: { ka: 'კონდიციონერიდან წყლის ჟონვის შეკეთება', en: 'Air conditioner water leak repair' } },
+			{ pageId: 'services', name: { ka: 'კონდიციონერის ფილტრების გაწმენდა', en: 'Air conditioner filter cleaning' } },
+			{ pageId: 'service-deep-cleaning', name: { ka: 'კონდიციონერის შიდა და გარე ბლოკების სიღრმისეული წმენდა', en: 'Air conditioner indoor and outdoor unit deep cleaning' } },
+			{ pageId: 'service-refrigerant-leak-repair', name: { ka: 'კონდიციონერიდან მაცივარაგნეტის (ფრეონის) ჟონვის პოვნა და შეკეთება', en: 'Air conditioner refrigerant (Freon) leak detection and repair' } },
+			{ pageId: 'service-refrigerant-check', name: { ka: 'კონდიციონერიზე მაცივარაგენტის (ფრეონის) დონის შემომწმება, ფრეონის ჩასხმა', en: 'Air conditioner refrigerant (Freon) level check and refill' } },
+			{ pageId: 'service-repair', name: { ka: 'კონდიციონერის დაზიანებული ნაწილის შეცვლა / შეკეთება', en: 'Air conditioner damaged part replacement / repair' } },
+			{ pageId: 'service-control-board-repair', name: { ka: 'კონდიციონერის პლატის შეცვლა/შეკეთება', en: 'Air conditioner control board replacement / repair' } },
+		],
+	},
 ];
 const text = locale === 'ka'
 	? {
@@ -114,13 +121,13 @@ const text = locale === 'ka'
 		homeTitle: 'კონდიციონერის ხელოსანი',
 		repair: 'კონდიციონერის შეკეთება',
 		installation: 'კონდიციონერის მონტაჟი',
-		description: 'გამოიძახე კლიმატ მასტერი და მიიღე პროფესიონალური მომსახურება.',
+		description: 'გამოიძახე კლიმატმასტერი და მიიღე პროფესიონალური მომსახურება.',
 		call: 'გამოიძახე ხელოსანი',
 		learnMore: 'დაწვრილებით ნახვა',
 		questionsCta: 'ვერ იპოვე კითხვაზე პასუხი?',
 		serviceCta: 'გჭირდება რომელიმე სერვისი?',
-		aboutCta: 'გინდა მიიღო ხარისხიანი მომსახუება ?',
-		contactCta: 'გჭირდება კონდიციონერის ხელოსანი ?',
+		aboutCta: 'გინდა მიიღო ხარისხიანი მომსახურება?',
+		contactCta: 'გჭირდება კონდიციონერის ხელოსანი?',
 	}
 	: {
 		placeholder: 'Page content will be added in a later stage.',
@@ -208,44 +215,23 @@ if (isLicensingLearningPage) {
 							<h2 class="georgian-caps text-h2 font-extrabold text-white">{pageLabels.services[locale]}</h2>
 							<p class="mt-3 text-base leading-7 text-white/65 sm:leading-8">{servicesIntro}</p>
 						</div>
-						<ol data-home-services-list class="mt-8 grid gap-2 sm:mt-10" aria-label={locale === 'ka' ? 'კონდიციონერის მომსახურებები' : 'Air conditioner services'}>
-							{homeServices.map((service, index) => (
-								<li data-home-service-item>
-										<details name="home-services" open={index === 0} data-home-service class="group overflow-hidden rounded-md border border-white/10 bg-white/[0.025] transition-colors duration-300 open:border-accent/45 open:bg-night-panel">
-										<summary class="flex cursor-pointer list-none items-center gap-3 px-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&::-webkit-details-marker]:hidden sm:gap-5 sm:px-5">
-											<span data-home-service-number class:list={[
-												'font-brand text-small font-extrabold tabular-nums tracking-wider',
-												index % 2 === 0 ? 'text-accent' : 'text-fire',
-											]}>{String(index + 1).padStart(2, '0')}</span>
-											<h3 data-home-service-label class="georgian-caps min-w-0 flex-1 text-left text-sm font-bold leading-6 text-white sm:text-base">{service}</h3>
-										</summary>
-										<div data-home-service-content class="px-4 pt-2 pb-5 sm:px-5 sm:pt-0 sm:pb-5">
-											<div class="sm:ml-10">
-												{locale === 'ka' ? (
-													<>
-														<a data-home-service-reveal="phone" class="w-fit rounded-sm font-brand text-lg font-extrabold tabular-nums text-fire underline decoration-transparent underline-offset-4 transition-colors hover:text-white hover:decoration-fire focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="tel:+995514128821">514-12-88-21</a>
-														<p data-home-service-reveal="description" class="mt-3 text-sm font-semibold leading-6 text-white/90">KlimatMasteri. | კონდიციონერის ხელოსანი - მაღალი სტანდარტები, პროფესიონალიზმი, პასუხისმგებლობა.</p>
-														<div class="mt-auto w-full pt-5 text-left">
-															<p data-home-service-reveal="prompt" class="text-left text-sm font-bold leading-6 text-white/80">რა სერვისებს გთავაზობთ ?</p>
-															<a data-home-service-reveal="button" class="mt-7 flex min-h-11 w-fit items-center justify-center rounded-md bg-accent px-5 text-sm font-bold text-ink shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-fire hover:shadow-button active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent" href={getPagePath(locale, 'services')}>სერვისების ნახვა</a>
-														</div>
-													</>
-												) : (
-													<>
-													<a data-home-service-reveal="phone" class="w-fit rounded-sm font-brand text-lg font-extrabold tabular-nums text-fire underline decoration-transparent underline-offset-4 transition-colors hover:text-white hover:decoration-fire focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="tel:+995514128821">514-12-88-21</a>
-													<p data-home-service-reveal="description" class="mt-3 text-sm font-semibold leading-6 text-white/90">KlimatMasteri. | Air-conditioning technician — high standards, professionalism, responsibility.</p>
-													<div class="mt-auto w-full pt-5 text-left">
-														<p data-home-service-reveal="prompt" class="text-left text-sm font-bold leading-6 text-white/80">What services do we offer?</p>
-													<a data-home-service-reveal="button" class="mt-auto inline-flex min-h-11 w-full items-center justify-center rounded-md bg-accent px-5 text-sm font-bold text-ink shadow-button transition-all duration-200 hover:-translate-y-0.5 hover:bg-fire hover:shadow-button active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent" href={getPagePath(locale, 'services')}>View services</a>
-													</div>
-													</>
-												)}
-											</div>
-										</div>
-									</details>
-								</li>
+						<div class="mt-8 grid gap-x-12 gap-y-8 sm:mt-10 lg:grid-cols-2">
+							{homeServiceGroups.map((group, groupIndex) => (
+								<section aria-labelledby={`home-service-group-${groupIndex}`}>
+									<h3 id={`home-service-group-${groupIndex}`} class="georgian-caps text-base font-extrabold text-accent sm:text-lg">{group.name[locale]}</h3>
+									<ul class="mt-3 divide-y divide-white/10 border-y border-white/10">
+										{group.services.map((service) => (
+											<li>
+												<a class="group flex min-h-14 items-center justify-between gap-3 py-3 text-white transition-colors hover:text-fire focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href={getPagePath(locale, service.pageId)}>
+													<span class="georgian-caps text-sm font-semibold leading-6 sm:text-base">{service.name[locale]}</span>
+													<svg class="size-4 shrink-0 text-accent transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+												</a>
+											</li>
+										))}
+									</ul>
+								</section>
 							))}
-						</ol>
+						</div>
 				</section>
 
 				<HomeSystemsSection locale={locale} />
@@ -267,15 +253,15 @@ if (isLicensingLearningPage) {
 							<h2 id="home-statistics-title" class="georgian-caps text-h2 font-extrabold text-white">{locale === 'ka' ? 'ჩვენი გამოცდილება' : 'Our experience'}</h2>
 							<div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4" data-statistics>
 								<div class="flex min-h-36 flex-col items-center justify-center border border-white/10 bg-night-panel px-4 py-6 text-center sm:min-h-40">
-									<p class="font-brand text-4xl font-extrabold leading-none tabular-nums text-accent sm:text-5xl"><span data-count="750" aria-hidden="true">0</span><span aria-hidden="true">+</span><span class="sr-only">{locale === 'ka' ? '750-ზე მეტი' : 'More than 750'}</span></p>
+									<p class="font-brand text-4xl font-extrabold leading-none tabular-nums text-accent sm:text-5xl"><span data-count="1000">1000</span>+</p>
 									<p class="georgian-caps mt-4 text-base font-bold text-white/80">{locale === 'ka' ? 'კონდიციონერის მონტაჟი' : 'Air conditioner installations'}</p>
 								</div>
 								<div class="flex min-h-36 flex-col items-center justify-center border border-white/10 bg-night-panel px-4 py-6 text-center sm:min-h-40">
-									<p class="font-brand text-4xl font-extrabold leading-none tabular-nums text-fire sm:text-5xl"><span data-count="750" aria-hidden="true">0</span><span aria-hidden="true">+</span><span class="sr-only">{locale === 'ka' ? '750-ზე მეტი' : 'More than 750'}</span></p>
+									<p class="font-brand text-4xl font-extrabold leading-none tabular-nums text-fire sm:text-5xl"><span data-count="1000">1000</span>+</p>
 									<p class="georgian-caps mt-4 text-base font-bold text-white/80">{locale === 'ka' ? 'კონდიციონერის შეკეთება' : 'Air conditioner repairs'}</p>
 								</div>
 								<div class="flex min-h-36 flex-col items-center justify-center border border-white/10 bg-night-panel px-4 py-6 text-center sm:min-h-40">
-									<p class="font-brand text-4xl font-extrabold leading-none tabular-nums text-accent sm:text-5xl"><span data-count="1500" aria-hidden="true">0</span><span aria-hidden="true">+</span><span class="sr-only">{locale === 'ka' ? '1500-ზე მეტი' : 'More than 1,500'}</span></p>
+									<p class="font-brand text-4xl font-extrabold leading-none tabular-nums text-accent sm:text-5xl"><span data-count="2000">2000</span>+</p>
 									<p class="georgian-caps mt-4 text-base font-bold text-white/80">{locale === 'ka' ? 'კმაყოფილი მომხმარებელი' : 'Satisfied customers'}</p>
 								</div>
 							</div>
@@ -313,10 +299,10 @@ if (isLicensingLearningPage) {
 							<div class="grid w-full items-center gap-8 py-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
 								<h1 class="georgian-caps max-w-2xl text-h1 font-extrabold leading-tight tracking-tight text-white">
 									<span class="block">{locale === 'ka' ? 'ჩვენ შესახებ' : 'About us'}</span>
-									<span class="mt-2 block text-accent">{locale === 'ka' ? 'კლიმატ მასტერი' : 'KlimatMasteri'}</span>
+									<span class="mt-2 block text-accent">{locale === 'ka' ? 'კლიმატმასტერი' : 'KlimatMasteri'}</span>
 								</h1>
 								<div class="max-w-xl border-l-2 border-fire pl-5 sm:pl-7">
-									<h2 class="georgian-caps text-h3 font-bold text-white">{locale === 'ka' ? 'ვინ არის კლიმატ მასტერი ?' : 'Who is KlimatMasteri?'}</h2>
+										<h2 class="georgian-caps text-h3 font-bold text-white">{locale === 'ka' ? 'ვინ არის კლიმატმასტერი?' : 'Who is KlimatMasteri?'}</h2>
 									<p class="mt-3 text-base leading-7 text-white/80 sm:text-lg">{locale === 'ka' ? 'მაღალი კვალიფიკაციის მქონე, სერტიფიცირებული კონდიციონერის ხელოსანი, თავისი საქმის პროფესიონალი.' : 'We are certified air-conditioning technicians with a high level of professional qualification.'}</p>
 								</div>
 							</div>
@@ -324,7 +310,7 @@ if (isLicensingLearningPage) {
 							<div class="grid w-full items-center gap-8 py-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
 								<h1 class="georgian-caps max-w-2xl text-h1 font-extrabold leading-tight tracking-tight text-white">
 									<span class="block">{locale === 'ka' ? 'საკონტაქტო ინფორმაცია' : 'Contact information'}</span>
-									<span class="mt-2 block text-accent">{locale === 'ka' ? 'კლიმატ მასტერი' : 'KlimatMasteri'}</span>
+									<span class="mt-2 block text-accent">{locale === 'ka' ? 'კლიმატმასტერი' : 'KlimatMasteri'}</span>
 								</h1>
 								<div class="max-w-xl border-l-2 border-fire pl-5 sm:pl-7">
 									<h2 class="georgian-caps text-h3 font-bold text-white">{locale === 'ka' ? 'დაგვიკავშირდით - 514 12 88 21' : 'Contact us'}</h2>
@@ -335,12 +321,12 @@ if (isLicensingLearningPage) {
 							<div class="grid w-full items-center gap-8 py-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
 								<h1 class="georgian-caps max-w-2xl text-h1 font-extrabold leading-tight tracking-tight text-white">
 									<span class="block">{page.title[locale].split(' | ')[0]}</span>
-									<span class="mt-2 block text-accent">{locale === 'ka' ? 'კლიმატ მასტერი' : 'KlimatMasteri'}</span>
+									<span class="mt-2 block text-accent">{locale === 'ka' ? 'კლიმატმასტერი' : 'KlimatMasteri'}</span>
 								</h1>
 								<div class="max-w-xl border-l-2 border-fire pl-5 sm:pl-7">
 									{isServicesPage ? (
 										<>
-											<h2 class="georgian-caps text-h3 font-bold text-white">{locale === 'ka' ? 'რას გთავაზობთ ?' : 'What do we offer?'}</h2>
+															<h2 class="georgian-caps text-h3 font-bold text-white">{locale === 'ka' ? 'რას გთავაზობთ?' : 'What do we offer?'}</h2>
 											<p class="mt-3 text-base leading-7 text-white/80 sm:text-lg sm:leading-8">{servicesHeroIntro}</p>
 										</>
 									) : isRepairPage ? (
@@ -441,7 +427,7 @@ if (isLicensingLearningPage) {
 										)
 									) : (
 										<>
-											<h2 class="georgian-caps text-h3 font-bold text-white">{locale === 'ka' ? 'კლიმატ მასტერის პასუხები' : 'KlimatMasteri answers'}</h2>
+										<h2 class="georgian-caps text-h3 font-bold text-white">{locale === 'ka' ? 'კლიმატმასტერის პასუხები' : 'KlimatMasteri answers'}</h2>
 											<p class="mt-3 text-base leading-7 text-white/80 sm:text-lg">{locale === 'ka' ? 'FAQ გვერდზე თავი მოუყარეთ ჩვენთვის ხშირად დასმულ შეკითხვებს.' : 'We have gathered the questions we are most often asked.'}</p>
 											<p class="mt-3 text-base leading-7 text-white/80 sm:text-lg">{locale === 'ka' ? 'პასუხის სანახავად გახსენით კითხვები.' : 'Open a question to see its answer.'}</p>
 										</>
@@ -496,7 +482,7 @@ if (isLicensingLearningPage) {
 							</div>
 						</section>
 						<section class="mt-12 border-t border-white/10 pt-8 sm:mt-16 sm:pt-10">
-							<h2 class="georgian-caps text-h2 font-extrabold text-white">{locale === 'ka' ? 'რატომ ჩვენ ?' : 'Why choose us?'}</h2>
+										<h2 class="georgian-caps text-h2 font-extrabold text-white">{locale === 'ka' ? 'რატომ ჩვენ?' : 'Why choose us?'}</h2>
 							<ul class="mt-6 grid border-y border-white/10 sm:grid-cols-2 lg:grid-cols-4">
 								<li class="flex min-h-20 items-center gap-4 border-b border-white/10 py-4 sm:border-r sm:px-5 lg:border-b-0">
 									<span class="font-brand text-small font-extrabold text-accent">01</span><strong class="text-base text-white">{locale === 'ka' ? 'პროფესიონალიზმი' : 'Professionalism'}</strong>
@@ -621,8 +607,8 @@ if (isLicensingLearningPage) {
 				{isRefrigerantsPage && (locale === 'ka' ? <RefrigerantsContent /> : <ResourceEnglishContent pageId={pageId} />)}
 				{isLicensingPage && (locale === 'ka' ? <LicensingExamContent /> : <ResourceEnglishContent pageId={pageId} />)}
 				{isLicensingInfoPage && (locale === 'ka' ? <LicensingInfoContent locale={locale} /> : <ResourceEnglishContent pageId={pageId} />)}
-				{isLicensingLearningPage && (locale === 'ka' ? <LicensingQuestionsContent locale={locale} /> : <ResourceEnglishContent pageId={pageId} />)}
-				{isLicensingTestingPage && (locale === 'ka' ? <LicensingTestingContent locale={locale} /> : <ResourceEnglishContent pageId={pageId} />)}
+				{isLicensingLearningPage && <LicensingQuestionsContent locale={locale} />}
+				{isLicensingTestingPage && <LicensingTestingContent locale={locale} />}
 				{isCalculatorsPage && <CalculatorsContent locale={locale} />}
 				{isServicesPage && (
 					<section class="mx-auto w-full max-w-shell px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
@@ -667,7 +653,7 @@ if (isLicensingLearningPage) {
 					} else if (isServicesPage || isServiceDetail) {
 						ctaPrompt = text.serviceCta;
 					} else if (isResourcePage) {
-						ctaPrompt = locale === 'ka' ? 'ჩვენი დახმარება გჭირდება ?' : 'Do you need our help?';
+						ctaPrompt = locale === 'ka' ? 'ჩვენი დახმარება გჭირდება?' : 'Do you need our help?';
 						ctaEyebrow = locale === 'ka' ? 'დაგვიკავშირდი' : 'Contact Us';
 					}
 
@@ -678,259 +664,28 @@ if (isLicensingLearningPage) {
 	</main>
 </BaseLayout>
 
-<style>
-	[data-home-service] summary {
-		min-height: 3.5rem;
-		padding-block: 0.75rem;
-	}
-
-	ol[data-home-services-list] {
-		--service-accordion-duration: 240ms;
-		--service-content-step: 100ms;
-		--service-content-start-delay: calc(var(--service-accordion-duration) + 180ms);
-	}
-
-	[data-home-service-reveal] {
-		opacity: 0;
-		transform: translateY(0.25rem);
-		transition: opacity 180ms ease, transform 180ms ease;
-	}
-
-	[data-home-service][open] [data-home-service-reveal] {
-		opacity: 1;
-		transform: none;
-		transition-delay: var(--service-content-start-delay);
-	}
-
-	[data-home-service][open] [data-home-service-reveal="description"] {
-		transition-delay: calc(var(--service-content-start-delay) + var(--service-content-step));
-	}
-
-	[data-home-service][open] [data-home-service-reveal="prompt"] {
-		transition-delay: calc(var(--service-content-start-delay) + var(--service-content-step) + var(--service-content-step));
-	}
-
-	[data-home-service][open] [data-home-service-reveal="button"] {
-		transition-delay: calc(var(--service-content-start-delay) + var(--service-content-step) + var(--service-content-step) + var(--service-content-step));
-	}
-
-	[data-home-service][data-home-service-animate][open] [data-home-service-label] {
-		animation: home-service-label-reveal 180ms ease-out var(--service-accordion-duration) both;
-	}
-
-	@supports (interpolate-size: allow-keywords) and selector(details::details-content) {
-		:global(html) {
-			interpolate-size: allow-keywords;
-		}
-
-		[data-home-service]::details-content {
-			block-size: 0;
-			overflow: clip;
-			transition: block-size 240ms ease;
-		}
-
-		@supports (transition: content-visibility 240ms allow-discrete) {
-			[data-home-service]::details-content {
-				transition: block-size 240ms ease, content-visibility 240ms allow-discrete;
-			}
-		}
-
-		[data-home-service][open]::details-content {
-			block-size: auto;
-		}
-	}
-
-	@media (min-width: 80rem) {
-		ol[data-home-services-list] {
-			display: grid;
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			block-size: auto;
-		}
-
-		[data-home-service-item] {
-			min-inline-size: 0;
-		}
-
-		@supports selector(:has(*)) {
-			ol[data-home-services-list] {
-				--service-accordion-duration: 520ms;
-				--service-accordion-transition: var(--service-accordion-duration) cubic-bezier(0.4, 0, 0.2, 1);
-				display: flex;
-				gap: 0.75rem;
-				block-size: 22rem;
-			}
-
-			[data-home-service-item] {
-				flex: 0 0 2.75rem;
-				min-inline-size: 0;
-				transition: flex-grow var(--service-accordion-transition), flex-basis var(--service-accordion-transition);
-			}
-
-			[data-home-service-item]:has(> [data-home-service][open]) {
-				flex: 1 1 0;
-			}
-
-			[data-home-service] {
-				display: flex;
-				flex-direction: column;
-				block-size: 100%;
-			}
-
-			[data-home-service] summary {
-				position: relative;
-				flex: 1 1 auto;
-				min-block-size: 0;
-				padding: 0.75rem;
-			}
-
-			[data-home-service-number] {
-				position: absolute;
-				top: 0.75rem;
-				left: 50%;
-				transform: translateX(-50%);
-			}
-
-			[data-home-service-label] {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				width: 16rem;
-				max-block-size: 2.5rem;
-				transform: translate(-50%, -50%) rotate(-90deg);
-				overflow: hidden;
-				font-size: 0.75rem;
-				line-height: 1.25rem;
-				text-align: left;
-				display: -webkit-box;
-				-webkit-box-orient: vertical;
-				-webkit-line-clamp: 2;
-			}
-
-			[data-home-service][open] summary {
-				flex: 0 0 auto;
-				height: auto;
-				min-height: 3rem;
-				block-size: auto;
-				min-block-size: 3rem;
-				padding: 0.5rem 1rem;
-			}
-
-			[data-home-service][open]::details-content {
-				display: flex;
-				flex: 1 1 auto;
-				min-block-size: 0;
-			}
-
-			[data-home-service-content] {
-				display: flex;
-				flex: 1 1 auto;
-				min-block-size: 0;
-				padding-block-end: 1.5rem;
-			}
-
-			[data-home-service-content] > div {
-				display: flex;
-				flex: 1 1 auto;
-				flex-direction: column;
-				align-items: flex-start;
-				margin-inline: 2.5rem;
-			}
-
-			[data-home-service][open] [data-home-service-number],
-			[data-home-service][open] [data-home-service-label] {
-				position: static;
-				width: auto;
-				max-block-size: none;
-				transform: none;
-				overflow: visible;
-				font-size: inherit;
-				line-height: inherit;
-				display: block;
-				-webkit-line-clamp: unset;
-				-webkit-box-orient: initial;
-			}
-
-			[data-home-service][open] [data-home-service-label] {
-				font-size: 1rem;
-				line-height: 1.5rem;
-			}
-		}
-
-	}
-
-	@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-		[data-home-service]:not([open]):hover {
-			animation: home-service-card-wave 700ms ease-in-out;
-		}
-	}
-
-	@keyframes home-service-card-wave {
-		0%, 100% { transform: translateY(0) scale(1); }
-		35% { transform: translateY(-0.75px) scale(1.002); }
-		65% { transform: translateY(-1.5px) scale(1.003); }
-		85% { transform: translateY(-0.5px) scale(1.001); }
-	}
-
-	@keyframes home-service-label-reveal {
-		from {
-			opacity: 0;
-			transform: translateY(0.25rem);
-		}
-		to {
-			opacity: 1;
-			transform: none;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		[data-home-service]::details-content,
-		[data-home-service-item] {
-			transition: none;
-		}
-
-		[data-home-service-reveal] {
-			transition: none;
-			opacity: 1;
-			transform: none;
-		}
-
-		[data-home-service][data-home-service-animate][open] [data-home-service-label] {
-			animation: none;
-			opacity: 1;
-			transform: none;
-		}
-	}
-</style>
-
 <script>
-	const homeServicesList = document.querySelector<HTMLOListElement>('[data-home-services-list]');
-	homeServicesList?.addEventListener('click', (event: MouseEvent) => {
-		if (!(event.target instanceof Element)) return;
-
-		const summary = event.target.closest('summary');
-		const details = summary?.parentElement;
-		if (details instanceof HTMLDetailsElement) {
-			if (details.open) event.preventDefault();
-			else details.setAttribute('data-home-service-animate', '');
-		}
-	});
-
-	const statistics = document.querySelector('[data-statistics]');
-	const counters = document.querySelectorAll<HTMLElement>('[data-count]');
+	const statistics = document.querySelector<HTMLElement>('[data-statistics]');
+	const counters = statistics?.querySelectorAll<HTMLElement>('[data-count]') ?? [];
 	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-	if (statistics && counters.length > 0) {
+	if (statistics && counters.length > 0 && !reducedMotion) {
 		const startCounting = () => {
-			const duration = reducedMotion ? 0 : 1400;
+			const targets = Array.from(counters, (counter) => Number(counter.dataset.count));
 			const startTime = performance.now();
+			const duration = 1400;
+
+			counters.forEach((counter) => {
+				counter.textContent = '0';
+			});
 
 			const update = (now: number) => {
-				const progress = duration === 0 ? 1 : Math.min((now - startTime) / duration, 1);
+				const progress = Math.min((now - startTime) / duration, 1);
 				const easedProgress = 1 - Math.pow(1 - progress, 3);
 
-				counters.forEach((counter) => {
-					const target = Number(counter.dataset.count);
-					counter.textContent = String(Math.floor(target * easedProgress));
+				counters.forEach((counter, index) => {
+					const target = targets[index];
+					if (target !== undefined) counter.textContent = String(Math.floor(target * easedProgress));
 				});
 
 				if (progress < 1) window.requestAnimationFrame(update);
@@ -939,9 +694,7 @@ if (isLicensingLearningPage) {
 			window.requestAnimationFrame(update);
 		};
 
-		if (reducedMotion || !('IntersectionObserver' in window)) {
-			counters.forEach((counter) => { counter.textContent = counter.dataset.count ?? '0'; });
-		} else {
+		if ('IntersectionObserver' in window) {
 			const observer = new IntersectionObserver((entries) => {
 				if (entries.some((entry) => entry.isIntersecting)) {
 					observer.disconnect();
@@ -950,6 +703,8 @@ if (isLicensingLearningPage) {
 			}, { threshold: 0.25 });
 
 			observer.observe(statistics);
+		} else {
+			startCounting();
 		}
 	}
 </script>

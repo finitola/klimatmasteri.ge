@@ -3,7 +3,7 @@ import { serviceDetails, type ServicePageId } from './service-details';
 
 export const businessInfo = {
 	name: 'KlimatMasteri',
-	alternateName: 'კლიმატ მასტერი',
+	alternateName: 'კლიმატმასტერი',
 	industry: 'HVAC/R and air-conditioning services',
 	website: SITE_URL,
 	logoUrl: `${SITE_URL}/favicon.svg`,
