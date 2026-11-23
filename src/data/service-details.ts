@@ -221,7 +221,7 @@ export const serviceDetails: Record<ServicePageId, ServiceDetailCopy> = {
 		},
 		description: {
 			ka: 'თუ კონდიციონერი სათანადოდ ვერ აგრილებს ან ვერ ათბობს, პირველი ნაბიჯი კონდიციონერის დიაგნოსტიკაა. ფრეონის უკმარისობა ხშირად მიკრო-გაჟონვის ბრალია. პროფესიონალი კონდიციონერის ხელოსანი ჯერ პოულობს და აღმოფხვრის გაჟონვის წყაროს (რომელიც შეიძლება იყოს დამაკავშირებელი მილები, საორთქლებელი (შიდა „რადიატორი“), კონდენსატორი (გარე „რადიატორი“) ან გარე ბლოკში არსებული კომპონენტები, როგორიცაა კომპრესორთან დაერთება, სოლენოიდები, ოთხსვლიანი სარქველი, ფილტრები და ა.შ.), და მხოლოდ ამის შემდეგ ავსებს სისტემას მაცივარაგენტით, რათა პრობლემა განმეორებით არ იჩენდეს თავს.',
-			en: 'If an air conditioner is not cooling or heating properly, the first step is to diagnose the system. Low refrigerant is often caused by a small leak. A qualified technician first locates and repairs the leak, which may involve the connecting pipes, the evaporator (indoor coil), the condenser (outdoor coil), or outdoor-unit components such as compressor connections, solenoids, the four-way valve, or filters. Only then is the system recharged with refrigerant to help prevent the problem from recurring.',
+			en: 'If an air conditioner is not cooling or heating properly, the first step is to diagnose the system. Low refrigerant is often caused by a small leak. A qualified technician first locates and repairs the leak, which may involve the connecting pipes, the evaporator (indoor radiator), the condenser (outdoor radiator), or outdoor-unit components such as compressor connections, solenoids, the four-way valve, or filters. Only then is the system recharged with refrigerant to help prevent the problem from recurring.',
 		},
 		scopeTitle: { ka: 'სერვისის ძირითადი ეტაპები', en: 'Main service steps' },
 		scope: [
@@ -242,7 +242,7 @@ export const serviceDetails: Record<ServicePageId, ServiceDetailCopy> = {
 		},
 		description: {
 			ka: 'კონდიციონერის ჟონვის მიზეზი შეიძლება იყოს დამაკავშირებელი მილები, საორთქლებელი (შიდა „რადიატორი“), კონდენსატორი (გარე „რადიატორი“) ან გარე ბლოკის კომპონენტები, როგორიცაა სოლენოიდები, ოთხსვლიანი სარქველი და ფილტრები. კონდიციონერის ხელოსანი მოძიებული გაჟონვის წყაროს შეაკეთებს, გადაამოწმებს სისტემის ჰერმეტულობას, შემდეგ კი სისტემას ვაკუუმირებას გაუკეთებს და მაცივარაგენტით (ფრეონით) ზუსტად შეავსებს.',
-			en: 'An air-conditioner leak may come from the connecting pipes, the evaporator (indoor coil), the condenser (outdoor coil), or outdoor-unit components such as solenoids, the four-way valve, or filters. The technician locates and repairs the leak, checks the system for leaks, evacuates it, and accurately recharges it with refrigerant (Freon).',
+			en: 'An air-conditioner leak may come from the connecting pipes, the evaporator (indoor radiator), the condenser (outdoor radiator), or outdoor-unit components such as solenoids, the four-way valve, or filters. The technician locates and repairs the leak, checks the system for leaks, evacuates it, and accurately recharges it with refrigerant (Freon).',
 		},
 		scopeTitle: { ka: 'გაჟონვის მოძიებისა და შეკეთების ეტაპები', en: 'Leak detection and repair steps' },
 		scope: [
