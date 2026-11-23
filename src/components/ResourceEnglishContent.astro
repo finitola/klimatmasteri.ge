@@ -22,6 +22,19 @@ const georgianLinkLabel = pageId === 'licensing-learning'
 			</div>
 			<div>
 				<p class="text-base font-medium leading-7 text-white/80 sm:text-lg sm:leading-8">{content.intro}</p>
+				{content.externalLink && (
+					<div class="mt-5 flex flex-col items-start gap-2">
+						<p class="text-sm leading-6 text-white/70">{content.externalLink.description}</p>
+						<a
+							class="inline-flex min-h-11 items-center text-sm font-bold text-accent underline decoration-accent/50 underline-offset-4 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+							href={content.externalLink.href}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{content.externalLink.label}
+						</a>
+					</div>
+				)}
 				<div class="mt-8 divide-y divide-white/10 border-t border-white/10">
 					{content.sections.map((section) => (
 						<section class="py-5 first:pt-5">
@@ -36,6 +49,13 @@ const georgianLinkLabel = pageId === 'licensing-learning'
 								<ul class="mt-4 grid gap-2 sm:grid-cols-2">
 									{section.links.map((link) => (
 										<li><a class="inline-flex min-h-11 items-center text-sm font-bold text-accent underline decoration-accent/50 underline-offset-4 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent" href={getPagePath('en', link.pageId)}>{link.label}</a></li>
+									))}
+								</ul>
+							)}
+							{section.externalLinks && (
+								<ul class="mt-4 grid gap-2 sm:grid-cols-2">
+									{section.externalLinks.map((link) => (
+										<li><a class="inline-flex min-h-11 items-center text-sm font-bold text-accent underline decoration-accent/50 underline-offset-4 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent" href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a></li>
 									))}
 								</ul>
 							)}

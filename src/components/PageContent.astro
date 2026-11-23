@@ -423,7 +423,13 @@ if (isLicensingLearningPage) {
 												</div>
 											</>
 										) : (
-											<p class="text-base leading-7 text-white/80 sm:text-lg sm:leading-8">Use our professional calculators to compute capacity, voltage drop, insulation, and other HVAC/R parameters.</p>
+											<>
+												<p class="text-base leading-7 text-white/80 sm:text-lg sm:leading-8">Use our professional calculators to compute capacity, voltage drop, insulation, and other HVAC/R parameters.</p>
+												<div class="mt-5 flex items-start gap-3 rounded-xl border border-fire/20 bg-fire/5 p-4">
+													<svg class="mt-0.5 size-5 shrink-0 text-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+													<p class="text-sm leading-6 text-white/80"><strong class="font-semibold text-white">Please note:</strong> These calculators provide indicative results and do not constitute precise engineering calculations.</p>
+												</div>
+											</>
 										)
 									) : (
 										<>
